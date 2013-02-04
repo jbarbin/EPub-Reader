@@ -2,7 +2,8 @@ EPub-Reader
 ===========
 
 EPub-Reader is an open app for Firefox OS.
-EPub-Reader 
+EPub-Reader read Epub document. When a document is openned, user can turn page 
+with the touch screen or the virtual button.
 
 
 EPub-Reader
