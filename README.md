@@ -9,7 +9,7 @@ with the touch screen or the virtual button.
 EPub-Reader
 ===========
 
-EPub-Reader est une aplicationopen source sur Firefox OS.
+EPub-Reader est une aplicationopen source sur Firefox OS. <br/>
 EPub-Reader permet de lire des fichier au format Epub. A l'ouverture du document,
 l'utilisateur peut changer de page en slidant grâce à l'écran tactile ou avec un
 bouton virtuel.
