@@ -67,7 +67,7 @@ window.onload = function() {
 			
 		   }
 		  
-		  var listChapitre = document.getElementById('toc_entries');
+		  var listChapitre = document.getElementById('listeChapitre');
 		  for(var i =0; i<listeDePoints.length;i++)
 		  {
 		  var chapitre = document.createElement('li');
