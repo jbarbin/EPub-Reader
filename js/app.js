@@ -1,6 +1,9 @@
 window.onload = function() {
 
   var livreChoisi = document.getElementById('livre');
+  var sommaire = document.getElementById('sommaire');
+  sommaire.onclick=afficherSommaire();
+			
   livreChoisi.onchange = function() {
     ouvrirFichier(livreChoisi.files[0], function(data) {
 	
@@ -9,6 +12,9 @@ window.onload = function() {
 	  
 	  if(container !=null)
 	  {
+	  
+	  
+	  
 		  var parser = new DOMParser();
 		  var doc = parser.parseFromString(container, "application/xml");
 
@@ -32,6 +38,7 @@ window.onload = function() {
 
 		  var items = manifest.getElementsByTagNameNS("*", "item");
 		  
+		 
 		  
 		  for (var i = 0; i < items.length; i++) {
 			var id = items[i].getAttribute("id");
@@ -99,25 +106,55 @@ window.onload = function() {
 			}
 			
 		   }
-		  
-		  var listChapitre = document.getElementById('listeChapitre');
-		  for(var i =0; i<listeDePoints.length;i++)
-		  {
-		  var chapitre = document.createElement('li');
-		  var nomChapitre = document.createTextNode(listeDePoints[i].label);
-		  var divChapitre ='' ;
-		  divChapitre = createNewDiv(pageFiles[i]);
 
-		  chapitre.onclick=afficherChapitre(divChapitre);
-		  chapitre.appendChild(nomChapitre);
-		  listChapitre.appendChild(chapitre);
-		  }
+			var listChapitre = document.getElementById('listeChapitre');
+		
+			
+			for(var i =0; i<listeDePoints.length;i++)
+			{
+				  var chapitre = document.createElement('li');
+				  var dl=document.createElement('dl');
+				  var dt=document.createElement('dt');
+				  var nomChapitre = document.createTextNode(listeDePoints[i].label);
+				  var divChapitre ='' ;
+				  divChapitre = createNewDiv(pageFiles[i]);
+				  dl.appendChild(dt);
+				  chapitre.appendChild(dl);
+				  chapitre.onclick=afficherChapitre(divChapitre);
+				  dt.appendChild(nomChapitre);
+				  listChapitre.appendChild(chapitre);
+			}
+			document.getElementById('livre').style.display="none";
+			document.getElementById('listeChapitre').style.display="block";
 
+
+			
 	  }
 	  
     });
   };  
 };
+
+
+function afficherSommaire()
+{
+	return function()
+	{
+
+		if(document.getElementById('listeChapitre').style.display=="none")
+		{
+
+			document.getElementById('listeChapitre').style.display="block";
+		
+		}
+		else
+		{
+
+			document.getElementById('listeChapitre').style.display="none";
+		}
+
+	}
+}
 
   function createNewDiv(chapitre) {
   
@@ -145,7 +182,9 @@ function afficherChapitre(page)
 			{
 				document.getElementById("containerChapitre").appendChild(page);
 			}
-
+			
+			document.getElementById('listeChapitre').style.display="none";
+			
 	}
 }
 

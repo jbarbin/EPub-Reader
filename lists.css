@@ -1,0 +1,396 @@
+/* ----------------------------------
+ * LISTS: default
+ * ---------------------------------- */
+  ul,   ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  font-family: "Open Sans", Sans-serif;
+}
+
+  li {
+  display: inline-block;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  transition: transform 0.3s ease;
+  border: solid 1px #dbd9d9;
+  border-right: none;
+  border-left: none;
+  margin: -1px 0 0;
+  position: relative;
+}
+
+  li > a:first-of-type,
+  li > a:first-of-type  {
+  text-decoration: none;
+  color: #000;
+  display: inline-block;
+  width: 100%;
+  position: relative;
+}
+
+/* State press */
+  li > a:first-of-type:after {
+  content: "";
+  transition: opacity 0.2s ease;
+  /*background-color: #b1f1ff;*/
+  background-color: orange;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+}
+
+  li > a:first-of-type:active:after {
+  opacity: 0.6;
+}
+
+  li .aside {
+  float: left;
+  display: inline-block;
+  position: relative;
+  width: 6.5rem;
+  height: 7rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+  li .aside.end {
+  float: right;
+  width: 5.5rem;
+  height: 6rem;
+}
+
+  li .aside:before {
+  content: "";
+  height: 100%;
+  width: 1px;
+  margin-left: -1px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+  li .aside time {
+  display: inline-block;
+  vertical-align: super;
+  width: 4rem;
+  padding-right: 1rem;
+  font: 1.1rem/1em "Open Sans", Sans-serif;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+
+
+  li img {
+  float: right;
+  display: inline;
+  width: 6rem;
+  height: 6rem;
+  background: transparent center center;
+  background-size: 100% auto;
+}
+
+  li dl {
+  display: block;
+  overflow: hidden;
+  padding: 1rem 0.5rem 0 2rem;
+}
+
+  li .aside ~ dl {
+  padding-left: 0.5rem;
+}
+
+  li dl dt {
+  font: 1.8rem/1.2em "Maiandra GD", Sans-serif;
+  white-space: nowrap;
+  height: 2.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+  li dl dt strong {
+  font-weight: 600;
+  font-family: "Arial", Sans-serif;
+}
+
+  li dl dt em {
+  font-size: 1.3rem;
+  font-style: normal;
+}
+
+  li dl mark {
+  background-color: #cfd3d7;
+}
+
+  li dl dd {
+  font-size: 1rem;
+  /*color: #5b5b5b;*/
+  white-space: nowrap;
+  height: 1.8rem;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+}
+
+  li dl dd strong {
+  font-weight: 600;
+  font-family: "Open Sans", Sans-serif;
+  color: #000;
+}
+
+  li dl dd time {
+  font-size: 1.4rem;
+  color: #5b5b5b;
+  margin-right: 0.3rem;
+}
+
+/* GERER LA COULEUR DU DD SPAN*/
+  li dl dd span {
+  margin-right: 0.3rem;
+  color: #52b6cc;
+}
+
+  li dl dd span:last-child {
+  margin: 0;
+}
+
+/* Icon definitions */
+  li .icon  {
+  display: inline-block;
+  vertical-align: middle;
+  width: 3rem;
+  height: 3rem;
+  background: transparent no-repeat center center;
+  background-size: 100% auto;
+  font: 0/0 a;
+  overflow: hidden;
+  position: relative;
+}
+
+  li .icon.icon-arrowaction {
+  background-image: url(images/icons/arrowaction.png);
+  width:1rem;
+  height: 1rem;
+  vertical-align: bottom;
+  margin: 0 -3rem 0.5rem 0;
+}
+
+  li .icon.icon-callout {
+  background-image: url(images/icons/callout.png);
+  width: 2.4rem;
+  height: 2rem;
+}
+
+  li .icon.icon-smsin {
+  background-image: url(images/icons/smsin.png);
+  /*background-image: url(images/test3.jpg);*/
+  width: 2.5rem;
+  height: 2.2rem;
+}
+
+  li[data-state="new"] .icon.icon-smsin {
+  background-image: url(images/icons/smsin-new.png);
+  /*background-image: url(images/test3.jpg);*/
+  width: 2.5rem;
+  height: 2.2rem;
+}
+
+/* State edit*/
+  ul[data-state="edit"] li,
+  ol[data-state="edit"] li {
+  transform: translateX(5rem);
+}
+
+  ul[data-state="edit"] li > label.check,
+  ol[data-state="edit"] li > label.check {
+   opacity: 1;
+}
+
+  li > label.check {
+  transition: opacity 0.6s ease;
+  width: 5rem;
+  height: 6rem;
+  right: 100%;
+  position: absolute;
+  top: -1px;
+  z-index: 100;
+  opacity: 0;
+  border: solid 1px #DBD9D9;
+  border-left: none;
+  border-right: none;
+}
+
+/* State disabled */
+  li[aria-disabled="true"]:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e6e6e6;
+  opacity: 0.7;
+}
+
+   li[aria-disabled="true"] {
+  pointer-events:none;
+}
+
+/* State new */
+  li[data-state="marked"]:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.6rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-left: 0.5rem;
+  background: url(images/icons/dot.png) no-repeat center;
+  background-size: 100% auto;
+}
+
+  li[data-state="new"] time {
+  color: #52b6cc !important;
+}
+
+  li[data-state="withSource"] time {
+  color: #52b6cc !important;
+}
+
+
+/* State tagged */
+  li[data-state="tagged"]:after  {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: 0;
+  width: 0.4rem;
+}
+
+  li[data-tag="A"]:after { background-color: #e7a300; }
+  li[data-tag="B"]:after { background-color: #954fa7; }
+
+/*State sport */
+  li[data-tag="sport"]:after  {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: 0;
+  width: 0.8rem;
+  background-color: #e7a300;
+}
+
+/*State technologie */
+  li[data-tag="technologie"]:after  {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: 0;
+  width: 0.8rem;
+  background-color: #954fa7;
+}
+
+/*State economie */
+  li[data-tag="economie"]:after  {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: 0;
+  width: 0.8rem;
+  background-color: rgb(128,128,192);
+}
+
+/*State culture */
+  li[data-tag="culture"]:after  {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: 0;
+  width: 0.8rem;
+  background-color: rgb(128,255,128);
+}
+
+/*State people */
+  li[data-tag="people"]:after  {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: 0;
+  width: 0.8rem; /*0.4*/
+  background-color: rgb(255,128,255);
+}
+
+  li[data-state="withSource"] .source {
+  color: #52b6cc;
+  /*background-image: url(images/test3.jpg);*/
+  /*width: 2.5rem;*/
+  /*height: 2.2rem;*/
+  position:absolute;
+  top:3px;
+  left:3px;
+  height: 100%;
+  width: 100%;
+  margin-left: -1px;
+  display: inline-block;
+  
+}
+
+  li[data-state="withSource"] .source2 {
+  color: #52b6cc;
+  /*background-image: url(images/test3.jpg);*/
+  /*width: 2.5rem;*/
+  /*height: 2.2rem;*/
+  position:relative;
+  top:-4px;
+  left:-4px;
+  height: 100%;
+  width: 100%;
+  margin-left: -1px;
+  display: block;
+  margin-bottom: 5px;
+  
+}
+
+
+/* ----------------------------------
+ * LISTS: Overlay theme
+ * ---------------------------------- */
+  ul.overlay li,
+  ol.overlay li {
+  border-top-color: rgba(255, 255, 255, 0.1);
+  border-bottom-color: rgba(0, 0, 0, 0.6);
+}
+
+  ul.overlay  li dl dt,
+  ol.overlay  li dl dt {
+  color: lightblue;
+}
+
+  ul.overlay li dl dd,
+  ol.overlay li dl dd {
+  color: #ccc;
+}
+
+  ul.overlay .icon.icon-smsin,
+  ol.overlay .icon.icon-smsin {
+  /*background-image: url(images/icons/smsin-overlay.png);*/
+  /*background-image: url(images/test3.jpg);*/
+  width: 100%;
+  height: 100%;
+  position : absolute;
+  top: 0px;
+  left: 0px;
+}
