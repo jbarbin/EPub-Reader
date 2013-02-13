@@ -26,6 +26,8 @@ window.onload = function() {
 		 
 		  var opf = parser.parseFromString(opfdata.data, "text/xml");
 
+		  var metadata = opf.getElementsByTagNameNS("*", "metadata")[0];
+		  
 		  var manifest = opf.getElementsByTagNameNS("*", "manifest")[0];
 
 		  var spine = opf.getElementsByTagNameNS("*", "spine")[0];
@@ -38,8 +40,18 @@ window.onload = function() {
 
 		  var items = manifest.getElementsByTagNameNS("*", "item");
 		  
+		  var titre = metadata.getElementsByTagNameNS("*", "title")[0].childNodes[0].nodeValue;
+			
+		
+			
+		var auteur = metadata.getElementsByTagNameNS("*", "creator")[0].childNodes[0].nodeValue;
 		 
-		  
+		 //Affichage du titre et de l'auteur
+		 var h1=document.getElementById('Titre');
+		 var h2=document.getElementById('Auteur');
+		 h1.innerHTML=titre;
+		 h2.innerHTML=auteur;
+
 		  for (var i = 0; i < items.length; i++) {
 			var id = items[i].getAttribute("id");
 
@@ -50,22 +62,28 @@ window.onload = function() {
 			  var nomfichierNcx = items[i].getAttribute("href");
 			}
 		  }
-		  var OPS='';
+		  var dossierContenantToc='';
 		  
 		  var verifExistenceOPS=zip.folder("OPS").file("toc.ncx");//Si le fichier existe dans OPS alors OPS existe
+		  var verifExistenceOEBPS=zip.folder("OEBPS").file("toc.ncx");//Si le fichier existe dans OPS alors OPS existe
 
 		  if(verifExistenceOPS)
 		  {
-			OPS='OPS/';
+			dossierContenantToc='OPS/';
+		  }
+		  else if(verifExistenceOEBPS)
+		  {
+			dossierContenantToc='OEBPS/';
 		  }
 		  else
 		  {
-			OPS='';
+			dossierContenantToc='';
 		  }
-
-		  var fichierNcx = zip.file(OPS+nomfichierNcx);
+			
+		  var fichierNcx = zip.file(dossierContenantToc+nomfichierNcx);
 
 		  var decoded = decodeUTF8(fichierNcx.data);
+
 		  var parserNcx = parser.parseFromString(decoded, "text/xml");
 		  var navMap = parserNcx.getElementsByTagNameNS("*", "navMap")[0];
 		  var navPoints = navMap.getElementsByTagNameNS("*", "navPoint");
@@ -90,15 +108,24 @@ window.onload = function() {
 					listeDePoints[compteurPoints] = point;
 					compteurPoints++;
 					
-					if(OPS=='')
+					if(dossierContenantToc=='')
 					{
 						var pageFile = zip.file(content);
 						
 					}
 					else
 					{
-						var pageFile = zip.file(OPS+content.substring(0,15));
+						
+						if(content.indexOf("#")!=-1)
+						{
+							var pageFile = zip.file(dossierContenantToc+content.substring(0,content.indexOf("#")));
+						}
+						else
+						{
+							var pageFile = zip.file(dossierContenantToc+content);
+						}
 					}
+
 					decodedPage=decodeUTF8(pageFile.data);
 					pageFiles.push(decodedPage);
 
