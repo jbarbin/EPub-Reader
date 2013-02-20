@@ -1,5 +1,5 @@
 window.onload = function() {
-
+ //Test
   var livreChoisi = document.getElementById('livre');
   var sommaire = document.getElementById('sommaire');
   sommaire.onclick=afficherSommaire();
