@@ -10,12 +10,15 @@
   <link href="style.css" rel="stylesheet" media="all" type="text/css"> 
   <link rel="stylesheet" href="headers.css">
   <link rel="stylesheet" href="lists.css">
+  <link rel="stylesheet" href="toolbars.css">
+   <link rel="stylesheet" href="progress.css">
   <style type="text/css">
     html, body {
       margin: 0;
       padding: 0;
       font-size: 10px;
       background-color: #fff;
+
     }
     body {
       background: none;
@@ -24,11 +27,20 @@
       margin-bottom: 0.3rem;
       /*position: relative;*/
     }
-	
+	h2.bb-docs {
+    font-size: 1.8rem;
+    font-family: "Open Sans", Sans-serif;
+    font-weight: lighter;
+    color: #666;
+    margin: -0.1rem 0 0;
+    background-color: #f5f5f5;
+    padding: 0.4rem 0.4rem 0.4rem 3rem;
+    border: solid 0.1rem #e8e8e8;
+  }
   </style>
 </head>
-<body role="application">
-	  <section role="region">
+<body  id="body" role="application">
+	  <section id="header" role="region">
 		<header>
 			
 			<menu type="toolbar">
@@ -38,10 +50,15 @@
 			<h1 id="Titre">EPub-Reader</h1>
 		</header>
 		<header>
-			<h2 id="Auteur">Sommaire</h2>
+			<h2 id="Auteur"></h2>
 		</header>
 	</section>
 	
+     
+      
+
+
+    
 			<div style="background: url(images/example-notifications.png),
            no-repeat center center; background-size: 100% auto;">
 				<ul class="overlay" id="listeChapitre">
@@ -58,9 +75,28 @@
 
    <div class="containerChapitre" id="containerChapitre">
      
-	 
+	
     </div>
-     
+	 <progress id="progress" style="display:none" class="progress" ></progress>
+	
+
+     <nav id="toolbar" role="toolbar">
+ 
+    
+	<ul >
+      <li><button onclick="diminuerTaillePolice()"  class="mark">Mark</button></li>
+
+    </ul>
+	<ul >
+      <li><button onclick="augmenterTaillePolice()"  class="add">Mark</button></li>
+
+    </ul>
+	<ul >
+      <li><button onclick="jourNuit()" class="night">Mark</button></li>
+
+    </ul>
+	
+  </nav>
 	  
 	  
 			

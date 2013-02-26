@@ -2,13 +2,26 @@
 	max-width:800px;
 	min-height:100%;
 	margin:0px auto 0px auto;
+
 }
 	  
 .chapitre {
 	padding:20px;
 	margin:0px 10px 20px 10px;
-	border:1px solid #ccc;
-	box-shadow:0px 0px 7px #ccc;
 	min-height:400px;
-	background-color:white;        
+	color:black;
+
+}
+
+.progress
+{
+  width        : 250px ;
+  height       : 200px ;
+  border       : solid black 1px;
+  position     : absolute ;
+  top          : 50%;       /* On positionne à  50% en haut */
+  left         : 50%;       /* On positionne à  50% à  gauche */
+  right		   : 50%;
+  margin-left  : auto ;   /* On décale la boite vers la gauche de 125 pixels */
+  margin-top   : auto;     /* On décale la boite vers le haut de 100 pixels */
 }
