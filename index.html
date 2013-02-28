@@ -3,17 +3,28 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html ;charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	
-  <script type="text/javascript" src="js/app.js"></script>
+  <link href="http://localhost/EPub-Reader/manifest.webapp" rel="app-manifest">
+  <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui-1.10.1.custom.js"></script>
+
+  <script type="text/javascript" src="js/cls/mozapp.js"></script>
+
   <script type="text/javascript" src="js/cls/jszip/jszip.js"></script>
   <script type="text/javascript" src="js/cls/jszip/jszip-load.js"></script>
   <script type="text/javascript" src="js/cls/jszip/jszip-inflate.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
 
+
+
+
+  
+  
   <link href="style.css" rel="stylesheet" media="all" type="text/css"> 
   <link rel="stylesheet" href="headers.css">
   <link rel="stylesheet" href="lists.css">
   <link rel="stylesheet" href="toolbars.css">
-   <link rel="stylesheet" href="progress.css">
+  <link rel="stylesheet" href="progress.css">
+  
   <style type="text/css">
     html, body {
       margin: 0;
@@ -40,66 +51,54 @@
     border: solid 0.1rem #e8e8e8;
   }
   </style>
+  
 </head>
 <body  id="body" role="application">
-	  <section id="header" role="region">
+	<section id="header" role="region">
 		<header>
-			
 			<menu type="toolbar">
-				<a id="sommaire" href="#" ><span class="icon icon-menu"></span></a>
-
+				<a id="summary" href="#" ><span class="icon icon-menu"></span></a>
 			</menu>
-			<h1 id="Titre">EPub-Reader</h1>
+			<h1 id="title">EPub-Reader</h1>
 		</header>
 		<header>
-			<h2 id="Auteur"></h2>
+			<h2 id="author"></h2>
 		</header>
 	</section>
 	
-     
-      
+	<div style="background: url(images/example-notifications.png),no-repeat center center; background-size: 100% auto;">
+		<ul class="overlay" id="chaptersList">
 
-
-    
-			<div style="background: url(images/example-notifications.png),
-           no-repeat center center; background-size: 100% auto;">
-				<ul class="overlay" id="listeChapitre">
-					
-					
-				
-				</ul>
-			</div>
+		</ul>
+	</div>
 	
-   <div id="index">
-    <input type="file" id="livre">
-  </div>
+    <div id="index">
+		<input type="file" id="book">
+	</div>
 
-
-   <div class="containerChapitre" id="containerChapitre">
+	<div class="containerChapter" id="containerChapter">
      
 	
     </div>
-	 <progress id="progress" style="display:none" class="progress" ></progress>
 	
-
-     <nav id="toolbar" role="toolbar">
+	<progress id="progress" style="display:none" class="progress" ></progress>
+	
+	<nav id="toolbar" role="toolbar">
  
-    
+  
 	<ul >
-      <li><button onclick="diminuerTaillePolice()"  class="mark">Mark</button></li>
-
+      <li><button onclick="reduceFontSize()"  class="mark">Reduce font size</button></li>
     </ul>
 	<ul >
-      <li><button onclick="augmenterTaillePolice()"  class="add">Mark</button></li>
-
+      <li><button onclick="increaseFontSize()"  class="add">Increase font size</button></li>
     </ul>
 	<ul >
-      <li><button onclick="jourNuit()" class="night">Mark</button></li>
-
+      <li><button onclick="dayNight()" class="night">Day/Night</button></li>
     </ul>
 	
   </nav>
-	  
+
+
 	  
 			
 </body>

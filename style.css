@@ -1,11 +1,11 @@
-.containerChapitre {
+.containerChapter {
 	max-width:800px;
 	min-height:100%;
 	margin:0px auto 0px auto;
 
 }
 	  
-.chapitre {
+.chapter {
 	padding:20px;
 	margin:0px 10px 20px 10px;
 	min-height:400px;

@@ -1,235 +1,279 @@
-window.onload = function() {
-	
-	var livreChoisi = document.getElementById('livre');
-	var sommaire = document.getElementById('sommaire');
-	sommaire.onclick=afficherSommaire();
-	
-	livreChoisi.onchange = function() {
-		document.getElementById('progress').style.display="block";
-		ouvrirFichier(livreChoisi.files[0], function(data) {
-
-			var zip = new JSZip(data);
-			var container=getContainer(zip);
-
-			if(container !=null)
+window.onload = function() 
+{
+	var selectedBook = document.getElementById('book');
+	//Check if <input type="file"> is supported (It doesn't work in Firefox OS yet)
+	if (selectedBook.type != "file") 
+	{
+		alert("Input file is not supported.");
+		//Have to use Web Activity
+	}
+	else
+	{
+		var summary = document.getElementById('summary');
+		summary.onclick=displaySummary();
+		
+		selectedBook.onchange = function() 
+		{
+			//Check if the file is in .epub format
+			if(selectedBook.files[0].name.indexOf(".epub",0)==-1)
 			{
-				var parser = new DOMParser();
-				var doc = parser.parseFromString(container, "application/xml");
-				var rootfile = doc.getElementsByTagNameNS("*", "rootfile")[0];
-				var opffile = rootfile.getAttribute("full-path");
-				var opfdata = zip.file(opffile);
-				var opf = parser.parseFromString(opfdata.data, "text/xml");
-				var metadata = opf.getElementsByTagNameNS("*", "metadata")[0];
-				var manifest = opf.getElementsByTagNameNS("*", "manifest")[0];
-				var spine = opf.getElementsByTagNameNS("*", "spine")[0];
-				var toc = spine.getAttribute("toc");
-				var itemref = spine.getElementsByTagNameNS("*", "itemref")[0];
-				var idRef = itemref.getAttribute("idref");
-				var items = manifest.getElementsByTagNameNS("*", "item");
-				var titre = metadata.getElementsByTagNameNS("*", "title")[0].childNodes[0].nodeValue;
-				var auteur = metadata.getElementsByTagNameNS("*", "creator")[0].childNodes[0].nodeValue;
-
-				//Affichage du titre et de l'auteur
-				var h1=document.getElementById('Titre');
-				var h2=document.getElementById('Auteur');
-				h1.textContent=decodeUTF8(titre);
-				h2.textContent=decodeUTF8(auteur);
-
-				for (var i = 0; i < items.length; i++) {
-					var id = items[i].getAttribute("id");
-					if (id == idRef) {
-						var nomfichierHTML = items[i].getAttribute("href");
-					} 
-					else if(id == toc) {
-						var nomfichierNcx = items[i].getAttribute("href");
-					}
-				}
-				var dossierContenantToc='';
-
-				var verifExistenceOPS=zip.folder("OPS").file("toc.ncx");//Si le fichier existe dans OPS alors OPS existe
-				var verifExistenceOEBPS=zip.folder("OEBPS").file("toc.ncx");//Si le fichier existe dans OPS alors OPS existe
-
-				if(verifExistenceOPS)
-				{
-					dossierContenantToc='OPS/';
-				}
-				else if(verifExistenceOEBPS)
-				{
-					dossierContenantToc='OEBPS/';
-				}
-				else
-				{
-					dossierContenantToc='';
-				}
-
-				var fichierNcx = zip.file(dossierContenantToc+nomfichierNcx);
-
-				var decoded = decodeUTF8(fichierNcx.data);
-
-				var parserNcx = parser.parseFromString(decoded, "text/xml");
-				var navMap = parserNcx.getElementsByTagNameNS("*", "navMap")[0];
-				var navPoints = navMap.getElementsByTagNameNS("*", "navPoint");
-				var listeDePoints = [];
-				var pageFiles=[];
-
-				if (navPoints.length > 0) {
-					var compteurPoints = 0;
-
-					for (var i = 0; i < navPoints.length; i++) {
-
-					var label = navPoints[i].getElementsByTagNameNS("*", "navLabel")[0]
-							.getElementsByTagNameNS("*", "text")[0].textContent;
-
-					var content = navPoints[i].getElementsByTagNameNS("*", "content")[0].getAttribute("src");
-					var navPoint = navPoints[i];
-					var point = [];
-
-					point['label'] = label;
-					point['content'] = content;
-
-					listeDePoints[compteurPoints] = point;
-					compteurPoints++;
-
-					if(dossierContenantToc=='')
-					{
-					var pageFile = zip.file(content);
-
-					}
-					else
-					{
-
-					if(content.indexOf("#")!=-1)
-					{
-					var pageFile = zip.file(dossierContenantToc+content.substring(0,content.indexOf("#")));
-					}
-					else
-					{
-					var pageFile = zip.file(dossierContenantToc+content);
-					}
-					}
-
-					decodedPage=decodeUTF8(pageFile.data);
-					pageFiles.push(decodedPage);
-
-
-					}
-
-				}
-
-				var listChapitre = document.getElementById('listeChapitre');
-
-
-				for(var i =0; i<listeDePoints.length;i++)
-				{
-					var chapitre = document.createElement('li');
-					var dl=document.createElement('dl');
-					var dt=document.createElement('dt');
-					var nomChapitre = document.createTextNode(listeDePoints[i].label);
-					var divChapitre ='' ;
-					divChapitre = createNewDiv(pageFiles[i]);
-					dl.appendChild(dt);
-					chapitre.appendChild(dl);
-					chapitre.onclick=afficherChapitre(divChapitre);
-					dt.appendChild(nomChapitre);
-					listChapitre.appendChild(chapitre);
-				}
-				document.getElementById('livre').style.display="none";
-				document.getElementById('listeChapitre').style.display="block";
-				document.getElementById('progress').style.display="none";
-
+				alert("The selected file is wrong. Please select an ebook in Epub format");
 			}
+			else
+			{
+				document.getElementById('progress').style.display="block";
+				openFile(selectedBook.files[0], function(data) 
+				{
+					var zip = new JSZip(data);
+					var container=getContainer(zip);
 
-		});
-	};  
+					if(container !=null)
+					{
+						//Get all information we need in Container.xml
+						var parser = new DOMParser();
+						var doc = parser.parseFromString(container, "application/xml");
+						var rootfile = doc.getElementsByTagNameNS("*", "rootfile")[0];
+						var opffile = rootfile.getAttribute("full-path");
+						var opfdata = zip.file(opffile);
+						var opf = parser.parseFromString(opfdata.data, "text/xml");
+						var metadata = opf.getElementsByTagNameNS("*", "metadata")[0];
+						var manifest = opf.getElementsByTagNameNS("*", "manifest")[0];
+						var spine = opf.getElementsByTagNameNS("*", "spine")[0];
+						var toc = spine.getAttribute("toc");
+						var itemref = spine.getElementsByTagNameNS("*", "itemref")[0];
+						var idRef = itemref.getAttribute("idref");
+						var items = manifest.getElementsByTagNameNS("*", "item");
+						var title = metadata.getElementsByTagNameNS("*", "title")[0].childNodes[0].nodeValue;
+						var author = metadata.getElementsByTagNameNS("*", "creator")[0].childNodes[0].nodeValue;
+
+						//Display book's title and author
+						var h1=document.getElementById('title');
+						var h2=document.getElementById('author');
+						h1.textContent=decodeUTF8(title);
+						h2.textContent=decodeUTF8(author);
+
+						//Get "toc.ncx"
+						for (var i = 0; i < items.length; i++) {
+							var id = items[i].getAttribute("id");
+							if (id == idRef) {
+								var HTMLFileName = items[i].getAttribute("href");
+							} 
+							else if(id == toc) {
+								var NcxFileName = items[i].getAttribute("href");
+							}
+						}
+						
+						var tocFolder='';
+
+						var isInOPS=zip.folder("OPS").file("toc.ncx");//If the file exists in OPS folder then the file exists into it
+						var isInOEBPS=zip.folder("OEBPS").file("toc.ncx");//If the file exists in OEBPS folder then the file exists into it
+
+						if(isInOPS)
+						{
+							tocFolder='OPS/';
+						}
+						else if(isInOEBPS)
+						{
+							tocFolder='OEBPS/';
+						}
+						else
+						{
+							tocFolder='';
+						}
+
+						var ncxFile = zip.file(tocFolder+NcxFileName);
+						
+						if(ncxFile!=null)
+						{
+							var decoded = decodeUTF8(ncxFile.data);
+							
+							//Get all info in "toc.ncx"
+							var parserNcx = parser.parseFromString(decoded, "text/xml");
+							var navMap = parserNcx.getElementsByTagNameNS("*", "navMap")[0];
+							var navPoints = navMap.getElementsByTagNameNS("*", "navPoint");
+							var pointsList = [];
+							var pageFiles=[];
+
+							//Get content of chapters
+							if (navPoints.length > 0) {
+								var pointsCounter = 0;
+
+								for (var i = 0; i < navPoints.length; i++) {
+
+								var label = navPoints[i].getElementsByTagNameNS("*", "navLabel")[0]
+										.getElementsByTagNameNS("*", "text")[0].textContent;
+
+								var content = navPoints[i].getElementsByTagNameNS("*", "content")[0].getAttribute("src");
+								var navPoint = navPoints[i];
+								var point = [];
+
+								point['label'] = label;
+								point['content'] = content;
+
+								pointsList[pointsCounter] = point;
+								pointsCounter++;
+
+								if(tocFolder=='')
+								{
+									var pageFile = zip.file(content);
+								}
+								else
+								{
+									if(content.indexOf("#")!=-1)
+									{
+										var pageFile = zip.file(tocFolder+content.substring(0,content.indexOf("#")));
+									}
+									else
+									{
+										var pageFile = zip.file(tocFolder+content);
+									}
+								}
+
+								decodedPage=decodeUTF8(pageFile.data);
+								pageFiles.push(decodedPage);
+								}
+
+							}
+
+							//Display the list of chapters
+							var chaptersList = document.getElementById('chaptersList');
+
+							for(var i =0; i<pointsList.length;i++)
+							{
+								var chapter = document.createElement('li');
+								var dl=document.createElement('dl');
+								var dt=document.createElement('dt');
+								var chapterName = document.createTextNode(pointsList[i].label);
+								var divChapter ='' ;
+								divChapter = createNewDiv(pageFiles[i]);
+								dl.appendChild(dt);
+								chapter.appendChild(dl);
+								chapter.onclick=displayChapter(divChapter);
+								dt.appendChild(chapterName);
+								chaptersList.appendChild(chapter);
+							}
+							document.getElementById('book').style.display="none";
+							$( "#chaptersList" ).show( "blind", { direction: "up" }, "slow") ;
+							// document.getElementById('chaptersList').style.display="block";
+							document.getElementById('progress').style.display="none";
+						}
+						else
+						{
+							document.getElementById('progress').style.display="none";
+							alert("Sorry the file you chose is somehow corrupted.");
+						}
+						
+
+					}
+
+				});
+			}
+		};  
+	}
 };
 
-
-function jourNuit()
+//Function to display the content for the day or night mode 
+function dayNight()
 {
 
-	if(document.getElementById('chapitre').style.color=="white" && document.getElementById('chapitre').style.backgroundColor=="black")
+	if(document.getElementById('chapter').style.color=="white" && document.getElementById('chapter').style.backgroundColor=="black")
 		{
-			document.getElementById('chapitre').style.color="black";
-			document.getElementById('chapitre').style.backgroundColor="white";
+			document.getElementById('chapter').style.color="black";
+			document.getElementById('chapter').style.backgroundColor="white";
 			document.getElementById('body').style.backgroundColor="white";
-			document.getElementById('containerChapitre').style.backgroundColor="white";
+			document.getElementById('containerChapter').style.backgroundColor="white";
 			
 		}
 	else
 	{
-		document.getElementById('chapitre').style.color="white";
-		document.getElementById('chapitre').style.backgroundColor="black";
+		document.getElementById('chapter').style.color="white";
+		document.getElementById('chapter').style.backgroundColor="black";
 		document.getElementById('body').style.backgroundColor="black";
-		document.getElementById('containerChapitre').style.backgroundColor="black";
+		document.getElementById('containerChapter').style.backgroundColor="black";
 	}
 
 }
 
-function afficherSommaire()
+//Function to display the summary or not
+function displaySummary()
 {
 	return function()
 	{
-		if(document.getElementById('listeChapitre').style.display=="none")
+		if(document.getElementById('chaptersList').style.display=="none")
 		{
-			document.getElementById('listeChapitre').style.display="block";
+			// document.getElementById('chaptersList').style.display="block";
+			$( "#chaptersList" ).show( "blind", { direction: "up" }, "slow") ;
 		}
 		else
 		{
-			document.getElementById('listeChapitre').style.display="none";
+			// document.getElementById('chaptersList').style.display="none";
+			$( "#chaptersList" ).hide( "blind", { direction: "up" }, "slow") ;
 		}
+		
+		
 	}
 }
 
-function afficherToolbar()
+//Function to toolbar the summary or not
+function displayToolbar()
 {
+	
 	if(document.getElementById('toolbar').style.display=="none")
 	{	
-		document.getElementById('toolbar').style.display="block";
+		// document.getElementById('toolbar').style.display="block";
+		$( "#toolbar" ).show( "blind", { direction: "down" }, "slow") ;
 	}
 	else
 	{
-		document.getElementById('toolbar').style.display="none";
+		// document.getElementById('toolbar').style.display="none";
+		$( "#toolbar" ).hide( "blind", { direction: "down" }, "slow") ;
 	}
 
 	if(document.getElementById('header').style.display=="none")
 	{
-		document.getElementById('header').style.display="block";
+		// document.getElementById('header').style.display="block";
+		$( "#header" ).show( "blind", { direction: "up" }, "slow") ;
 	}
 	else
 	{
-		document.getElementById('header').style.display="none";
+		// document.getElementById('header').style.display="none";
+		$( "#header" ).hide( "blind", { direction: "up" }, "slow") ;
 	}
 }
 
-function augmenterTaillePolice()
+//Function to increase font's size
+function increaseFontSize()
 {
-	var taille=parseInt(document.getElementById("chapitre").style.fontSize.substring(0,document.getElementById("chapitre").style.fontSize.indexOf('px',0)));
-	document.getElementById("chapitre").style.fontSize=taille+1+"px";
+	var size=parseInt(document.getElementById("chapter").style.fontSize.substring(0,document.getElementById("chapter").style.fontSize.indexOf('px',0)));
+	document.getElementById("chapter").style.fontSize=size+1+"px";
 }
 
-function diminuerTaillePolice()
+//Function to reduce font's size
+function reduceFontSize()
 {
-	var taille=parseInt(document.getElementById("chapitre").style.fontSize.substring(0,document.getElementById("chapitre").style.fontSize.indexOf('px',0)));
-	document.getElementById("chapitre").style.fontSize=taille-1+"px";
+	var size=parseInt(document.getElementById("chapter").style.fontSize.substring(0,document.getElementById("chapter").style.fontSize.indexOf('px',0)));
+	document.getElementById("chapter").style.fontSize=size-1+"px";
 }
 
-function createNewDiv(chapitre) {
-	var divChapitre=document.createElement("div");
-	divChapitre.id = 'chapitre';
-	divChapitre.className = 'chapitre';
-	divChapitre.style.fontSize = '15px';
-	divChapitre.innerHTML=chapitre;
-	divChapitre.addEventListener("click", afficherToolbar, false); 
-	return divChapitre;
+//Function to create chapter's div
+function createNewDiv(chapter) {
+	var divChapter=document.createElement("div");
+	divChapter.id = 'chapter';
+	divChapter.className = 'chapter';
+	divChapter.style.fontSize = '15px';
+	divChapter.innerHTML=chapter;
+	divChapter.addEventListener("click", displayToolbar, false); 
+	return divChapter;
 }
 
-function afficherChapitre(page)
+//Function to display a chapter
+function displayChapter(page)
 {
 	return function()
 	{
-		if(document.getElementById("chapitre"))
+		if(document.getElementById("chapter"))
 		{
-			var element=document.getElementById("chapitre");
+			var element=document.getElementById("chapter");
 			element.parentNode.removeChild(element);
 			document.getElementById("body").appendChild(page);
 		}
@@ -237,25 +281,29 @@ function afficherChapitre(page)
 		{
 			document.getElementById("body").appendChild(page);
 		}
-		document.getElementById('listeChapitre').style.display="none";
+		// document.getElementById('chaptersList').style.display="none";
+		$( "#chaptersList" ).hide( "blind", { direction: "up" }, "slow") ;
+		
 		document.getElementById('toolbar').style.display="block";
 	}
 }
 
-
+//Function to decode a string in UTF8
 function decodeUTF8(str) {
 	return decodeURIComponent(escape(str));
 }
 
-function ouvrirFichier(fichiersLivre,dezip)
+//Function to open a book
+function openFile(bookFiles,dezip)
 {
 	var reader = new FileReader();
 	reader.onloadend = function() {
 		dezip(reader.result);
 	};
-	reader.readAsBinaryString(fichiersLivre);
+	reader.readAsBinaryString(bookFiles);
 }
 
+//Function to get the file "container.xml"
 function getContainer(archive) {
 
 	var fichier = archive.folder("META-INF").file("container.xml");

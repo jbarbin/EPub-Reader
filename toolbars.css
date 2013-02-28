@@ -45,37 +45,37 @@
 
 /* Base icons */
 [role="toolbar"] .update {
-  background-image: url(images/images/icons/update.png);
+  background-image: url(images/icons/update.png);
 }
 
 [role="toolbar"] .mark {
-  background-image: url(images/images/icons/zoommoins.png);
+  background-image: url(images/icons/zoommoins.png);
 }
 
 [role="toolbar"] .share {
-  background-image: url(images/images/icons/share.png);
+  background-image: url(images/icons/share.png);
 }
 
 [role="toolbar"] .send {
-  background-image: url(images/images/icons/send.png);
+  background-image: url(images/icons/send.png);
 }
 
 [role="toolbar"] .search {
-  background-image: url(images/images/icons/search.png);
+  background-image: url(images/icons/search.png);
 }
 
 [role="toolbar"] .move {
-  background-image: url(images/images/icons/move.png);
+  background-image: url(images/icons/move.png);
 }
 
 [role="toolbar"] .delete {
-  background-image: url(images/images/icons/delete.png);
+  background-image: url(images/icons/delete.png);
 }
 
 [role="toolbar"] .night {
-  background-image: url(images/images/icons/sun.png);
+  background-image: url(images/icons/sun.png);
 }
 
 [role="toolbar"] .add {
-  background-image: url(images/images/icons/zoomplus.png);
+  background-image: url(images/icons/zoomplus.png);
 }
