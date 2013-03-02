@@ -1,0 +1,1 @@
+self.addEventListener('message', function(e) {  importScripts('cls/jszip/jszip.js');  importScripts('cls/jszip/jszip-load.js');  importScripts('cls/jszip/jszip-inflate.js');  importScripts('cls/jszip/jszip-deflate.js');    //console.log(e.data);  var dezip=new JSZip(e.data);  self.postMessage(dezip);}, false);

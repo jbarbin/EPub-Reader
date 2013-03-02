@@ -21,150 +21,159 @@ window.onload = function()
 			}
 			else
 			{
+				
 				document.getElementById('progress').style.display="block";
 				openFile(selectedBook.files[0], function(data) 
 				{
-					var zip = new JSZip(data);
-					var container=getContainer(zip);
+					var worker = new Worker('js/doWork.js');
+					worker.addEventListener('message', function(e) {
+					  console.log('Worker said: ', e.data);
+					  var zip = e.data;
+					  console.log(zip);
+					  var container=getContainer(zip);
 
-					if(container !=null)
-					{
-						//Get all information we need in Container.xml
-						var parser = new DOMParser();
-						var doc = parser.parseFromString(container, "application/xml");
-						var rootfile = doc.getElementsByTagNameNS("*", "rootfile")[0];
-						var opffile = rootfile.getAttribute("full-path");
-						var opfdata = zip.file(opffile);
-						var opf = parser.parseFromString(opfdata.data, "text/xml");
-						var metadata = opf.getElementsByTagNameNS("*", "metadata")[0];
-						var manifest = opf.getElementsByTagNameNS("*", "manifest")[0];
-						var spine = opf.getElementsByTagNameNS("*", "spine")[0];
-						var toc = spine.getAttribute("toc");
-						var itemref = spine.getElementsByTagNameNS("*", "itemref")[0];
-						var idRef = itemref.getAttribute("idref");
-						var items = manifest.getElementsByTagNameNS("*", "item");
-						var title = metadata.getElementsByTagNameNS("*", "title")[0].childNodes[0].nodeValue;
-						var author = metadata.getElementsByTagNameNS("*", "creator")[0].childNodes[0].nodeValue;
-
-						//Display book's title and author
-						var h1=document.getElementById('title');
-						var h2=document.getElementById('author');
-						h1.textContent=decodeUTF8(title);
-						h2.textContent=decodeUTF8(author);
-
-						//Get "toc.ncx"
-						for (var i = 0; i < items.length; i++) {
-							var id = items[i].getAttribute("id");
-							if (id == idRef) {
-								var HTMLFileName = items[i].getAttribute("href");
-							} 
-							else if(id == toc) {
-								var NcxFileName = items[i].getAttribute("href");
-							}
-						}
-						
-						var tocFolder='';
-
-						var isInOPS=zip.folder("OPS").file("toc.ncx");//If the file exists in OPS folder then the file exists into it
-						var isInOEBPS=zip.folder("OEBPS").file("toc.ncx");//If the file exists in OEBPS folder then the file exists into it
-
-						if(isInOPS)
+						if(container !=null)
 						{
-							tocFolder='OPS/';
-						}
-						else if(isInOEBPS)
-						{
-							tocFolder='OEBPS/';
-						}
-						else
-						{
-							tocFolder='';
-						}
+							//Get all information we need in Container.xml
+							var parser = new DOMParser();
+							var doc = parser.parseFromString(container, "application/xml");
+							var rootfile = doc.getElementsByTagNameNS("*", "rootfile")[0];
+							var opffile = rootfile.getAttribute("full-path");
+							var opfdata = zip.file(opffile);
+							var opf = parser.parseFromString(opfdata.data, "text/xml");
+							var metadata = opf.getElementsByTagNameNS("*", "metadata")[0];
+							var manifest = opf.getElementsByTagNameNS("*", "manifest")[0];
+							var spine = opf.getElementsByTagNameNS("*", "spine")[0];
+							var toc = spine.getAttribute("toc");
+							var itemref = spine.getElementsByTagNameNS("*", "itemref")[0];
+							var idRef = itemref.getAttribute("idref");
+							var items = manifest.getElementsByTagNameNS("*", "item");
+							var title = metadata.getElementsByTagNameNS("*", "title")[0].childNodes[0].nodeValue;
+							var author = metadata.getElementsByTagNameNS("*", "creator")[0].childNodes[0].nodeValue;
 
-						var ncxFile = zip.file(tocFolder+NcxFileName);
-						
-						if(ncxFile!=null)
-						{
-							var decoded = decodeUTF8(ncxFile.data);
-							
-							//Get all info in "toc.ncx"
-							var parserNcx = parser.parseFromString(decoded, "text/xml");
-							var navMap = parserNcx.getElementsByTagNameNS("*", "navMap")[0];
-							var navPoints = navMap.getElementsByTagNameNS("*", "navPoint");
-							var pointsList = [];
-							var pageFiles=[];
+							//Display book's title and author
+							var h1=document.getElementById('title');
+							var h2=document.getElementById('author');
+							h1.textContent=decodeUTF8(title);
+							h2.textContent=decodeUTF8(author);
 
-							//Get content of chapters
-							if (navPoints.length > 0) {
-								var pointsCounter = 0;
-
-								for (var i = 0; i < navPoints.length; i++) {
-
-								var label = navPoints[i].getElementsByTagNameNS("*", "navLabel")[0]
-										.getElementsByTagNameNS("*", "text")[0].textContent;
-
-								var content = navPoints[i].getElementsByTagNameNS("*", "content")[0].getAttribute("src");
-								var navPoint = navPoints[i];
-								var point = [];
-
-								point['label'] = label;
-								point['content'] = content;
-
-								pointsList[pointsCounter] = point;
-								pointsCounter++;
-
-								if(tocFolder=='')
-								{
-									var pageFile = zip.file(content);
+							//Get "toc.ncx"
+							for (var i = 0; i < items.length; i++) {
+								var id = items[i].getAttribute("id");
+								if (id == idRef) {
+									var HTMLFileName = items[i].getAttribute("href");
+								} 
+								else if(id == toc) {
+									var NcxFileName = items[i].getAttribute("href");
 								}
-								else
-								{
-									if(content.indexOf("#")!=-1)
+							}
+							
+							var tocFolder='';
+
+							var isInOPS=zip.folder("OPS").file("toc.ncx");//If the file exists in OPS folder then the file exists into it
+							var isInOEBPS=zip.folder("OEBPS").file("toc.ncx");//If the file exists in OEBPS folder then the file exists into it
+
+							if(isInOPS)
+							{
+								tocFolder='OPS/';
+							}
+							else if(isInOEBPS)
+							{
+								tocFolder='OEBPS/';
+							}
+							else
+							{
+								tocFolder='';
+							}
+
+							var ncxFile = zip.file(tocFolder+NcxFileName);
+							
+							if(ncxFile!=null)
+							{
+								var decoded = decodeUTF8(ncxFile.data);
+								
+								//Get all info in "toc.ncx"
+								var parserNcx = parser.parseFromString(decoded, "text/xml");
+								var navMap = parserNcx.getElementsByTagNameNS("*", "navMap")[0];
+								var navPoints = navMap.getElementsByTagNameNS("*", "navPoint");
+								var pointsList = [];
+								var pageFiles=[];
+
+								//Get content of chapters
+								if (navPoints.length > 0) {
+									var pointsCounter = 0;
+
+									for (var i = 0; i < navPoints.length; i++) {
+
+									var label = navPoints[i].getElementsByTagNameNS("*", "navLabel")[0]
+											.getElementsByTagNameNS("*", "text")[0].textContent;
+
+									var content = navPoints[i].getElementsByTagNameNS("*", "content")[0].getAttribute("src");
+									var navPoint = navPoints[i];
+									var point = [];
+
+									point['label'] = label;
+									point['content'] = content;
+
+									pointsList[pointsCounter] = point;
+									pointsCounter++;
+
+									if(tocFolder=='')
 									{
-										var pageFile = zip.file(tocFolder+content.substring(0,content.indexOf("#")));
+										var pageFile = zip.file(content);
 									}
 									else
 									{
-										var pageFile = zip.file(tocFolder+content);
+										if(content.indexOf("#")!=-1)
+										{
+											var pageFile = zip.file(tocFolder+content.substring(0,content.indexOf("#")));
+										}
+										else
+										{
+											var pageFile = zip.file(tocFolder+content);
+										}
 									}
+
+									decodedPage=decodeUTF8(pageFile.data);
+									pageFiles.push(decodedPage);
+									}
+
 								}
 
-								decodedPage=decodeUTF8(pageFile.data);
-								pageFiles.push(decodedPage);
-								}
+								//Display the list of chapters
+								var chaptersList = document.getElementById('chaptersList');
 
+								for(var i =0; i<pointsList.length;i++)
+								{
+									var chapter = document.createElement('li');
+									var dl=document.createElement('dl');
+									var dt=document.createElement('dt');
+									var chapterName = document.createTextNode(pointsList[i].label);
+									var divChapter ='' ;
+									divChapter = createNewDiv(pageFiles[i]);
+									dl.appendChild(dt);
+									chapter.appendChild(dl);
+									chapter.onclick=displayChapter(divChapter);
+									dt.appendChild(chapterName);
+									chaptersList.appendChild(chapter);
+								}
+								document.getElementById('book').style.display="none";
+								$( "#chaptersList" ).show( "blind", { direction: "up" }, "slow") ;
+								// document.getElementById('chaptersList').style.display="block";
+								document.getElementById('progress').style.display="none";
 							}
-
-							//Display the list of chapters
-							var chaptersList = document.getElementById('chaptersList');
-
-							for(var i =0; i<pointsList.length;i++)
+							else
 							{
-								var chapter = document.createElement('li');
-								var dl=document.createElement('dl');
-								var dt=document.createElement('dt');
-								var chapterName = document.createTextNode(pointsList[i].label);
-								var divChapter ='' ;
-								divChapter = createNewDiv(pageFiles[i]);
-								dl.appendChild(dt);
-								chapter.appendChild(dl);
-								chapter.onclick=displayChapter(divChapter);
-								dt.appendChild(chapterName);
-								chaptersList.appendChild(chapter);
+								document.getElementById('progress').style.display="none";
+								alert("Sorry the file you chose is somehow corrupted.");
 							}
-							document.getElementById('book').style.display="none";
-							$( "#chaptersList" ).show( "blind", { direction: "up" }, "slow") ;
-							// document.getElementById('chaptersList').style.display="block";
-							document.getElementById('progress').style.display="none";
-						}
-						else
-						{
-							document.getElementById('progress').style.display="none";
-							alert("Sorry the file you chose is somehow corrupted.");
-						}
-						
+							
 
-					}
+						}
+					}, false);
+					worker.postMessage(data); // Send data to our worker.
+
+
 
 				});
 			}
@@ -305,7 +314,7 @@ function openFile(bookFiles,dezip)
 
 //Function to get the file "container.xml"
 function getContainer(archive) {
-
+	console.log(archive.files('toc.ncx'));
 	var fichier = archive.folder("META-INF").file("container.xml");
 	if (fichier) {
 		return(fichier.data);
