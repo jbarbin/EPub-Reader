@@ -1,3 +1,4 @@
+var brightness=0;
 window.onload = function() 
 {
 	var selectedBook = document.getElementById('book');
@@ -176,20 +177,21 @@ window.onload = function()
 function dayNight()
 {
 
-	if(document.getElementById('chapter').style.color=="white" && document.getElementById('chapter').style.backgroundColor=="black")
-		{
-			document.getElementById('chapter').style.color="black";
-			document.getElementById('chapter').style.backgroundColor="white";
-			document.getElementById('body').style.backgroundColor="white";
-			document.getElementById('containerChapter').style.backgroundColor="white";
-			
-		}
+	if(document.getElementById('chapter').style.backgroundColor=="black")
+	{
+		document.getElementById('chapter').style.color="black";
+		document.getElementById('chapter').style.backgroundColor="white";
+		document.getElementById('body').style.backgroundColor="white";
+		document.getElementById('containerChapter').style.backgroundColor="white";
+		//adjustBrightness(brightness);
+	}
 	else
 	{
 		document.getElementById('chapter').style.color="white";
 		document.getElementById('chapter').style.backgroundColor="black";
 		document.getElementById('body').style.backgroundColor="black";
 		document.getElementById('containerChapter').style.backgroundColor="black";
+		//adjustBrightness(brightness);
 	}
 
 }
@@ -214,7 +216,105 @@ function displaySummary()
 	}
 }
 
-//Function to toolbar the summary or not
+//Function to adjust the brightness of the screen 
+function adjustBrigthness(brightness)
+{
+	if(document.getElementById('chapter').style.backgroundColor=="black")
+	{
+		switch(brightness)
+		{
+		case 0:
+			document.getElementById('chapter').style.color="white";
+			break;
+		case 1:
+			document.getElementById('chapter').style.color="#CCCCCC";
+			break;
+		
+		case 2:
+			document.getElementById('chapter').style.color="#C0C0C0";
+			break;
+			
+		case 3:
+			document.getElementById('chapter').style.color="#999999";
+			break;
+			
+		case 4:
+			document.getElementById('chapter').style.color="#666666";
+			break;
+			
+		case 5:
+			document.getElementById('chapter').style.color="#333333";
+			break;			
+		}
+	}
+	else
+	{
+		switch(brightness)
+		{
+			case 0:
+				document.getElementById('body').style.backgroundColor="white";
+				document.getElementById('containerChapter').style.backgroundColor="white";
+				document.getElementById('chapter').style.backgroundColor="white";
+				break;
+			
+			case 1:
+				document.getElementById('body').style.backgroundColor="#CCCCCC";
+				document.getElementById('containerChapter').style.backgroundColor="#CCCCCC";
+				document.getElementById('chapter').style.backgroundColor="#CCCCCC";
+				break;
+			
+			case 2:
+				document.getElementById('body').style.backgroundColor="#C0C0C0";
+				document.getElementById('containerChapter').style.backgroundColor="#C0C0C0";
+				document.getElementById('chapter').style.backgroundColor="#C0C0C0";
+				break;
+				
+			case 3:
+				document.getElementById('body').style.backgroundColor="#999999";
+				document.getElementById('containerChapter').style.backgroundColor="#999999";
+				document.getElementById('chapter').style.backgroundColor="#999999";
+				break;
+				
+			case 4:
+				document.getElementById('body').style.backgroundColor="#666666";
+				document.getElementById('containerChapter').style.backgroundColor="#666666";
+				document.getElementById('chapter').style.backgroundColor="#666666";
+				break;
+				
+			case 5:
+				document.getElementById('body').style.backgroundColor="#333333";
+				document.getElementById('containerChapter').style.backgroundColor="#333333";
+				document.getElementById('chapter').style.backgroundColor="#333333";
+				break;	
+		}
+	}
+
+}
+
+//Function to reduce brightness
+function reduceBrightness()
+{
+	brightness++;
+	if(brightness>5)
+	{
+		brightness=5;
+	}
+	adjustBrigthness(brightness);
+}
+
+//Function to increaseBrightness
+function increaseBrightness()
+{
+	brightness--;
+	if(brightness<0)
+	{
+		brightness=0;
+	}
+	adjustBrigthness(brightness);
+}
+
+
+//Function to display toolbar or not
 function displayToolbar()
 {
 	

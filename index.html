@@ -83,19 +83,39 @@
 	
 	<progress id="progress" style="display:none" class="progress" ></progress>
 	
-	<nav id="toolbar" role="toolbar">
+	<nav id="toolbar" role="toolbar" >
  
   
 	<ul >
-      <li><button onclick="reduceFontSize()"  class="mark">Reduce font size</button></li>
+      <li><button onclick="reduceFontSize()"  class="fontminus">Reduce font size</button></li>
     </ul>
 	<ul >
-      <li><button onclick="increaseFontSize()"  class="add">Increase font size</button></li>
+      <li><button  class="zoom"></button></li>
+    </ul>
+	<ul >
+      <li><button onclick="increaseFontSize()" class="fontplus">Increase font size</button></li>
+    </ul>
+	<ul >
+      <li><button class="separator"></button></li>
     </ul>
 	<ul >
       <li><button onclick="dayNight()" class="night">Day/Night</button></li>
     </ul>
-	
+	<ul >
+      <li><button class="separator"></button></li>
+    </ul>
+	<ul >
+      <li><button onclick="reduceBrightness()" class="brightnessminus">Day/Night</button></li>
+    </ul>
+	<ul >
+      <li><button class="brightness">Day/Night</button></li>
+    </ul>
+	<ul >
+      <li><button onclick="increaseBrightness()" class="brightnessplus">Day/Night</button></li>
+    </ul>
+	<ul >
+      <li><button class="separator"></button></li>
+    </ul>
   </nav>
 
 

@@ -73,9 +73,47 @@
 }
 
 [role="toolbar"] .night {
-  background-image: url(images/icons/sun.png);
+  background-image: url(images/icons/daynight.png);
+
 }
 
 [role="toolbar"] .add {
   background-image: url(images/icons/zoomplus.png);
 }
+
+[role="toolbar"] .fontminus {
+  background-image: url(images/icons/minus_blanc16.png);
+  width: 2.5rem;
+}
+
+[role="toolbar"] .zoom {
+  background-image: url(images/icons/zoom_icon.png);
+}
+
+[role="toolbar"] .fontplus {
+  background-image: url(images/icons/add_blanc16.png);
+  width: 2.5rem;
+
+  
+}
+
+[role="toolbar"] .brightnessminus {
+  background-image: url(images/icons/minus_blanc16.png);
+  width: 2.5rem;
+}
+
+[role="toolbar"] .brightness {
+  background-image: url(images/icons/brightness.png);
+}
+
+[role="toolbar"] .brightnessplus {
+  background-image: url(images/icons/add_blanc16.png);
+  width: 2.5rem;
+}
+
+[role="toolbar"] .separator {
+  background-image: url(images/ui/separator.png);
+  width: 0.5rem;
+}
+
+
