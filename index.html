@@ -75,10 +75,19 @@
     <div id="index">
 		<input type="file" id="book">
 	</div>
+	
+	<iframe id="completeChapter" style="display:none;">
+	</iframe>
 
 	<div class="containerChapter" id="containerChapter">
-     
-	
+    	<div id="previous" onclick="previousParagraphs();return false;">
+			<img src="images/navigation/previousArrow.png" />
+		</div>
+		<div id="next" onclick="nextParagraphs();return false;">
+			<img src="images/navigation/nextArrow.png"/>
+		</div>
+		<div id="paragraphs">
+		</div>
     </div>
 	
 	<progress id="progress" style="display:none" class="progress" ></progress>

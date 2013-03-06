@@ -26,3 +26,17 @@
   margin-left  : auto ;   /* On décale la boite vers la gauche de 125 pixels */
   margin-top   : auto;     /* On décale la boite vers le haut de 100 pixels */
 }
+
+/*******************************************************************************
+Bouton de navigation
+*******************************************************************************/
+
+#next{
+position:absolute;
+right:0px;
+}
+
+#previous{
+position:absolute;
+left:0px;
+}

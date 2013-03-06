@@ -1,4 +1,6 @@
 var brightness=0;
+var firstParagraphe=0;
+var lastParagraphe=0;
 window.onload = function() 
 {
 	var selectedBook = document.getElementById('book');
@@ -146,10 +148,13 @@ window.onload = function()
 								var dt=document.createElement('dt');
 								var chapterName = document.createTextNode(pointsList[i].label);
 								var divChapter ='' ;
+								var completeChapter=pageFiles[i];
+								
 								divChapter = createNewDiv(pageFiles[i]);
 								dl.appendChild(dt);
 								chapter.appendChild(dl);
-								chapter.onclick=displayChapter(divChapter);
+								
+								chapter.onclick=displayChapter(divChapter, completeChapter);
 								dt.appendChild(chapterName);
 								chaptersList.appendChild(chapter);
 							}
@@ -368,11 +373,51 @@ function createNewDiv(chapter) {
 }
 
 //Function to display a chapter
-function displayChapter(page)
+function displayChapter(page, chapter)
 {
 	return function()
 	{
-		if(document.getElementById("chapter"))
+	
+		window.frames['completeChapter'].document.body.innerHTML=chapter;
+
+		var temp = document.getElementById('completeChapter').contentDocument;
+		
+		var ael = temp.getElementsByTagName("p");
+			
+			
+		for(var i in ael)
+		{		
+			var currentParagraph = ael[i];
+			var paragraph = document.createElement("p");
+			paragraph.id = "paragraph".concat(i);
+			document.getElementById("paragraphs").appendChild(paragraph);
+			paragraph.appendChild(currentParagraph);	
+			
+			if(paragraph instanceof Element) 
+			{
+				var p = elementInViewport(paragraph);
+				
+				if(!p) 
+				{
+					lastParagraph=i;
+					break;
+				}
+			}
+		}
+		
+		function elementInViewport(el) 
+		{
+			var rect = el.getBoundingClientRect();
+			 
+			return (
+				rect.top >= 0 &&
+				rect.left >= 0 &&
+				rect.bottom <= window.innerHeight &&
+				rect.right <= window.innerWidth 
+			);
+		}
+		
+		/*if(document.getElementById("chapter"))
 		{
 			var element=document.getElementById("chapter");
 			element.parentNode.removeChild(element);
@@ -381,12 +426,58 @@ function displayChapter(page)
 		else
 		{
 			document.getElementById("body").appendChild(page);
-		}
+		}*/
 		// document.getElementById('chaptersList').style.display="none";
 		$( "#chaptersList" ).hide( "blind", { direction: "up" }, "slow") ;
 		
 		document.getElementById('toolbar').style.display="block";
 	}
+}
+
+function nextParagraphs(){
+
+	var temp = document.getElementById('completeChapter').contentDocument;
+	var paragraphs = document.getElementById("paragraphs");
+	var ael = temp.getElementsByTagName("p");
+	var nb_paragraph = paragraphs.getElementsByTagName("p").length;	
+
+	paragraphs.innerHTML="";
+	
+		for(var i in ael)
+		{
+			if(i>lastParagraph)
+			{
+				var currentParagraph = ael[i];
+				var paragraph = document.createElement("p");
+				paragraph.id = "paragraph".concat(i);
+				document.getElementById("paragraphs").appendChild(paragraph);
+				paragraph.appendChild(currentParagraph);	
+				
+				if(paragraph instanceof Element) 
+				{
+					var p = elementInViewport(paragraph);
+					
+					if(!p) 
+					{
+						lastParagraph=i;
+						break;
+					}
+				}
+			}
+		}
+		
+		function elementInViewport(el) 
+		{
+			var rect = el.getBoundingClientRect();
+			 
+			return (
+				rect.top >= 0 &&
+				rect.left >= 0 &&
+				rect.bottom <= window.innerHeight &&
+				rect.right <= window.innerWidth 
+			);
+		}
+	
 }
 
 //Function to decode a string in UTF8
