@@ -91,23 +91,29 @@
 }
 
 [role="toolbar"] .fontplus {
-  background-image: url(images/icons/add_blanc16.png);
+  background-image: url(images/icons/add_blanc.png);
   width: 2.5rem;
 
   
 }
 
 [role="toolbar"] .brightnessminus {
-  background-image: url(images/icons/minus_blanc16.png);
+  background-image: url(images/icons/minus_blanc.png);
   width: 2.5rem;
 }
 
 [role="toolbar"] .brightness {
   background-image: url(images/icons/brightness.png);
+  width: 2.5rem;
 }
 
 [role="toolbar"] .brightnessplus {
-  background-image: url(images/icons/add_blanc16.png);
+  background-image: url(images/icons/add_blanc.png);
+  width: 2.5rem;
+}
+
+[role="toolbar"] .dictionnary {
+  background-image: url(images/icons/dico.png);
   width: 2.5rem;
 }
 

@@ -363,6 +363,7 @@ function createNewDiv(chapter) {
 	divChapter.style.fontSize = '15px';
 	divChapter.innerHTML=chapter;
 	divChapter.addEventListener("click", displayToolbar, false); 
+
 	return divChapter;
 }
 
@@ -410,4 +411,18 @@ function getContainer(archive) {
 	if (fichier) {
 		return(fichier.data);
 	}
+}
+
+//Function to get the selection and search the definition in google
+function GetSelection()
+{
+		mySelection = window.getSelection();
+		
+		if(mySelection!="")
+		{	
+			if(confirm(decodeUTF8("Voulez-vous trouver la signification de '"+mySelection+"'")))
+			{
+				window.open("https://www.google.fr/search?q=define "+mySelection);
+			}
+		}
 }
