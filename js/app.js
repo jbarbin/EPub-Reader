@@ -1,6 +1,6 @@
 var brightness=0;
-var firstParagraphe=0;
-var lastParagraphe=0;
+var firstParagraph=0;
+var lastParagraph=0;
 window.onload = function() 
 {
 	var selectedBook = document.getElementById('book');
@@ -182,18 +182,18 @@ window.onload = function()
 function dayNight()
 {
 
-	if(document.getElementById('chapter').style.backgroundColor=="black")
+	if(document.getElementById('paragraphs').style.backgroundColor=="black")
 	{
-		document.getElementById('chapter').style.color="black";
-		document.getElementById('chapter').style.backgroundColor="white";
+		document.getElementById('paragraphs').style.color="black";
+		document.getElementById('paragraphs').style.backgroundColor="white";
 		document.getElementById('body').style.backgroundColor="white";
 		document.getElementById('containerChapter').style.backgroundColor="white";
 		//adjustBrightness(brightness);
 	}
 	else
 	{
-		document.getElementById('chapter').style.color="white";
-		document.getElementById('chapter').style.backgroundColor="black";
+		document.getElementById('paragraphs').style.color="white";
+		document.getElementById('paragraphs').style.backgroundColor="black";
 		document.getElementById('body').style.backgroundColor="black";
 		document.getElementById('containerChapter').style.backgroundColor="black";
 		//adjustBrightness(brightness);
@@ -224,31 +224,31 @@ function displaySummary()
 //Function to adjust the brightness of the screen 
 function adjustBrigthness(brightness)
 {
-	if(document.getElementById('chapter').style.backgroundColor=="black")
+	if(document.getElementById('paragraphs').style.backgroundColor=="black")
 	{
 		switch(brightness)
 		{
 		case 0:
-			document.getElementById('chapter').style.color="white";
+			document.getElementById('paragraphs').style.color="white";
 			break;
 		case 1:
-			document.getElementById('chapter').style.color="#CCCCCC";
+			document.getElementById('paragraphs').style.color="#CCCCCC";
 			break;
 		
 		case 2:
-			document.getElementById('chapter').style.color="#C0C0C0";
+			document.getElementById('paragraphs').style.color="#C0C0C0";
 			break;
 			
 		case 3:
-			document.getElementById('chapter').style.color="#999999";
+			document.getElementById('paragraphs').style.color="#999999";
 			break;
 			
 		case 4:
-			document.getElementById('chapter').style.color="#666666";
+			document.getElementById('paragraphs').style.color="#666666";
 			break;
 			
 		case 5:
-			document.getElementById('chapter').style.color="#333333";
+			document.getElementById('paragraphs').style.color="#333333";
 			break;			
 		}
 	}
@@ -259,37 +259,37 @@ function adjustBrigthness(brightness)
 			case 0:
 				document.getElementById('body').style.backgroundColor="white";
 				document.getElementById('containerChapter').style.backgroundColor="white";
-				document.getElementById('chapter').style.backgroundColor="white";
+				document.getElementById('paragraphs').style.backgroundColor="white";
 				break;
 			
 			case 1:
 				document.getElementById('body').style.backgroundColor="#CCCCCC";
 				document.getElementById('containerChapter').style.backgroundColor="#CCCCCC";
-				document.getElementById('chapter').style.backgroundColor="#CCCCCC";
+				document.getElementById('paragraphs').style.backgroundColor="#CCCCCC";
 				break;
 			
 			case 2:
 				document.getElementById('body').style.backgroundColor="#C0C0C0";
 				document.getElementById('containerChapter').style.backgroundColor="#C0C0C0";
-				document.getElementById('chapter').style.backgroundColor="#C0C0C0";
+				document.getElementById('paragraphs').style.backgroundColor="#C0C0C0";
 				break;
 				
 			case 3:
 				document.getElementById('body').style.backgroundColor="#999999";
 				document.getElementById('containerChapter').style.backgroundColor="#999999";
-				document.getElementById('chapter').style.backgroundColor="#999999";
+				document.getElementById('paragraphs').style.backgroundColor="#999999";
 				break;
 				
 			case 4:
 				document.getElementById('body').style.backgroundColor="#666666";
 				document.getElementById('containerChapter').style.backgroundColor="#666666";
-				document.getElementById('chapter').style.backgroundColor="#666666";
+				document.getElementById('paragraphs').style.backgroundColor="#666666";
 				break;
 				
 			case 5:
 				document.getElementById('body').style.backgroundColor="#333333";
 				document.getElementById('containerChapter').style.backgroundColor="#333333";
-				document.getElementById('chapter').style.backgroundColor="#333333";
+				document.getElementById('paragraphs').style.backgroundColor="#333333";
 				break;	
 		}
 	}
@@ -349,15 +349,20 @@ function displayToolbar()
 //Function to increase font's size
 function increaseFontSize()
 {
-	var size=parseInt(document.getElementById("chapter").style.fontSize.substring(0,document.getElementById("chapter").style.fontSize.indexOf('px',0)));
-	document.getElementById("chapter").style.fontSize=size+1+"px";
+
+	var paragraphsContainer = document.getElementById("paragraphs");
+	var size=parseInt(paragraphsContainer.style.fontSize.substring(0,paragraphsContainer.style.fontSize.indexOf('px',0)));
+	
+	paragraphsContainer.style.fontSize=size+1+"px";
 }
 
 //Function to reduce font's size
 function reduceFontSize()
 {
-	var size=parseInt(document.getElementById("chapter").style.fontSize.substring(0,document.getElementById("chapter").style.fontSize.indexOf('px',0)));
-	document.getElementById("chapter").style.fontSize=size-1+"px";
+	var paragraphsContainer = document.getElementById("paragraphs");
+	var size=parseInt(paragraphsContainer.style.fontSize.substring(0,paragraphsContainer.style.fontSize.indexOf('px',0)));
+	
+	paragraphsContainer.style.fontSize=size-1+"px";
 }
 
 //Function to create chapter's div
@@ -378,20 +383,32 @@ function displayChapter(page, chapter)
 	return function()
 	{
 	
+		document.getElementById("paragraphs").addEventListener("click", displayToolbar, false); 
+	
 		window.frames['completeChapter'].document.body.innerHTML=chapter;
 
 		var temp = document.getElementById('completeChapter').contentDocument;
-		
 		var ael = temp.getElementsByTagName("p");
-			
-			
-		for(var i in ael)
+		
+		for(var i = 0, c = ael.length ; i < c ; i++)
 		{		
-			var currentParagraph = ael[i];
+		
+			if (i==0)
+			{
+				var title = temp.getElementsByTagName("h1");
+				var currentParagraph = title[0].cloneNode(true);
+				var paragraph = document.createElement("h1");
+				paragraph.id = "title".concat(i);
+				paragraph.innerHTML=currentParagraph.innerHTML;
+				document.getElementById("paragraphs").appendChild(paragraph);
+			}
+			
+			var currentParagraph = ael[i].cloneNode(true);
 			var paragraph = document.createElement("p");
 			paragraph.id = "paragraph".concat(i);
+			paragraph.innerHTML=currentParagraph.innerHTML;
 			document.getElementById("paragraphs").appendChild(paragraph);
-			paragraph.appendChild(currentParagraph);	
+				
 			
 			if(paragraph instanceof Element) 
 			{
@@ -437,46 +454,117 @@ function displayChapter(page, chapter)
 function nextParagraphs(){
 
 	var temp = document.getElementById('completeChapter').contentDocument;
-	var paragraphs = document.getElementById("paragraphs");
 	var ael = temp.getElementsByTagName("p");
-	var nb_paragraph = paragraphs.getElementsByTagName("p").length;	
-
+	
 	paragraphs.innerHTML="";
 	
-		for(var i in ael)
+	for(var i = 0, c = ael.length ; i < c ; i++)
+	{
+		if(i>lastParagraph)
 		{
-			if(i>lastParagraph)
-			{
-				var currentParagraph = ael[i];
-				var paragraph = document.createElement("p");
-				paragraph.id = "paragraph".concat(i);
-				document.getElementById("paragraphs").appendChild(paragraph);
-				paragraph.appendChild(currentParagraph);	
+			var currentParagraph = ael[i].cloneNode(true);
+			var paragraph = document.createElement("p");
+			paragraph.id = "paragraph".concat(i);
+			paragraph.innerHTML=currentParagraph.innerHTML;
+			document.getElementById("paragraphs").appendChild(paragraph);
 				
-				if(paragraph instanceof Element) 
+			
+			if(paragraph instanceof Element) 
+			{
+				var p = elementInViewport(paragraph);
+				
+				if(!p) 
 				{
-					var p = elementInViewport(paragraph);
-					
-					if(!p) 
-					{
-						lastParagraph=i;
-						break;
-					}
+					lastParagraph=i;
+					break;
 				}
 			}
 		}
-		
-		function elementInViewport(el) 
+	}
+	
+	function elementInViewport(el) 
+	{
+		var rect = el.getBoundingClientRect();
+		 
+		return (
+			rect.top >= 0 &&
+			rect.left >= 0 &&
+			rect.bottom <= window.innerHeight &&
+			rect.right <= window.innerWidth 
+		);
+	}
+	
+}
+
+function previousParagraphs(){
+
+	var temp = document.getElementById('completeChapter').contentDocument;
+	var ael = temp.getElementsByTagName("p");
+	
+	var containerParagraphs = document.getElementById("paragraphs");
+	var nbDisplayedParagraphs = containerParagraphs.getElementsByTagName("p").length;
+
+	var displayedParagraphs = containerParagraphs.getElementsByTagName("p");
+	var lastDisplayedParagraph = displayedParagraphs[nbDisplayedParagraphs-1];
+	
+	var numberLastDisplayedParagraph = parseInt(lastDisplayedParagraph.id.substr(9,3));
+
+	firstParagraph = ((numberLastDisplayedParagraph+1)-nbDisplayedParagraphs);
+	
+	paragraphs.innerHTML="";
+	
+	for(var i = firstParagraph-1, c = ael.length ; i < c ; i--)
+	{	
+
+		if (i<0)
 		{
-			var rect = el.getBoundingClientRect();
-			 
-			return (
-				rect.top >= 0 &&
-				rect.left >= 0 &&
-				rect.bottom <= window.innerHeight &&
-				rect.right <= window.innerWidth 
-			);
+			var title = temp.getElementsByTagName("h1");
+			var currentParagraph = title[0].cloneNode(true);
+			var paragraph = document.createElement("h1");
+			paragraph.id = "title".concat(i);
+			paragraph.innerHTML=currentParagraph.innerHTML;
+			document.getElementById("paragraphs").insertBefore(paragraph, containerParagraphs.firstChild);
+			lastParagraph=firstParagraph-1;
+		}	
+		
+		var currentParagraph = ael[i].cloneNode(true);
+		var paragraph = document.createElement("p");
+		paragraph.id = "paragraph".concat(i);
+		paragraph.innerHTML=currentParagraph.innerHTML;
+		
+		if(containerParagraphs.getElementsByTagName("p").length > 0)
+		{
+			document.getElementById("paragraphs").insertBefore(paragraph, containerParagraphs.firstChild);
 		}
+		else
+		{
+			document.getElementById("paragraphs").appendChild(paragraph);
+		}
+		
+		if(containerParagraphs.lastChild instanceof Element) 
+		{
+			var p = elementInViewport(containerParagraphs.lastChild);
+			
+			if(!p) 
+			{
+				lastParagraph=firstParagraph-1
+				break;
+			}
+		}
+		
+	}
+		
+	function elementInViewport(el) 
+	{
+		var rect = el.getBoundingClientRect();
+			 
+		return (
+			rect.top >= 0 &&
+			rect.left >= 0 &&
+			rect.bottom <= window.innerHeight &&
+			rect.right <= window.innerWidth 
+		);
+	}
 	
 }
 
