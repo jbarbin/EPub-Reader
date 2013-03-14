@@ -1,7 +1,9 @@
 .containerChapter {
-	max-width:800px;
+	max-width:1000px;
 	min-height:100%;
-	margin:0px auto 0px auto;
+	margin-left:auto;
+	margin-right:auto;
+	
 
 }
 	  
@@ -27,6 +29,7 @@
   margin-top   : auto;     /* On décale la boite vers le haut de 100 pixels */
 }
 
+
 /*******************************************************************************
 Bouton de navigation
 *******************************************************************************/
@@ -37,6 +40,16 @@ right:0px;
 }
 
 #previous{
+position:absolute;
+left:0px;
+}
+
+#nextDiv{
+position:absolute;
+right:0px;
+}
+
+#previousDiv{
 position:absolute;
 left:0px;
 }

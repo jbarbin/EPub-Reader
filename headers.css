@@ -207,6 +207,10 @@ section[role="region"] > header:first-child .icon.icon-menu {
   background-image: url(images/icons/menu.png);
 }
 
+section[role="region"] > header:first-child .icon.icon-home {
+  background-image: url(images/icons/home.png);
+}
+
 section[role="region"] > header:first-child .icon.icon-user {
   background-image: url(images/icons/user.png);
 }
@@ -241,7 +245,7 @@ section[role="region"] > header:first-child > a .icon:after {
   z-index: -1;
   width: 2rem;
   height: 4.9rem;
-  background: #9d3d26 url(images/ui/negative.png) repeat-x 0 0;
+  background: #9d3d26 url(images/ui/header.png) repeat-x 0 0;
 }
 
 section[role="region"] > header > a .icon.icon-menu,

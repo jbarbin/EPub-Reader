@@ -90,10 +90,13 @@
   li img {
   float: right;
   display: inline;
-  width: 6rem;
-  height: 6rem;
+  height: 3rem;
   background: transparent center center;
   background-size: 100% auto;
+  position:absolute;
+  right:0;
+  top:0;
+  width:3.5rem;
 }
 
   li dl {
@@ -112,7 +115,13 @@
   height: 2.2rem;
   overflow: hidden;
   text-overflow: ellipsis;
+
 }
+
+  dt
+  {
+    cursor: pointer;
+  }
 
   li dl dt strong {
   font-weight: 600;

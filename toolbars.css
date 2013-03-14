@@ -74,6 +74,7 @@
 
 [role="toolbar"] .night {
   background-image: url(images/icons/daynight.png);
+  width: 2.5rem;
 
 }
 
@@ -82,12 +83,13 @@
 }
 
 [role="toolbar"] .fontminus {
-  background-image: url(images/icons/minus_blanc16.png);
+  background-image: url(images/icons/minus_blanc.png);
   width: 2.5rem;
 }
 
 [role="toolbar"] .zoom {
   background-image: url(images/icons/zoom_icon.png);
+  width: 2.5rem;
 }
 
 [role="toolbar"] .fontplus {
@@ -114,6 +116,11 @@
 
 [role="toolbar"] .dictionnary {
   background-image: url(images/icons/dico.png);
+  width: 2.5rem;
+}
+
+[role="toolbar"] .home {
+  background-image: url(images/icons/home.png);
   width: 2.5rem;
 }
 
