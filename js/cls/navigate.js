@@ -35,15 +35,15 @@ function displayChapter(page,chapter)
 
     for(var i = 0, c = ael.length ; i < c ; i++)
     {		
-      if (i==0)
-      {
-        var title = temp.getElementsByTagName("h1");
-        var currentParagraph = title[0].cloneNode(true);
-        var paragraph = document.createElement("h1");
-        paragraph.id = "title".concat(i);
-        paragraph.innerHTML=currentParagraph.innerHTML;
-        document.getElementById("paragraphs").appendChild(paragraph);
-      }
+      // if (i==0)
+      // {
+        // var title = temp.getElementsByTagName("h1");
+        // var currentParagraph = title[0].cloneNode(true);
+        // var paragraph = document.createElement("h1");
+        // paragraph.id = "title".concat(i);
+        // paragraph.innerHTML=currentParagraph.innerHTML;
+        // document.getElementById("paragraphs").appendChild(paragraph);
+      // }
 
       var currentParagraph = ael[i].cloneNode(true);
       var paragraph = document.createElement("p");
