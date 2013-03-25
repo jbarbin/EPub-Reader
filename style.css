@@ -1,5 +1,5 @@
 .containerChapter {
-	max-width:1000px;
+	
 	min-height:100%;
 	margin-left:auto;
 	margin-right:auto;
@@ -35,21 +35,12 @@ Bouton de navigation
 *******************************************************************************/
 
 #next{
-position:absolute;
-right:0px;
+float:right;
+
 }
 
 #previous{
-position:absolute;
-left:0px;
+float:left;
+
 }
 
-#nextDiv{
-position:absolute;
-right:0px;
-}
-
-#previousDiv{
-position:absolute;
-left:0px;
-}

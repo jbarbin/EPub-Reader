@@ -1,13 +1,334 @@
 /**
+ * Navigate with keyboard. 
+ */
+function navigateWithKey(event)
+{
+  if (event.keyCode == 39)//Right
+  {
+    nextParagraphs();
+  }  
+  else if(event.keyCode == 37)//Left
+  {
+    previousParagraphs();
+  }
+
+
+}
+
+
+
+/**
  * Display's a chapter page by page. 
  * @param  chapter  the whole chapter
+ * @param  idChapter  the id chapter
  */
-function displayChapter(page,chapter)
+function displayChapter(chapter,idChapter)
 {
   return function()
   {
+  
+    document.getElementById('next').style.height=(window.innerHeight)+"px";
+	document.getElementById('previous').style.height=(window.innerHeight)+"px";
+	
+	document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px";
+	document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
+	document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
+    /* 
+    Changing the style of the curretn chapter in summary
+	**
+	*/
+    for(var i=0;i<chaptersListArray.length-1;i++)
+	{
+	  document.getElementById("chapter"+i).style.background="#120D16";
+	  document.getElementById("chapter"+i).firstChild.firstChild.style.color="lightblue";
+	}
+    document.getElementById("chapter"+idChapter).style.background="#52B6CC";
+	document.getElementById("chapter"+idChapter).firstChild.firstChild.style.color="#120D16";
+	
+	currentChapter=idChapter;
+	isNotFirstPage=false;
+    document.getElementById('chaptersList').style.display="none";
+	document.getElementById('containerChapter').style.display="block";
+	
+	/* 
+    Apply parameters (brightness...)
+	**
+	*/
     var parameters=readJson('parameters');
 
+    if(parameters==null) 
+    {
+      initializeParameter();
+    }
+    applyParameters();
+
+    document.getElementById('previous').style.display='block';
+    document.getElementById('next').style.display='block';
+
+	/* 
+    Re-Initialize 'paragraphs'
+	**
+	*/
+    var iframe=document.getElementById("completeChapter");
+    iframe.contentWindow.document.body.innerHTML=""; 
+    var paragraphs = document.getElementById('paragraphs');
+    while (paragraphs.firstChild) 
+	{
+      paragraphs.removeChild(paragraphs.firstChild);
+    }
+
+    document.getElementById("paragraphs").style.display='block';
+    document.getElementById("paragraphs").addEventListener("click", displayToolbar, false); 
+
+    iframe.contentWindow.document.body.innerHTML+=chapter; 
+
+    var temp = document.getElementById('completeChapter').contentDocument;
+    var ael = temp.getElementsByTagName("p");
+
+    for(var i = 0, c = ael.length ; i < c ; i++)
+    {		
+      if (i==0)//First page of the chapter so display the title
+      {
+        var title = temp.getElementsByTagName("h1");
+        var currentParagraph = title[0].cloneNode(true);
+        var paragraph = document.createElement("h1");
+        paragraph.id = "title".concat(i);
+        paragraph.innerHTML=currentParagraph.innerHTML;
+        document.getElementById("paragraphs").appendChild(paragraph);
+      }
+
+      var currentParagraph = ael[i].cloneNode(true);
+      var paragraph = document.createElement("p");
+      paragraph.id = "paragraph".concat(i);
+      paragraph.innerHTML=currentParagraph.innerHTML;
+      document.getElementById("paragraphs").appendChild(paragraph);
+
+      if(paragraph instanceof Element) 
+      {
+        var p = elementInViewport(paragraph);
+        if(!p) 
+        {
+          lastParagraph=i;
+          break;
+        }
+      }
+    }
+	saveLastPageRead2(currentChapterTitle,currentChapter,-3);//-3 because the last page read is the first page of the chapter
+    document.getElementById('toolbar').style.display="block";
+  }
+}
+
+/**
+ * Returns a div which content the whole chapter. 
+ *
+ * @param  idChapter  the chapter Id
+ * @param  firstParagraphToShow  the first paragraph to show in page
+ */
+function displayLastPageRead2(idChapter,firstParagraphToShow)
+{
+  document.getElementById('next').style.height=window.innerHeight+"px";
+  document.getElementById('previous').style.height=window.innerHeight+"px";
+  document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px"; 
+  document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
+  document.getElementById('chaptersList').style.display="none";
+  document.getElementById('containerChapter').style.display="block";
+  var parameters=readJson('parameters');
+
+  if(parameters==null) 
+  {
+    initializeParameter();
+  }
+  applyParameters();
+
+  document.getElementById('previous').style.display='block';
+  document.getElementById('next').style.display='block';
+
+  var iframe=document.getElementById("completeChapter");
+  iframe.contentWindow.document.body.innerHTML=""; 
+  var paragraphs = document.getElementById('paragraphs');
+  while (paragraphs.firstChild) 
+  {
+    paragraphs.removeChild(paragraphs.firstChild);
+  }
+  document.getElementById("paragraphs").style.display='block';
+  document.getElementById("header").style.display='block';
+  document.getElementById('toolbar').style.display="block";
+  document.getElementById("paragraphs").addEventListener("click", displayToolbar, false); 
+  var chapterToDisplay=chaptersListArray[idChapter];
+  iframe.contentWindow.document.body.innerHTML+=chapterToDisplay;
+  currentChapter=idChapter;
+
+  for(var i=0;i<chaptersListArray.length-1;i++)
+  {
+    document.getElementById("chapter"+i).style.background="#120D16";
+    document.getElementById("chapter"+i).firstChild.firstChild.style.color="lightblue";
+  }
+  document.getElementById("chapter"+currentChapter).style.background="#52B6CC";
+  document.getElementById("chapter"+currentChapter).firstChild.firstChild.style.color="#120D16";
+
+  var temp = document.getElementById('completeChapter').contentDocument;
+  var ael = temp.getElementsByTagName("p");
+
+  if(firstParagraphToShow!=-3)//Not the first page of chapter to show
+  {
+
+    for(var i =firstParagraphToShow , c = ael.length ; i < c ; i++)
+    {		
+      if (i==0)
+      {
+        var title = temp.getElementsByTagName("h1");
+        var currentParagraph = title[0].cloneNode(true);
+        var paragraph = document.createElement("h1");
+        paragraph.id = "title".concat(i);
+        paragraph.innerHTML=currentParagraph.innerHTML;
+        document.getElementById("paragraphs").appendChild(paragraph);
+      }
+
+      var currentParagraph = ael[i].cloneNode(true);
+      var paragraph = document.createElement("p");
+      paragraph.id = "paragraph".concat(i);
+      paragraph.innerHTML=currentParagraph.innerHTML;
+      document.getElementById("paragraphs").appendChild(paragraph);
+
+      if(paragraph instanceof Element) 
+      {
+        var p = elementInViewport(paragraph);
+        if(!p) 
+        {
+          lastParagraph=i;
+          break;
+        }
+      }
+    }
+  }
+  else//First page of chapter to show
+  {
+    for(var i = 0, c = ael.length ; i < c ; i++)
+    {		
+      if (i==0)
+      {
+        var title = temp.getElementsByTagName("h1");
+        var currentParagraph = title[0].cloneNode(true);
+        var paragraph = document.createElement("h1");
+        paragraph.id = "title".concat(i);
+        paragraph.innerHTML=currentParagraph.innerHTML;
+        document.getElementById("paragraphs").appendChild(paragraph);
+      }
+
+      var currentParagraph = ael[i].cloneNode(true);
+      var paragraph = document.createElement("p");
+      paragraph.id = "paragraph".concat(i);
+      paragraph.innerHTML=currentParagraph.innerHTML;
+      document.getElementById("paragraphs").appendChild(paragraph);
+
+      if(paragraph instanceof Element) 
+      {
+        var p = elementInViewport(paragraph);
+        if(!p) 
+        {
+          lastParagraph=i;
+          break;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Display's the first page of the next chapter when it is the end of the current chapter. 
+ */
+function displayNextChapter()
+{
+  document.getElementById('next').style.height=window.innerHeight+"px";
+  document.getElementById('previous').style.height=window.innerHeight+"px";
+  document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
+  isNotFirstPage=false;
+  document.getElementById('chaptersList').style.display="none";
+  var parameters=readJson('parameters');
+  if(parameters==null) 
+  {
+    initializeParameter();
+  }
+  applyParameters();
+
+  document.getElementById('previous').style.display='block';
+  document.getElementById('next').style.display='block';
+
+  var iframe=document.getElementById("completeChapter");
+  iframe.contentWindow.document.body.innerHTML=""; 
+  var paragraphs = document.getElementById('paragraphs');
+  while (paragraphs.firstChild) 
+  {
+    paragraphs.removeChild(paragraphs.firstChild);
+  }
+
+  document.getElementById("paragraphs").style.display='block';
+  document.getElementById("paragraphs").addEventListener("click", displayToolbar, false); 
+
+  var chapterToDisplay=chaptersListArray[currentChapter+1];
+  iframe.contentWindow.document.body.innerHTML+=chapterToDisplay; 
+    
+  currentChapter=currentChapter+1
+  for(var i=0;i<chaptersListArray.length-1;i++)
+  {
+    document.getElementById("chapter"+i).style.background="#120D16";
+    document.getElementById("chapter"+i).firstChild.firstChild.style.color="lightblue";
+  }
+  document.getElementById("chapter"+currentChapter).style.background="#52B6CC";
+  document.getElementById("chapter"+currentChapter).firstChild.firstChild.style.color="#120D16";
+
+  var temp = document.getElementById('completeChapter').contentDocument;
+  var ael = temp.getElementsByTagName("p");
+
+  for(var i = 0, c = ael.length ; i < c ; i++)
+  {		
+    if (i==0)
+    {
+      var title = temp.getElementsByTagName("h1");
+      var currentParagraph = title[0].cloneNode(true);
+      var paragraph = document.createElement("h1");
+      paragraph.id = "title".concat(i);
+      paragraph.innerHTML=currentParagraph.innerHTML;
+      document.getElementById("paragraphs").appendChild(paragraph);
+    }
+
+    var currentParagraph = ael[i].cloneNode(true);
+    var paragraph = document.createElement("p");
+    paragraph.id = "paragraph".concat(i);
+    paragraph.innerHTML=currentParagraph.innerHTML;
+    document.getElementById("paragraphs").appendChild(paragraph);
+    if(paragraph instanceof Element) 
+    {
+      var p = elementInViewport(paragraph);
+      if(!p) 
+      {
+        lastParagraph=i;
+        var pToDelete=document.getElementById("paragraph"+i);
+        document.getElementById("paragraphs").removeChild(pToDelete);
+        break;
+      }
+    }
+  }
+  saveLastPageRead2(currentChapterTitle,currentChapter,-3);// -3 because the last page read is the first page of the chapter
+}
+
+/**
+ * Display's the last page of the previous chapter when it is the beggining of the current chapter. 
+ */
+function displayPreviousChapter()
+{
+    document.getElementById('next').style.height=window.innerHeight+"px";
+	document.getElementById('previous').style.height=window.innerHeight+"px";
+	document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px";
+	document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
+	document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
+    isNotFirstPage=true;
+    document.getElementById('chaptersList').style.display="none";
+    var parameters=readJson('parameters');
+    var paragraphIdArray=new Array();
     if(parameters==null) 
     {
       initializeParameter();
@@ -28,27 +349,29 @@ function displayChapter(page,chapter)
     document.getElementById("paragraphs").style.display='block';
     document.getElementById("paragraphs").addEventListener("click", displayToolbar, false); 
 
-    iframe.contentWindow.document.body.innerHTML+=chapter; 
-
+	var chapterToDisplay=chaptersListArray[currentChapter-1];
+    iframe.contentWindow.document.body.innerHTML+=chapterToDisplay; 
+    
+	currentChapter=currentChapter-1;
+	for(var i=0;i<chaptersListArray.length-1;i++)
+	{
+	  document.getElementById("chapter"+i).style.background="#120D16";
+	  document.getElementById("chapter"+i).firstChild.firstChild.style.color="lightblue";
+	}
+    document.getElementById("chapter"+currentChapter).style.background="#52B6CC";
+	document.getElementById("chapter"+currentChapter).firstChild.firstChild.style.color="#120D16";
     var temp = document.getElementById('completeChapter').contentDocument;
     var ael = temp.getElementsByTagName("p");
-
-    for(var i = 0, c = ael.length ; i < c ; i++)
+    var paragraphToDisplay=new Array();
+    for(var i = ael.length-1 ; i > 0 ; i--)
     {		
-      // if (i==0)
-      // {
-        // var title = temp.getElementsByTagName("h1");
-        // var currentParagraph = title[0].cloneNode(true);
-        // var paragraph = document.createElement("h1");
-        // paragraph.id = "title".concat(i);
-        // paragraph.innerHTML=currentParagraph.innerHTML;
-        // document.getElementById("paragraphs").appendChild(paragraph);
-      // }
-
       var currentParagraph = ael[i].cloneNode(true);
       var paragraph = document.createElement("p");
       paragraph.id = "paragraph".concat(i);
       paragraph.innerHTML=currentParagraph.innerHTML;
+      
+	  paragraphToDisplay.push(paragraph);
+	  
       document.getElementById("paragraphs").appendChild(paragraph);
 
       if(paragraph instanceof Element) 
@@ -56,14 +379,23 @@ function displayChapter(page,chapter)
         var p = elementInViewport(paragraph);
         if(!p) 
         {
+		  paragraphIdArray.push(i);
           lastParagraph=i;
           break;
         }
       }
     }
-    $( "#chaptersList" ).hide( "blind", { direction: "up" }, "slow") ;
-    document.getElementById('toolbar').style.display="block";
-  }
+
+	paragraphToDisplay.reverse();
+	while (paragraphs.firstChild) 
+	{
+      paragraphs.removeChild(paragraphs.firstChild);
+    }
+	for(var i=0;i<paragraphToDisplay.length-1;i++)
+	{
+	  document.getElementById("paragraphs").appendChild(paragraphToDisplay[i]);
+	}
+	saveLastPageRead2(currentChapterTitle,currentChapter,paragraphIdArray[0]);
 }
 
 /**
@@ -71,9 +403,15 @@ function displayChapter(page,chapter)
  */
 function nextParagraphs()
 {
+  document.getElementById('next').style.height=window.innerHeight+"px";
+  document.getElementById('previous').style.height=window.innerHeight+"px";
+  document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
+  isNotFirstPage=true;
   var temp = document.getElementById('completeChapter').contentDocument;
   var ael = temp.getElementsByTagName("p");
-
+  var paragraphIdArray=new Array();
   paragraphs.innerHTML="";
 
   for(var i = 0, c = ael.length ; i < c ; i++)
@@ -85,7 +423,7 @@ function nextParagraphs()
       paragraph.id = "paragraph".concat(i);
       paragraph.innerHTML=currentParagraph.innerHTML;
       document.getElementById("paragraphs").appendChild(paragraph);
-
+      paragraphIdArray.push(i);
       if(paragraph instanceof Element) 
       {
         var p = elementInViewport(paragraph);
@@ -94,10 +432,18 @@ function nextParagraphs()
           lastParagraph=i-1;
 		  var pToDelete=document.getElementById("paragraph"+i);
 		  document.getElementById("paragraphs").removeChild(pToDelete);
+		  saveLastPageRead2(currentChapterTitle,currentChapter,paragraphIdArray[0]);
           break;
         }
+		
       }
     }
+	if(i==ael.length-1)
+	{
+	  displayNextChapter();
+	}
+	
+	
   }
 }
 
@@ -106,60 +452,92 @@ function nextParagraphs()
  */
 function previousParagraphs()
 {
-  var temp = document.getElementById('completeChapter').contentDocument;
-  var ael = temp.getElementsByTagName("p");
+  document.getElementById('next').style.height=window.innerHeight+"px";
+  document.getElementById('previous').style.height=window.innerHeight+"px";
+  document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
+  if(isNotFirstPage)
+  {
+    var temp = document.getElementById('completeChapter').contentDocument;
+    var ael = temp.getElementsByTagName("p");
 
-  var containerParagraphs = document.getElementById("paragraphs");
-  var nbDisplayedParagraphs = containerParagraphs.getElementsByTagName("p").length;
+    var containerParagraphs = document.getElementById("paragraphs");
+    var nbDisplayedParagraphs = containerParagraphs.getElementsByTagName("p").length;
 
-  var displayedParagraphs = containerParagraphs.getElementsByTagName("p");
-  var lastDisplayedParagraph = displayedParagraphs[nbDisplayedParagraphs-1];
+    var displayedParagraphs = containerParagraphs.getElementsByTagName("p");
+    var lastDisplayedParagraph = displayedParagraphs[nbDisplayedParagraphs-1];
 
-  var numberLastDisplayedParagraph = parseInt(lastDisplayedParagraph.id.substr(9,3));
+    var paragraphIdArray=new Array();
+    var numberLastDisplayedParagraph = parseInt(lastDisplayedParagraph.id.substr(9,3));
 
-  firstParagraph = ((numberLastDisplayedParagraph+1)-nbDisplayedParagraphs);
+    firstParagraph = ((numberLastDisplayedParagraph+1)-nbDisplayedParagraphs);
 
-  paragraphs.innerHTML="";
-
-  for(var i = firstParagraph-1, c = ael.length ; i < c ; i--)
-  {	
-    if (i<0)
-    {
-      var title = temp.getElementsByTagName("h1");
-      var currentParagraph = title[0].cloneNode(true);
-      var paragraph = document.createElement("h1");
-      paragraph.id = "title".concat(i);
-      paragraph.innerHTML=currentParagraph.innerHTML;
-      document.getElementById("paragraphs").insertBefore(paragraph, containerParagraphs.firstChild);
-      lastParagraph=firstParagraph-1;
-    }	
-
-    var currentParagraph = ael[i].cloneNode(true);
-    var paragraph = document.createElement("p");
-    paragraph.id = "paragraph".concat(i);
-    paragraph.innerHTML=currentParagraph.innerHTML;
-
-    if(containerParagraphs.getElementsByTagName("p").length > 0)
-    {
-      document.getElementById("paragraphs").insertBefore(paragraph, containerParagraphs.firstChild);
-    }
-    else
-    {
-      document.getElementById("paragraphs").appendChild(paragraph);
-    }
-
-    if(containerParagraphs.lastChild instanceof Element) 
-    {
-      var p = elementInViewport(containerParagraphs.lastChild);
-      if(!p) 
+    paragraphs.innerHTML="";
+  
+    for(var i = firstParagraph-1, c = ael.length ; i < c ; i--)
+    {	
+ 
+      if (i==-1)
       {
-        lastParagraph=firstParagraph-1;
-		var pToDelete=document.getElementById("paragraph"+i);
-		document.getElementById("paragraphs").removeChild(pToDelete);
-        break;
+        var title = temp.getElementsByTagName("h1");
+        var currentParagraph = title[0].cloneNode(true);
+        var paragraph = document.createElement("h1");
+        paragraph.id = "title".concat(i);
+        paragraph.innerHTML=currentParagraph.innerHTML;
+        document.getElementById("paragraphs").insertBefore(paragraph, containerParagraphs.firstChild);
+		var nbElementBeforeDelete=document.getElementById("paragraphs").childNodes.length;
+		for(var j=document.getElementById('paragraphs').childNodes.length-1;j>0;j--)
+		{
+		 
+		  var elt =elementInViewport(document.getElementById('paragraphs').childNodes[j]);
+		  if(!elt) 
+          {
+		    var pToDelete=document.getElementById('paragraphs').childNodes[j];
+		    document.getElementById("paragraphs").removeChild(pToDelete);
+          }
+		}
+		var nbElementAfterDelete=document.getElementById("paragraphs").childNodes.length;
+		var difDelete=nbElementBeforeDelete-nbElementAfterDelete;
+        lastParagraph=firstParagraph-1-difDelete;
+		saveLastPageRead2(currentChapterTitle,currentChapter,-3);
+	    isNotFirstPage=false;
+      }	
+		
+      var currentParagraph = ael[i].cloneNode(true);
+      var paragraph = document.createElement("p");
+      paragraph.id = "paragraph".concat(i);
+      paragraph.innerHTML=currentParagraph.innerHTML;
+
+      if(containerParagraphs.getElementsByTagName("p").length > 0)
+      {
+        document.getElementById("paragraphs").insertBefore(paragraph, containerParagraphs.firstChild);
       }
-    }	
-  }	
+      else
+      {
+        document.getElementById("paragraphs").appendChild(paragraph);
+      }
+      
+      if(containerParagraphs.lastChild instanceof Element) 
+      {
+        var p = elementInViewport(containerParagraphs.lastChild);
+        if(!p) 
+        {
+		  paragraphIdArray.push(i+1);
+          lastParagraph=firstParagraph-1;
+		  var pToDelete=document.getElementById("paragraph"+i);
+		  document.getElementById("paragraphs").removeChild(pToDelete);
+          break;
+        }
+      }	
+    }
+	saveLastPageRead2(currentChapterTitle,currentChapter,paragraphIdArray[0]);
+	//saveLastPageRead(currentChapterTitle,currentChapter,lastParagraph+1);
+  }
+  else
+  {
+    displayPreviousChapter();
+  }
 }
 
 /**

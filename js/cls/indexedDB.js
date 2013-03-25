@@ -401,12 +401,15 @@ function displayAllBooks(){
 					img.src='images/icons/delete.png';
 					img.onclick=deleteBookConfirm(getBook.result.bookTitle);	
 					
+					// currentChapterTitle=getBook.result.bookTitle;
+					
 					dl.appendChild(dt);
 					li.appendChild(dl);
 					
 					li.appendChild(img);
 					//li.onclick=openBook(booksArray[i].bookName);
 					dt.onclick=openBook(getBook.result.bookFile);
+					//dt.onclick=getInfo(getBook.result.bookTitle);
 					dt.appendChild(chapterName);
 					booklist.appendChild(li);
 					cursor.continue();

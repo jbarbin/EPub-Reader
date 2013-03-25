@@ -1,11 +1,27 @@
 var canDisplay=false;
 var firstParagraph=0;
 var lastParagraph=0;
-
+var chaptersListArray= new Array();
+var currentChapter;
+var currentChapterTitle;
+var isNotFirstPage=true;
 window.onload = function() 
 {
 //deleteDB('booksLibrary3');
 //deleteAllBooks();
+ //localStorage.removeItem("lastPageRead");
+  
+  //Hidding the vertical scrollbar  
+  var htmlElement = document.getElementsByTagName('html')[0];
+  htmlElement.style.overflow = 'hidden';
+  
+  var lastPageRead=readJson('lastPageRead');
+  console.log(lastPageRead);
+  if(lastPageRead==null) 
+  {
+    initializeLastPageRead();
+  }
+
   var selectedBook = document.getElementById('book');
   selectedBook.onchange = function() 
   {
@@ -37,6 +53,7 @@ window.onload = function()
            bookAuthor = metadata.getElementsByTagNameNS("*", "creator")[0].childNodes[0].nodeValue;
          }
         savesBook(selectedBook.files[0],bookTitle,bookAuthor);//Save the selected file in dataBase
+		saveNewBook(bookTitle,-1,-1);//Save the book in local storage to get the last page read
         displayBookList();
       })
     }
@@ -54,6 +71,7 @@ function goToLibrary()
 {
   return function()
   {  
+    chaptersListArray.length=0;
     document.getElementById('book').style.display="block";
     document.getElementById('bookList').style.display="block";
     document.getElementById('toolbar').style.display="none";
@@ -213,8 +231,8 @@ function openBook(book)
               pageFiles.push(decodedPage);
             }
           }
-
-          //Display the list of chapters
+		  
+		  //Display the list of chapters
           var chaptersList = document.getElementById('chaptersList');
 
           for(var i =0; i<pointsList.length;i++)
@@ -223,21 +241,38 @@ function openBook(book)
             var dl=document.createElement('dl');
             var dt=document.createElement('dt');
             var chapterName = document.createTextNode(pointsList[i].label);
-            var divChapter ='' ;
             var completeChapter=pageFiles[i];
 
-            divChapter = createNewDiv(pageFiles[i]);
+			chaptersListArray.push(pageFiles[i]);
+			
             dl.appendChild(dt);
             chapter.appendChild(dl);
+            chapter.id="chapter"+i;
+            chapter.onclick=displayChapter(completeChapter,i);
 
-            chapter.onclick=displayChapter(divChapter, completeChapter);
             dt.appendChild(chapterName);
             chaptersList.appendChild(chapter);
           }
           document.getElementById('book').style.display="none";
+		  
+		  
+		  
+		  currentChapterTitle=title;
+          var idBook=getCounter(title);
+		  var oLastPageRead=readJson('lastPageRead');
+		  
+		  if(oLastPageRead.books[idBook].lastChapterRead!=-1 && oLastPageRead.books[idBook].lastParagraph!=-1 )
+		  {
+		    displayLastPageRead2(oLastPageRead.books[idBook].lastChapterRead,oLastPageRead.books[idBook].lastParagraph);
+			document.getElementById('progress').style.display="none";
+		  }
+		  else
+		  {
           $( "#chaptersList" ).show( "blind", { direction: "up" }, "slow") ;
           // document.getElementById('chaptersList').style.display="block";
           document.getElementById('progress').style.display="none";
+		  }
+		  
         }
         else
         {
@@ -256,16 +291,31 @@ function displaySummary()
 {
   return function()
   {
+    if(document.getElementById('containerChapter').style.display=="block")
+	{
+	  document.getElementById('containerChapter').style.display="none";
+	}
+	else
+	{
+	  document.getElementById('containerChapter').style.display="block";
+	}
     if(document.getElementById('chaptersList').style.display=="none")
     {
-      // document.getElementById('chaptersList').style.display="block";
+	  //Showing the vertical scrollbar to scroll the summary
+	  var htmlElement = document.getElementsByTagName('html')[0];
+	  htmlElement.style.overflow = 'auto';
+	  
       $( "#chaptersList" ).show( "blind", { direction: "up" }, "slow") ;
     }
     else
     {
-      // document.getElementById('chaptersList').style.display="none";
+	  //Hidding the vertical scrollbar  
+	  var htmlElement = document.getElementsByTagName('html')[0];
+	  htmlElement.style.overflow = 'hidden';
+	  
       $( "#chaptersList" ).hide( "blind", { direction: "up" }, "slow") ;
     }
+
   }
 }
 
