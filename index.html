@@ -11,6 +11,7 @@
   <script type="text/javascript" src="js/cls/indexedDB.js"></script>
   <script type="text/javascript" src="js/cls/settings.js"></script>
   <script type="text/javascript" src="js/cls/navigate.js"></script>
+  <script type="text/javascript" src="js/cls/bookmark.js"></script>
   <script type="text/javascript" src="js/cls/jszip/jszip.js"></script>
   <script type="text/javascript" src="js/cls/jszip/jszip-load.js"></script>
   <script type="text/javascript" src="js/cls/jszip/jszip-inflate.js"></script>
@@ -56,7 +57,7 @@
   </style>
   
 </head>
-<body  id="body" role="application">
+<body  id="body" role="application" onkeypress="navigateWithKey(event)">
 	<section id="header" role="region">
 		<header>
 			<menu  type="toolbar" >
@@ -118,15 +119,14 @@
 	<iframe id="completeChapter" style="display:none;">
 	</iframe>
 	
-	<div id="previousDiv"></div>
-	<div id="nextDiv"></div>
+	
 	<div id="previous" align=left onclick="previousParagraphs();" style="display:none;">
-		<img src="images/navigation/previousArrow5.png" />
+		
 	</div>
 	<div align=right id="next" onclick="nextParagraphs();" style="display:none;">
-		<img src="images/navigation/nextArrow5.png"/>
+		
 	</div>
-	<div class="containerChapter" id="containerChapter">
+	<div class="containerChapter" id="containerChapter" style="display:none;">
     	
 		
 		<div id="paragraphs" style="font-size:15px; text-align:justify;">
