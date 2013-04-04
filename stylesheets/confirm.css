@@ -4,7 +4,7 @@
 
 /* Main dialog setup */
 form[role="dialog"] {
-  background: url(images/ui/confirm/pattern.png) repeat left top, url(images/ui/confirm/gradient.png) no-repeat left top;
+  background: url(../images/ui/confirm/pattern.png) repeat left top, url(../images/ui/confirm/gradient.png) no-repeat left top;
   background-size: auto auto, 100% 100%;
   /* We can't use shortand with background size because is not implemented yet:
   https://bugzilla.mozilla.org/show_bug.cgi?id=570326; */
@@ -59,7 +59,7 @@ form[role="dialog"] menu {
   margin: 0;
   padding: 1.5rem;
   border-top: solid 1px rgba(255, 255, 255, 0.1);
-  background: #2d2d2d url(images/ui/confirm/pattern.png) repeat left top;
+  background: #2d2d2d url(../images/ui/confirm/pattern.png) repeat left top;
   display: block;
   overflow: hidden;
   position: absolute;
@@ -79,7 +79,7 @@ form[role="dialog"] menu button {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  background: #fafafa url(images/ui/confirm/default.png) repeat-x left bottom;
+  background: #fafafa url(../images/ui/confirm/default.png) repeat-x left bottom;
   border: 0.1rem solid #9f9f9f;
   border-radius: 0.3rem;
   font-size: 1.6rem;
@@ -103,14 +103,14 @@ form[role="dialog"] menu button.recommend:active {
 
 /* Recommend */
 form[role="dialog"] menu button.recommend{
-  background-image: url(images/ui/confirm/recommend.png);
+  background-image: url(../images/ui/confirm/recommend.png);
   background-color: #00caf2;
   border-color: #00acce;
 }
 
 /* Danger */
 form[role="dialog"] menu button.danger{
-  background-image: url(images/ui/confirm/danger.png);
+  background-image: url(../images/ui/confirm/danger.png);
   background-color: #b70404;
   color: #fff;
   text-shadow: -0.1rem -0.1rem 0 #830b0b;
@@ -119,14 +119,14 @@ form[role="dialog"] menu button.danger{
 
 /* Danger Press */
 form[role="dialog"] menu button.danger:active{
-  background-image: url(images/ui/confirm/danger-press.png);
+  background-image: url(../images/ui/confirm/danger-press.png);
   background-color: #890707;
 }
 
 /* Disabled (default & recommend) */
 form[role="dialog"] menu button[disabled],
 form[role="dialog"] menu button[disabled].recommend {
-  background-image: url(images/ui/confirm/disabled.png);
+  background-image: url(../images/ui/confirm/disabled.png);
   background-color: transparent;
   border: none;
   color: #bcbcbc;
@@ -136,7 +136,7 @@ form[role="dialog"] menu button[disabled].recommend {
 
 /* Danger disabled */
 form[role="dialog"] menu button[disabled].danger {
-  background-image: url(images/ui/confirm/danger-disabled.png);
+  background-image: url(../images/ui/confirm/danger-disabled.png);
   color: #fff;
   text-shadow: none;
   pointer-events: none;

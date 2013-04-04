@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
-<html id='html'>
+<html id='html' manifest="manifest.appcache">
 <head>
   <meta http-equiv="Content-Type" content="text/html ;charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link href="http://localhost/EPub-Reader/manifest.webapp" rel="app-manifest">
+
   <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
   <script type="text/javascript" src="js/jquery-ui-1.10.1.custom.js"></script>
 
@@ -22,12 +22,12 @@
 
   
   
-  <link href="style.css" rel="stylesheet" media="all" type="text/css"> 
-  <link rel="stylesheet" href="headers.css">
-  <link rel="stylesheet" href="lists.css">
-  <link rel="stylesheet" href="toolbars.css">
-  <link rel="stylesheet" href="progress.css">
-  <link rel="stylesheet" href="confirm.css">
+  <link href="stylesheets/style.css" rel="stylesheet" media="all" type="text/css"> 
+  <link rel="stylesheet" href="stylesheets/headers.css">
+  <link rel="stylesheet" href="stylesheets/lists.css">
+  <link rel="stylesheet" href="stylesheets/toolbars.css">
+  <link rel="stylesheet" href="stylesheets/progress.css">
+  <link rel="stylesheet" href="stylesheets/confirm.css">
   
   <style type="text/css">
     html, body {
@@ -121,10 +121,10 @@
 	
 	
 	<div id="previous" align=left onclick="previousParagraphs();" style="display:none;">
-		
+		<img src="images/navigation/previousArrow5.png" />
 	</div>
 	<div align=right id="next" onclick="nextParagraphs();" style="display:none;">
-		
+		<img src="images/navigation/nextArrow5.png" />
 	</div>
 	<div class="containerChapter" id="containerChapter" style="display:none;">
     	
