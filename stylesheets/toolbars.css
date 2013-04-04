@@ -9,7 +9,7 @@
   bottom: 0;
   left: 0;
   z-index: 100;
-  background: url(images/ui/header.png) repeat-x 0 0;
+  background: url(../images/ui/header.png) repeat-x 0 0;
   color: #fff;
   display:none;
 }
@@ -45,87 +45,87 @@
 
 /* Base icons */
 [role="toolbar"] .update {
-  background-image: url(images/icons/update.png);
+  background-image: url(../images/icons/update.png);
 }
 
 [role="toolbar"] .mark {
-  background-image: url(images/icons/zoommoins.png);
+  background-image: url(../images/icons/zoommoins.png);
 }
 
 [role="toolbar"] .share {
-  background-image: url(images/icons/share.png);
+  background-image: url(../images/icons/share.png);
 }
 
 [role="toolbar"] .send {
-  background-image: url(images/icons/send.png);
+  background-image: url(../images/icons/send.png);
 }
 
 [role="toolbar"] .search {
-  background-image: url(images/icons/search.png);
+  background-image: url(../images/icons/search.png);
 }
 
 [role="toolbar"] .move {
-  background-image: url(images/icons/move.png);
+  background-image: url(../images/icons/move.png);
 }
 
 [role="toolbar"] .delete {
-  background-image: url(images/icons/delete.png);
+  background-image: url(../images/icons/delete.png);
 }
 
 [role="toolbar"] .night {
-  background-image: url(images/icons/daynight.png);
+  background-image: url(../images/icons/daynight.png);
   width: 2.5rem;
 
 }
 
 [role="toolbar"] .add {
-  background-image: url(images/icons/zoomplus.png);
+  background-image: url(../images/icons/zoomplus.png);
 }
 
 [role="toolbar"] .fontminus {
-  background-image: url(images/icons/minus_blanc.png);
+  background-image: url(../images/icons/minus_blanc.png);
   width: 2.5rem;
 }
 
 [role="toolbar"] .zoom {
-  background-image: url(images/icons/zoom_icon.png);
+  background-image: url(../images/icons/zoom_icon.png);
   width: 2.5rem;
 }
 
 [role="toolbar"] .fontplus {
-  background-image: url(images/icons/add_blanc.png);
+  background-image: url(../images/icons/add_blanc.png);
   width: 2.5rem;
 
   
 }
 
 [role="toolbar"] .brightnessminus {
-  background-image: url(images/icons/minus_blanc.png);
+  background-image: url(../images/icons/minus_blanc.png);
   width: 2.5rem;
 }
 
 [role="toolbar"] .brightness {
-  background-image: url(images/icons/brightness.png);
+  background-image: url(../images/icons/brightness.png);
   width: 2.5rem;
 }
 
 [role="toolbar"] .brightnessplus {
-  background-image: url(images/icons/add_blanc.png);
+  background-image: url(../images/icons/add_blanc.png);
   width: 2.5rem;
 }
 
 [role="toolbar"] .dictionnary {
-  background-image: url(images/icons/dico.png);
+  background-image: url(../images/icons/dico.png);
   width: 2.5rem;
 }
 
 [role="toolbar"] .home {
-  background-image: url(images/icons/home.png);
+  background-image: url(../images/icons/home.png);
   width: 2.5rem;
 }
 
 [role="toolbar"] .separator {
-  background-image: url(images/ui/separator.png);
+  background-image: url(../images/ui/separator.png);
   width: 0.5rem;
 }
 
