@@ -79,13 +79,17 @@ function goToLibrary()
     document.getElementById('paragraphs').style.display = "none";
     document.getElementById('previous').style.display = 'none';
     document.getElementById('next').style.display = 'none';
-    var chapter = document.getElementById('chapter');
-    if(chapter)
-    {
-      document.getElementById('body').removeChild(chapter);
-    }
-    var chaptersList = document.getElementById('chaptersList');
-	chapterList.innerHTML = "";
+    // var chapter = document.getElementById('chapter');
+	// console.log(chapter);
+    // if(chapter)
+    // {
+      // document.getElementById('body').removeChild(chapter);
+    // }
+    var paragraphs = document.getElementById('paragraphs');
+	paragraphs.innerHTML = "";
+	
+	var chaptersList = document.getElementById('chaptersList');
+	chaptersList.innerHTML = "";
 }
 
 /**
@@ -109,7 +113,7 @@ function openBook(book)
     //Style settings
     var summary = document.getElementById('summary');
     summary.style.display="block";
-
+	console.log(book);
     document.getElementById('bookList').style.display = "none";
     document.getElementById('progress').style.display = "block";
 	
