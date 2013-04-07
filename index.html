@@ -61,13 +61,11 @@
 	<section id="header" role="region">
 		<header>
 			<menu  type="toolbar" >
-				<a id="summary" style="display:none" href="#" ><span class="icon icon-menu"></span></a>
-			</menu>
-			<menu type="toolbar">
-				<a id="add" href="#" ><span class="icon icon-add"></span></a>
+				<a id="summary" onclick="displaySummary()" style="display:none"   ><span class="icon icon-menu"></span></a>
 			</menu>
 
-				<a id="home" href="#" ><span class="icon icon-home"></span></a>
+
+				<a id="home"  onclick="goToLibrary()" ><span class="icon icon-home"></span></a>
 
 			<h1 id="title">EPub-Reader</h1>
 		</header>
@@ -85,7 +83,7 @@
 		</section>
 		<menu>
 		  <button onclick="cancelConfirmDeleteBook()">Cancel</button>
-		  <button id="btnDeleteBook"  class="danger">Delete</button>
+		  <button id="btnDeleteBook" class="danger">Delete</button>
 		</menu>
 	</form>
 	
@@ -121,10 +119,10 @@
 	
 	
 	<div id="previous" align=left onclick="previousParagraphs();" style="display:none;">
-		<img src="images/navigation/previousArrow5.png" />
+		<img id="previousImage" src="images/navigation/previousArrow5.png" />
 	</div>
 	<div align=right id="next" onclick="nextParagraphs();" style="display:none;">
-		<img src="images/navigation/nextArrow5.png" />
+		<img id="nextImage" src="images/navigation/nextArrow5.png" />
 	</div>
 	<div class="containerChapter" id="containerChapter" style="display:none;">
     	

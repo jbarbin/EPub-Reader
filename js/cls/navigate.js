@@ -26,29 +26,35 @@ function displayChapter(chapter,idChapter)
 {
   return function()
   {
-  
-    document.getElementById('next').style.height=(window.innerHeight)+"px";
-	document.getElementById('previous').style.height=(window.innerHeight)+"px";
+    //Style settings
+    document.getElementById('previousImage').style.display = "block";
+	document.getElementById('nextImage').style.display = "block";
+    $("#previousImage").fadeOut("slow");
+    $("#nextImage").fadeOut("slow");
+    document.getElementById('next').style.height = (window.innerHeight) + "px";
+	document.getElementById('previous').style.height = (window.innerHeight) + "px";
 	
-	document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px";
-	document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
-	document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
+	document.getElementById('next').style.width = ((window.innerWidth)*7)/100 + "px";
+	document.getElementById('previous').style.width = ((window.innerWidth)*7)/100 + "px";
+	document.getElementById('previous').style.maxwidth = ((window.innerWidth)*86)/100 + "px";
+	
     /* 
     Changing the style of the curretn chapter in summary
 	**
 	*/
-    for(var i=0;i<chaptersListArray.length-1;i++)
-	{
-	  document.getElementById("chapter"+i).style.background="#120D16";
-	  document.getElementById("chapter"+i).firstChild.firstChild.style.color="lightblue";
-	}
-    document.getElementById("chapter"+idChapter).style.background="#52B6CC";
-	document.getElementById("chapter"+idChapter).firstChild.firstChild.style.color="#120D16";
 	
-	currentChapter=idChapter;
-	isNotFirstPage=false;
-    document.getElementById('chaptersList').style.display="none";
-	document.getElementById('containerChapter').style.display="block";
+    for(var i = 0;i < chaptersListArray.length-1;i++)
+	{
+	  document.getElementById("chapter"+i).style.background = "#120D16";
+	  document.getElementById("chapter"+i).firstChild.firstChild.style.color = "lightblue";
+	}
+    document.getElementById("chapter"+idChapter).style.background = "#52B6CC";
+	document.getElementById("chapter"+idChapter).firstChild.firstChild.style.color = "#120D16";
+	
+	currentChapter = idChapter;
+	isNotFirstPage = false;
+    document.getElementById('chaptersList').style.display = "none";
+	document.getElementById('containerChapter').style.display = "block";
 	
 	/* 
     Apply parameters (brightness...)
@@ -56,51 +62,51 @@ function displayChapter(chapter,idChapter)
 	*/
     var parameters=readJson('parameters');
 
-    if(parameters==null) 
+    if(parameters == null) 
     {
       initializeParameter();
     }
     applyParameters();
 
-    document.getElementById('previous').style.display='block';
-    document.getElementById('next').style.display='block';
+    document.getElementById('previous').style.display = 'block';
+    document.getElementById('next').style.display = 'block';
 
 	/* 
     Re-Initialize 'paragraphs'
 	**
 	*/
-    var iframe=document.getElementById("completeChapter");
-    iframe.contentWindow.document.body.innerHTML=""; 
+    var iframe = document.getElementById("completeChapter");
+    iframe.contentWindow.document.body.innerHTML = ""; 
     var paragraphs = document.getElementById('paragraphs');
     while (paragraphs.firstChild) 
 	{
       paragraphs.removeChild(paragraphs.firstChild);
     }
 
-    document.getElementById("paragraphs").style.display='block';
+    document.getElementById("paragraphs").style.display = 'block';
     document.getElementById("paragraphs").addEventListener("click", displayToolbar, false); 
 
-    iframe.contentWindow.document.body.innerHTML+=chapter; 
+    iframe.contentWindow.document.body.innerHTML += chapter; 
 
     var temp = document.getElementById('completeChapter').contentDocument;
     var ael = temp.getElementsByTagName("p");
 
     for(var i = 0, c = ael.length ; i < c ; i++)
     {		
-      if (i==0)//First page of the chapter so display the title
+      if (i == 0)//First page of the chapter so display the title
       {
         var title = temp.getElementsByTagName("h1");
         var currentParagraph = title[0].cloneNode(true);
         var paragraph = document.createElement("h1");
         paragraph.id = "title".concat(i);
-        paragraph.innerHTML=currentParagraph.innerHTML;
+        paragraph.innerHTML = currentParagraph.innerHTML;
         document.getElementById("paragraphs").appendChild(paragraph);
       }
 
       var currentParagraph = ael[i].cloneNode(true);
       var paragraph = document.createElement("p");
       paragraph.id = "paragraph".concat(i);
-      paragraph.innerHTML=currentParagraph.innerHTML;
+      paragraph.innerHTML = currentParagraph.innerHTML;
       document.getElementById("paragraphs").appendChild(paragraph);
 
       if(paragraph instanceof Element) 
@@ -108,7 +114,7 @@ function displayChapter(chapter,idChapter)
         var p = elementInViewport(paragraph);
         if(!p) 
         {
-          lastParagraph=i;
+          lastParagraph = i;
           break;
         }
       }
@@ -124,18 +130,23 @@ function displayChapter(chapter,idChapter)
  * @param  idChapter  the chapter Id
  * @param  firstParagraphToShow  the first paragraph to show in page
  */
-function displayLastPageRead2(idChapter,firstParagraphToShow)
+function displayLastPageRead2(idChapter,firstParagraphToShow)//Display the last page read
 {
-  document.getElementById('next').style.height=window.innerHeight+"px";
-  document.getElementById('previous').style.height=window.innerHeight+"px";
-  document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px"; 
-  document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
-  document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
-  document.getElementById('chaptersList').style.display="none";
-  document.getElementById('containerChapter').style.display="block";
-  var parameters=readJson('parameters');
-
-  if(parameters==null) 
+  //Style settings
+  document.getElementById('previousImage').style.display = "block";
+  document.getElementById('nextImage').style.display = "block";
+  $("#previousImage").fadeOut("slow");
+  $("#nextImage").fadeOut("slow");
+  document.getElementById('next').style.height = window.innerHeight+"px";
+  document.getElementById('previous').style.height = window.innerHeight+"px";
+  document.getElementById('next').style.width = ((window.innerWidth)*7)/100+"px"; 
+  document.getElementById('previous').style.width = ((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.maxwidth = ((window.innerWidth)*86)/100+"px";
+  document.getElementById('chaptersList').style.display = "none";
+  document.getElementById('containerChapter').style.display = "block";
+  
+  var parameters = readJson('parameters');
+  if(parameters == null) 
   {
     initializeParameter();
   }
@@ -144,51 +155,49 @@ function displayLastPageRead2(idChapter,firstParagraphToShow)
   document.getElementById('previous').style.display='block';
   document.getElementById('next').style.display='block';
 
-  var iframe=document.getElementById("completeChapter");
-  iframe.contentWindow.document.body.innerHTML=""; 
+  var iframe = document.getElementById("completeChapter");
+  iframe.contentWindow.document.body.innerHTML = ""; 
   var paragraphs = document.getElementById('paragraphs');
-  while (paragraphs.firstChild) 
-  {
-    paragraphs.removeChild(paragraphs.firstChild);
-  }
-  document.getElementById("paragraphs").style.display='block';
-  document.getElementById("header").style.display='block';
-  document.getElementById('toolbar').style.display="block";
+  paragraphs.innerHtml = "";
+  document.getElementById("paragraphs").style.display = 'block';
+  document.getElementById("header").style.display = 'block';
+  document.getElementById('toolbar').style.display = "block";
   document.getElementById("paragraphs").addEventListener("click", displayToolbar, false); 
+  
   var chapterToDisplay=chaptersListArray[idChapter];
-  iframe.contentWindow.document.body.innerHTML+=chapterToDisplay;
-  currentChapter=idChapter;
+  iframe.contentWindow.document.body.innerHTML += chapterToDisplay;
+  currentChapter = idChapter;
 
-  for(var i=0;i<chaptersListArray.length-1;i++)
+  for(var i = 0;i < chaptersListArray.length-1;i++)
   {
-    document.getElementById("chapter"+i).style.background="#120D16";
-    document.getElementById("chapter"+i).firstChild.firstChild.style.color="lightblue";
+    document.getElementById("chapter"+i).style.background = "#120D16";
+    document.getElementById("chapter"+i).firstChild.firstChild.style.color = "lightblue";
   }
-  document.getElementById("chapter"+currentChapter).style.background="#52B6CC";
-  document.getElementById("chapter"+currentChapter).firstChild.firstChild.style.color="#120D16";
+  document.getElementById("chapter"+currentChapter).style.background = "#52B6CC";
+  document.getElementById("chapter"+currentChapter).firstChild.firstChild.style.color = "#120D16";
 
   var temp = document.getElementById('completeChapter').contentDocument;
   var ael = temp.getElementsByTagName("p");
 
-  if(firstParagraphToShow!=-3)//Not the first page of chapter to show
+  if(firstParagraphToShow != -3)//Not the first page of chapter to show
   {
 
-    for(var i =firstParagraphToShow , c = ael.length ; i < c ; i++)
+    for(var i = firstParagraphToShow , c = ael.length ; i < c ; i++)
     {		
-      if (i==0)
+      if (i == 0)
       {
         var title = temp.getElementsByTagName("h1");
         var currentParagraph = title[0].cloneNode(true);
         var paragraph = document.createElement("h1");
         paragraph.id = "title".concat(i);
-        paragraph.innerHTML=currentParagraph.innerHTML;
+        paragraph.innerHTML = currentParagraph.innerHTML;
         document.getElementById("paragraphs").appendChild(paragraph);
       }
 
       var currentParagraph = ael[i].cloneNode(true);
       var paragraph = document.createElement("p");
       paragraph.id = "paragraph".concat(i);
-      paragraph.innerHTML=currentParagraph.innerHTML;
+      paragraph.innerHTML = currentParagraph.innerHTML;
       document.getElementById("paragraphs").appendChild(paragraph);
 
       if(paragraph instanceof Element) 
@@ -196,7 +205,7 @@ function displayLastPageRead2(idChapter,firstParagraphToShow)
         var p = elementInViewport(paragraph);
         if(!p) 
         {
-          lastParagraph=i;
+          lastParagraph = i;
           break;
         }
       }
@@ -206,20 +215,20 @@ function displayLastPageRead2(idChapter,firstParagraphToShow)
   {
     for(var i = 0, c = ael.length ; i < c ; i++)
     {		
-      if (i==0)
+      if (i == 0)
       {
         var title = temp.getElementsByTagName("h1");
         var currentParagraph = title[0].cloneNode(true);
         var paragraph = document.createElement("h1");
         paragraph.id = "title".concat(i);
-        paragraph.innerHTML=currentParagraph.innerHTML;
+        paragraph.innerHTML = currentParagraph.innerHTML;
         document.getElementById("paragraphs").appendChild(paragraph);
       }
 
       var currentParagraph = ael[i].cloneNode(true);
       var paragraph = document.createElement("p");
       paragraph.id = "paragraph".concat(i);
-      paragraph.innerHTML=currentParagraph.innerHTML;
+      paragraph.innerHTML = currentParagraph.innerHTML;
       document.getElementById("paragraphs").appendChild(paragraph);
 
       if(paragraph instanceof Element) 
@@ -227,7 +236,7 @@ function displayLastPageRead2(idChapter,firstParagraphToShow)
         var p = elementInViewport(paragraph);
         if(!p) 
         {
-          lastParagraph=i;
+          lastParagraph = i;
           break;
         }
       }
@@ -240,73 +249,77 @@ function displayLastPageRead2(idChapter,firstParagraphToShow)
  */
 function displayNextChapter()
 {
-  document.getElementById('next').style.height=window.innerHeight+"px";
-  document.getElementById('previous').style.height=window.innerHeight+"px";
-  document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px";
-  document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
-  document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
-  isNotFirstPage=false;
-  document.getElementById('chaptersList').style.display="none";
-  var parameters=readJson('parameters');
-  if(parameters==null) 
+  document.getElementById('previousImage').style.display = "block";
+  document.getElementById('nextImage').style.display = "block";
+  $("#previousImage").fadeOut("slow");
+  $("#nextImage").fadeOut("slow");
+  document.getElementById('next').style.height = window.innerHeight+"px";
+  document.getElementById('previous').style.height = window.innerHeight+"px";
+  document.getElementById('next').style.width = ((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.width = ((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.maxwidth = ((window.innerWidth)*86)/100+"px";
+  isNotFirstPage = false;
+  document.getElementById('chaptersList').style.display = "none";
+  var parameters = readJson('parameters');
+  if(parameters == null) 
   {
     initializeParameter();
   }
   applyParameters();
 
-  document.getElementById('previous').style.display='block';
-  document.getElementById('next').style.display='block';
+  document.getElementById('previous').style.display = 'block';
+  document.getElementById('next').style.display = 'block';
 
-  var iframe=document.getElementById("completeChapter");
-  iframe.contentWindow.document.body.innerHTML=""; 
+  var iframe = document.getElementById("completeChapter");
+  iframe.contentWindow.document.body.innerHTML = ""; 
   var paragraphs = document.getElementById('paragraphs');
   while (paragraphs.firstChild) 
   {
     paragraphs.removeChild(paragraphs.firstChild);
   }
 
-  document.getElementById("paragraphs").style.display='block';
+  document.getElementById("paragraphs").style.display = 'block';
   document.getElementById("paragraphs").addEventListener("click", displayToolbar, false); 
 
-  var chapterToDisplay=chaptersListArray[currentChapter+1];
+  var chapterToDisplay = chaptersListArray[currentChapter+1];
   iframe.contentWindow.document.body.innerHTML+=chapterToDisplay; 
     
-  currentChapter=currentChapter+1
-  for(var i=0;i<chaptersListArray.length-1;i++)
+  currentChapter = currentChapter+1
+  for(var i = 0;i < chaptersListArray.length-1;i++)
   {
-    document.getElementById("chapter"+i).style.background="#120D16";
-    document.getElementById("chapter"+i).firstChild.firstChild.style.color="lightblue";
+    document.getElementById("chapter"+i).style.background = "#120D16";
+    document.getElementById("chapter"+i).firstChild.firstChild.style.color = "lightblue";
   }
-  document.getElementById("chapter"+currentChapter).style.background="#52B6CC";
-  document.getElementById("chapter"+currentChapter).firstChild.firstChild.style.color="#120D16";
+  document.getElementById("chapter"+currentChapter).style.background = "#52B6CC";
+  document.getElementById("chapter"+currentChapter).firstChild.firstChild.style.color = "#120D16";
 
   var temp = document.getElementById('completeChapter').contentDocument;
   var ael = temp.getElementsByTagName("p");
 
   for(var i = 0, c = ael.length ; i < c ; i++)
   {		
-    if (i==0)
+    if (i == 0)
     {
       var title = temp.getElementsByTagName("h1");
       var currentParagraph = title[0].cloneNode(true);
       var paragraph = document.createElement("h1");
       paragraph.id = "title".concat(i);
-      paragraph.innerHTML=currentParagraph.innerHTML;
+      paragraph.innerHTML = currentParagraph.innerHTML;
       document.getElementById("paragraphs").appendChild(paragraph);
     }
 
     var currentParagraph = ael[i].cloneNode(true);
     var paragraph = document.createElement("p");
     paragraph.id = "paragraph".concat(i);
-    paragraph.innerHTML=currentParagraph.innerHTML;
+    paragraph.innerHTML = currentParagraph.innerHTML;
     document.getElementById("paragraphs").appendChild(paragraph);
     if(paragraph instanceof Element) 
     {
       var p = elementInViewport(paragraph);
       if(!p) 
       {
-        lastParagraph=i;
-        var pToDelete=document.getElementById("paragraph"+i);
+        lastParagraph =i ;
+        var pToDelete = document.getElementById("paragraph"+i);
         document.getElementById("paragraphs").removeChild(pToDelete);
         break;
       }
@@ -320,55 +333,59 @@ function displayNextChapter()
  */
 function displayPreviousChapter()
 {
-    document.getElementById('next').style.height=window.innerHeight+"px";
-	document.getElementById('previous').style.height=window.innerHeight+"px";
-	document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px";
-	document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
-	document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
-    isNotFirstPage=true;
-    document.getElementById('chaptersList').style.display="none";
-    var parameters=readJson('parameters');
-    var paragraphIdArray=new Array();
-    if(parameters==null) 
+    document.getElementById('previousImage').style.display = "block";
+	document.getElementById('nextImage').style.display = "block";
+    $("#previousImage").fadeOut("slow");
+    $("#nextImage").fadeOut("slow");
+    document.getElementById('next').style.height = window.innerHeight+"px";
+	document.getElementById('previous').style.height = window.innerHeight+"px";
+	document.getElementById('next').style.width = ((window.innerWidth)*7)/100+"px";
+	document.getElementById('previous').style.width = ((window.innerWidth)*7)/100+"px";
+	document.getElementById('previous').style.maxwidth = ((window.innerWidth)*86)/100+"px";
+    isNotFirstPage = true;
+    document.getElementById('chaptersList').style.display = "none";
+    var parameters = readJson('parameters');
+    var paragraphIdArray = [];
+    if(parameters == null) 
     {
       initializeParameter();
     }
     applyParameters();
 
-    document.getElementById('previous').style.display='block';
-    document.getElementById('next').style.display='block';
+    document.getElementById('previous').style.display = 'block';
+    document.getElementById('next').style.display = 'block';
 
-    var iframe=document.getElementById("completeChapter");
-    iframe.contentWindow.document.body.innerHTML=""; 
+    var iframe = document.getElementById("completeChapter");
+    iframe.contentWindow.document.body.innerHTML = ""; 
     var paragraphs = document.getElementById('paragraphs');
     while (paragraphs.firstChild) 
 	{
       paragraphs.removeChild(paragraphs.firstChild);
     }
 
-    document.getElementById("paragraphs").style.display='block';
+    document.getElementById("paragraphs").style.display = 'block';
     document.getElementById("paragraphs").addEventListener("click", displayToolbar, false); 
 
-	var chapterToDisplay=chaptersListArray[currentChapter-1];
-    iframe.contentWindow.document.body.innerHTML+=chapterToDisplay; 
+	var chapterToDisplay = chaptersListArray[currentChapter-1];
+    iframe.contentWindow.document.body.innerHTML += chapterToDisplay; 
     
-	currentChapter=currentChapter-1;
-	for(var i=0;i<chaptersListArray.length-1;i++)
+	currentChapter = currentChapter-1;
+	for(var i = 0;i < chaptersListArray.length-1;i++)
 	{
-	  document.getElementById("chapter"+i).style.background="#120D16";
-	  document.getElementById("chapter"+i).firstChild.firstChild.style.color="lightblue";
+	  document.getElementById("chapter"+i).style.background = "#120D16";
+	  document.getElementById("chapter"+i).firstChild.firstChild.style.color = "lightblue";
 	}
-    document.getElementById("chapter"+currentChapter).style.background="#52B6CC";
-	document.getElementById("chapter"+currentChapter).firstChild.firstChild.style.color="#120D16";
+    document.getElementById("chapter"+currentChapter).style.background = "#52B6CC";
+	document.getElementById("chapter"+currentChapter).firstChild.firstChild.style.color = "#120D16";
     var temp = document.getElementById('completeChapter').contentDocument;
     var ael = temp.getElementsByTagName("p");
-    var paragraphToDisplay=new Array();
+    var paragraphToDisplay = [];
     for(var i = ael.length-1 ; i > 0 ; i--)
     {		
       var currentParagraph = ael[i].cloneNode(true);
       var paragraph = document.createElement("p");
       paragraph.id = "paragraph".concat(i);
-      paragraph.innerHTML=currentParagraph.innerHTML;
+      paragraph.innerHTML = currentParagraph.innerHTML;
       
 	  paragraphToDisplay.push(paragraph);
 	  
@@ -380,7 +397,7 @@ function displayPreviousChapter()
         if(!p) 
         {
 		  paragraphIdArray.push(i);
-          lastParagraph=i;
+          lastParagraph = i;
           break;
         }
       }
@@ -391,7 +408,7 @@ function displayPreviousChapter()
 	{
       paragraphs.removeChild(paragraphs.firstChild);
     }
-	for(var i=0;i<paragraphToDisplay.length-1;i++)
+	for(var i = 0;i < paragraphToDisplay.length-1;i++)
 	{
 	  document.getElementById("paragraphs").appendChild(paragraphToDisplay[i]);
 	}
@@ -403,16 +420,20 @@ function displayPreviousChapter()
  */
 function nextParagraphs()
 {
-  document.getElementById('next').style.height=window.innerHeight+"px";
-  document.getElementById('previous').style.height=window.innerHeight+"px";
-  document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px";
-  document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
-  document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
-  isNotFirstPage=true;
+  document.getElementById('previousImage').style.display = "block";
+  document.getElementById('nextImage').style.display = "block";
+  $("#previousImage").fadeOut("slow");
+  $("#nextImage").fadeOut("slow");
+  document.getElementById('next').style.height = window.innerHeight+"px";
+  document.getElementById('previous').style.height = window.innerHeight+"px";
+  document.getElementById('next').style.width = ((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.width = ((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.maxwidth = ((window.innerWidth)*86)/100+"px";
+  isNotFirstPage = true;
   var temp = document.getElementById('completeChapter').contentDocument;
   var ael = temp.getElementsByTagName("p");
-  var paragraphIdArray=new Array();
-  paragraphs.innerHTML="";
+  var paragraphIdArray = [];
+  paragraphs.innerHTML = "";
 
   for(var i = 0, c = ael.length ; i < c ; i++)
   {
@@ -429,8 +450,8 @@ function nextParagraphs()
         var p = elementInViewport(paragraph);
         if(!p) 
         {
-          lastParagraph=i-1;
-		  var pToDelete=document.getElementById("paragraph"+i);
+          lastParagraph = i-1;
+		  var pToDelete = document.getElementById("paragraph"+i);
 		  document.getElementById("paragraphs").removeChild(pToDelete);
 		  saveLastPageRead2(currentChapterTitle,currentChapter,paragraphIdArray[0]);
           break;
@@ -438,7 +459,7 @@ function nextParagraphs()
 		
       }
     }
-	if(i==ael.length-1)
+	if(i == ael.length-1)
 	{
 	  displayNextChapter();
 	}
@@ -452,11 +473,15 @@ function nextParagraphs()
  */
 function previousParagraphs()
 {
-  document.getElementById('next').style.height=window.innerHeight+"px";
-  document.getElementById('previous').style.height=window.innerHeight+"px";
-  document.getElementById('next').style.width=((window.innerWidth)*7)/100+"px";
-  document.getElementById('previous').style.width=((window.innerWidth)*7)/100+"px";
-  document.getElementById('previous').style.maxwidth=((window.innerWidth)*86)/100+"px";
+  document.getElementById('previousImage').style.display = "block";
+  document.getElementById('nextImage').style.display = "block";
+  $("#previousImage").fadeOut("slow");
+  $("#nextImage").fadeOut("slow");
+  document.getElementById('next').style.height = window.innerHeight+"px";
+  document.getElementById('previous').style.height = window.innerHeight+"px";
+  document.getElementById('next').style.width = ((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.width = ((window.innerWidth)*7)/100+"px";
+  document.getElementById('previous').style.maxwidth = ((window.innerWidth)*86)/100+"px";
   if(isNotFirstPage)
   {
     var temp = document.getElementById('completeChapter').contentDocument;
@@ -468,7 +493,7 @@ function previousParagraphs()
     var displayedParagraphs = containerParagraphs.getElementsByTagName("p");
     var lastDisplayedParagraph = displayedParagraphs[nbDisplayedParagraphs-1];
 
-    var paragraphIdArray=new Array();
+    var paragraphIdArray = [];
     var numberLastDisplayedParagraph = parseInt(lastDisplayedParagraph.id.substr(9,3));
 
     firstParagraph = ((numberLastDisplayedParagraph+1)-nbDisplayedParagraphs);
@@ -477,37 +502,36 @@ function previousParagraphs()
   
     for(var i = firstParagraph-1, c = ael.length ; i < c ; i--)
     {	
- 
-      if (i==-1)
+      if (i == -1)
       {
         var title = temp.getElementsByTagName("h1");
         var currentParagraph = title[0].cloneNode(true);
         var paragraph = document.createElement("h1");
         paragraph.id = "title".concat(i);
-        paragraph.innerHTML=currentParagraph.innerHTML;
+        paragraph.innerHTML = currentParagraph.innerHTML;
         document.getElementById("paragraphs").insertBefore(paragraph, containerParagraphs.firstChild);
 		var nbElementBeforeDelete=document.getElementById("paragraphs").childNodes.length;
-		for(var j=document.getElementById('paragraphs').childNodes.length-1;j>0;j--)
+		for(var j = document.getElementById('paragraphs').childNodes.length-1; j > 0 ;j--)
 		{
 		 
-		  var elt =elementInViewport(document.getElementById('paragraphs').childNodes[j]);
+		  var elt = elementInViewport(document.getElementById('paragraphs').childNodes[j]);
 		  if(!elt) 
           {
-		    var pToDelete=document.getElementById('paragraphs').childNodes[j];
+		    var pToDelete = document.getElementById('paragraphs').childNodes[j];
 		    document.getElementById("paragraphs").removeChild(pToDelete);
           }
 		}
-		var nbElementAfterDelete=document.getElementById("paragraphs").childNodes.length;
-		var difDelete=nbElementBeforeDelete-nbElementAfterDelete;
-        lastParagraph=firstParagraph-1-difDelete;
+		var nbElementAfterDelete = document.getElementById("paragraphs").childNodes.length;
+		var difDelete = nbElementBeforeDelete-nbElementAfterDelete;
+        lastParagraph = firstParagraph-1-difDelete;
 		saveLastPageRead2(currentChapterTitle,currentChapter,-3);
-	    isNotFirstPage=false;
+	    isNotFirstPage = false;
       }	
 		
       var currentParagraph = ael[i].cloneNode(true);
       var paragraph = document.createElement("p");
       paragraph.id = "paragraph".concat(i);
-      paragraph.innerHTML=currentParagraph.innerHTML;
+      paragraph.innerHTML = currentParagraph.innerHTML;
 
       if(containerParagraphs.getElementsByTagName("p").length > 0)
       {
@@ -524,15 +548,14 @@ function previousParagraphs()
         if(!p) 
         {
 		  paragraphIdArray.push(i+1);
-          lastParagraph=firstParagraph-1;
-		  var pToDelete=document.getElementById("paragraph"+i);
+          lastParagraph = firstParagraph-1;
+		  var pToDelete = document.getElementById("paragraph"+i);
 		  document.getElementById("paragraphs").removeChild(pToDelete);
           break;
         }
       }	
     }
 	saveLastPageRead2(currentChapterTitle,currentChapter,paragraphIdArray[0]);
-	//saveLastPageRead(currentChapterTitle,currentChapter,lastParagraph+1);
   }
   else
   {
