@@ -296,7 +296,7 @@ function displayAllBooks(){
 		// on récupère l'object store que l'on veut lire
 		var bookStore = transaction.objectStore("books");
 		var booklist = document.getElementById('bookList');
-		bookList.innerHtml = "";
+		bookList.innerHTML ="";
 
 		var i = 0;
 		bookStore.openCursor().onsuccess = function (event) {
@@ -324,6 +324,7 @@ function displayAllBooks(){
 					
 					li.appendChild(img);
 					//li.onclick=openBook(booksArray[i].bookName);
+					
 					dt.onclick = openBook(getBook.result.bookFile);
 					//dt.onclick=getInfo(getBook.result.bookTitle);
 					dt.appendChild(chapterName);
