@@ -75,7 +75,6 @@ function goToLibrary()
     document.getElementById('toolbar').style.display = "none";
     document.getElementById('title').textContent = "EPub-Reader";
     document.getElementById('author').textContent = "";
-    document.getElementById('add').style.display = "block";
     document.getElementById('summary').style.display = "none";
     document.getElementById('paragraphs').style.display = "none";
     document.getElementById('previous').style.display = 'none';
