@@ -1,10 +1,10 @@
-var canDisplay=false;
-var firstParagraph=0;
-var lastParagraph=0;
-var chaptersListArray= new Array();
-var currentChapter;
-var currentChapterTitle;
-var isNotFirstPage=true;
+var firstParagraph = 0; //The first paragraph of the current page read when clicking on "previous"
+var lastParagraph = 0; //The last paragraph of the current page when clicking on "next"
+var chaptersListArray = [];//Array of list of chapters
+var currentChapter; //The integer of the current chapter read
+var currentChapterTitle; //Title of the current chapter
+var isNotFirstPage = true;//To know if the page to show is the first or not
+
 window.onload = function() 
 {
 //deleteDB('booksLibrary3');
@@ -12,12 +12,14 @@ window.onload = function()
  //localStorage.removeItem("lastPageRead");
   
   //Hidding the vertical scrollbar  
-  var htmlElement = document.getElementsByTagName('html')[0];
+  var htmlElement = document.body.parentElement;
   htmlElement.style.overflow = 'hidden';
   
   var lastPageRead=readJson('lastPageRead');
   console.log(lastPageRead);
-  if(lastPageRead==null) 
+  
+  //If there are no books yet, initialize local storage for lastPageRead
+  if(lastPageRead == null) 
   {
     initializeLastPageRead();
   }
@@ -26,7 +28,7 @@ window.onload = function()
   selectedBook.onchange = function() 
   {
     //Check if the file is in .epub format
-    if(selectedBook.files[0].name.indexOf(".epub",0)==-1)
+    if(selectedBook.files[0].name.indexOf(".epub",0) == -1)
     {
       alert("The selected file is wrong. Please select an ebook in Epub format");
     }
@@ -38,7 +40,7 @@ window.onload = function()
          var bookAuthor;
          var zip = new JSZip(data);
          var container=getContainer(zip);
-         if(container !=null)
+         if(container != null)
          {
            //Get all information we need in Container.xml and store them
            var parser = new DOMParser();
@@ -49,7 +51,7 @@ window.onload = function()
            var opf = parser.parseFromString(opfdata.data, "text/xml");
            var metadata = opf.getElementsByTagNameNS("*", "metadata")[0];
 
-           bookTitle= metadata.getElementsByTagNameNS("*", "title")[0].childNodes[0].nodeValue;
+           bookTitle = metadata.getElementsByTagNameNS("*", "title")[0].childNodes[0].nodeValue;
            bookAuthor = metadata.getElementsByTagNameNS("*", "creator")[0].childNodes[0].nodeValue;
          }
         savesBook(selectedBook.files[0],bookTitle,bookAuthor);//Save the selected file in dataBase
@@ -59,8 +61,6 @@ window.onload = function()
     }
   }
   displayBookList();
-  var home = document.getElementById('home');
-  home.onclick=goToLibrary();
 };
 
 
@@ -69,30 +69,24 @@ window.onload = function()
  */
 function goToLibrary()
 {
-  return function()
-  {  
-    chaptersListArray.length=0;
-    document.getElementById('book').style.display="block";
-    document.getElementById('bookList').style.display="block";
-    document.getElementById('toolbar').style.display="none";
-    document.getElementById('title').textContent="EPub-Reader";
-    document.getElementById('author').textContent="";
-    document.getElementById('add').style.display="block";
-    document.getElementById('summary').style.display="none";
-    document.getElementById('paragraphs').style.display="none";
-    document.getElementById('previous').style.display='none';
-    document.getElementById('next').style.display='none';
-    var chapter=document.getElementById('chapter');
+    chaptersListArray.length = 0;
+    document.getElementById('book').style.display = "block";
+    document.getElementById('bookList').style.display = "block";
+    document.getElementById('toolbar').style.display = "none";
+    document.getElementById('title').textContent = "EPub-Reader";
+    document.getElementById('author').textContent = "";
+    document.getElementById('add').style.display = "block";
+    document.getElementById('summary').style.display = "none";
+    document.getElementById('paragraphs').style.display = "none";
+    document.getElementById('previous').style.display = 'none';
+    document.getElementById('next').style.display = 'none';
+    var chapter = document.getElementById('chapter');
     if(chapter)
     {
       document.getElementById('body').removeChild(chapter);
     }
     var chaptersList = document.getElementById('chaptersList');
-    while (chaptersList.firstChild) 
-    {
-      chaptersList.removeChild(chaptersList.firstChild);
-    }
-  }  
+	chapterList.innerHTML = "";
 }
 
 /**
@@ -113,21 +107,20 @@ function openBook(book)
 {
   return function()
   {
+    //Style settings
     var summary = document.getElementById('summary');
     summary.style.display="block";
-    summary.onclick=displaySummary();
 
-    var add = document.getElementById('add');
-    add.style.display="none";
-
-    document.getElementById('bookList').style.display="none";
-    document.getElementById('progress').style.display="block";
+    document.getElementById('bookList').style.display = "none";
+    document.getElementById('progress').style.display = "block";
+	
+	//Open the chosen book
     openFile(book, function(data) 
     {
       var zip = new JSZip(data);
-      var container=getContainer(zip);
+      var container = getContainer(zip);
 
-      if(container !=null)
+      if(container != null)
       {
         //Get all information we need in Container.xml
         var parser = new DOMParser();
@@ -147,10 +140,10 @@ function openBook(book)
         var author = metadata.getElementsByTagNameNS("*", "creator")[0].childNodes[0].nodeValue;
 
         //Display book's title and author
-        var h1=document.getElementById('title');
-        var h2=document.getElementById('author');
-        h1.textContent=decodeUTF8(title);
-        h2.textContent=decodeUTF8(author);
+        var h1 = document.getElementById('title');
+        var h2 = document.getElementById('author');
+        h1.textContent = decodeUTF8(title);
+        h2.textContent = decodeUTF8(author);
 
         //Get "toc.ncx"
         for (var i = 0; i < items.length; i++) 
@@ -166,35 +159,35 @@ function openBook(book)
           }
         }
 
-        var tocFolder='';
-        var isInOPS=zip.folder("OPS").file("toc.ncx");//If the file exists in OPS folder then the file exists into it
-        var isInOEBPS=zip.folder("OEBPS").file("toc.ncx");//If the file exists in OEBPS folder then the file exists into it
+        var tocFolder = '';
+        var isInOPS = zip.folder("OPS").file("toc.ncx");//If the file exists in OPS folder then the file exists into it
+        var isInOEBPS = zip.folder("OEBPS").file("toc.ncx");//If the file exists in OEBPS folder then the file exists into it
 
         if(isInOPS)
         {
-          tocFolder='OPS/';
+          tocFolder ='OPS/';
         }
         else if(isInOEBPS)
         {
-          tocFolder='OEBPS/';
+          tocFolder ='OEBPS/';
         }
         else
         {
-          tocFolder='';
+          tocFolder ='';
         }
 
         var ncxFile = zip.file(tocFolder+NcxFileName);
 
-        if(ncxFile!=null)
+        if(ncxFile != null)
         {
           var decoded = decodeUTF8(ncxFile.data);
 
-          //Get all info in "toc.ncx"
+          //Get all infos in "toc.ncx"
           var parserNcx = parser.parseFromString(decoded, "text/xml");
           var navMap = parserNcx.getElementsByTagNameNS("*", "navMap")[0];
           var navPoints = navMap.getElementsByTagNameNS("*", "navPoint");
           var pointsList = [];
-          var pageFiles=[];
+          var pageFiles = [];
 
           //Get content of chapters
           if (navPoints.length > 0) 
@@ -212,13 +205,13 @@ function openBook(book)
               pointsList[pointsCounter] = point;
               pointsCounter++;
 
-              if(tocFolder=='')
+              if(tocFolder == '')
               {
                 var pageFile = zip.file(content);
               }
               else
               {
-                if(content.indexOf("#")!=-1)
+                if(content.indexOf("#")!= -1)
                 {
                   var pageFile = zip.file(tocFolder+content.substring(0,content.indexOf("#")));
                 }
@@ -227,7 +220,7 @@ function openBook(book)
                   var pageFile = zip.file(tocFolder+content);
                 }
               }
-              decodedPage=decodeUTF8(pageFile.data);
+              decodedPage = decodeUTF8(pageFile.data);
               pageFiles.push(decodedPage);
             }
           }
@@ -235,13 +228,13 @@ function openBook(book)
 		  //Display the list of chapters
           var chaptersList = document.getElementById('chaptersList');
 
-          for(var i =0; i<pointsList.length;i++)
+          for(var i = 0; i<pointsList.length;i++)
           {
             var chapter = document.createElement('li');
-            var dl=document.createElement('dl');
-            var dt=document.createElement('dt');
+            var dl = document.createElement('dl');
+            var dt = document.createElement('dt');
             var chapterName = document.createTextNode(pointsList[i].label);
-            var completeChapter=pageFiles[i];
+            var completeChapter = pageFiles[i];
 
 			chaptersListArray.push(pageFiles[i]);
 			
@@ -257,14 +250,14 @@ function openBook(book)
 		  
 		  
 		  
-		  currentChapterTitle=title;
-          var idBook=getCounter(title);
-		  var oLastPageRead=readJson('lastPageRead');
+		  currentChapterTitle = title;
+          var idBook = getCounter(title);
+		  var oLastPageRead = readJson('lastPageRead');
 		  
-		  if(oLastPageRead.books[idBook].lastChapterRead!=-1 && oLastPageRead.books[idBook].lastParagraph!=-1 )
+		  if(oLastPageRead.books[idBook].lastChapterRead != -1 && oLastPageRead.books[idBook].lastParagraph != -1 )
 		  {
 		    displayLastPageRead2(oLastPageRead.books[idBook].lastChapterRead,oLastPageRead.books[idBook].lastParagraph);
-			document.getElementById('progress').style.display="none";
+			document.getElementById('progress').style.display = "none";
 		  }
 		  else
 		  {
@@ -289,17 +282,16 @@ function openBook(book)
  */
 function displaySummary()
 {
-  return function()
-  {
-    if(document.getElementById('containerChapter').style.display=="block")
+    //Style settings
+    if(document.getElementById('containerChapter').style.display == "block")
 	{
-	  document.getElementById('containerChapter').style.display="none";
+	  document.getElementById('containerChapter').style.display = "none";
 	}
 	else
 	{
-	  document.getElementById('containerChapter').style.display="block";
+	  document.getElementById('containerChapter').style.display = "block";
 	}
-    if(document.getElementById('chaptersList').style.display=="none")
+    if(document.getElementById('chaptersList').style.display == "none")
     {
 	  //Showing the vertical scrollbar to scroll the summary
 	  var htmlElement = document.getElementsByTagName('html')[0];
@@ -315,8 +307,6 @@ function displaySummary()
 	  
       $( "#chaptersList" ).hide( "blind", { direction: "up" }, "slow") ;
     }
-
-  }
 }
 
 /**
@@ -324,25 +314,22 @@ function displaySummary()
  */
 function displayToolbar()
 {
-  if(document.getElementById('toolbar').style.display=="none")
+  //Style settings
+  if(document.getElementById('toolbar').style.display == "none")
   {	
-    // document.getElementById('toolbar').style.display="block";
     $( "#toolbar" ).show( "blind", { direction: "down" }, "slow") ;
   }
   else
   {
-    // document.getElementById('toolbar').style.display="none";
     $( "#toolbar" ).hide( "blind", { direction: "down" }, "slow") ;
   }
 
-  if(document.getElementById('header').style.display=="none")
+  if(document.getElementById('header').style.display == "none")
   {
-    // document.getElementById('header').style.display="block";
     $( "#header" ).show( "blind", { direction: "up" }, "slow") ;
   }
   else
   {
-    // document.getElementById('header').style.display="none";
     $( "#header" ).hide( "blind", { direction: "up" }, "slow") ;
   }
 }
@@ -355,11 +342,11 @@ function displayToolbar()
  */
 function createNewDiv(chapter) 
 {
-  var divChapter=document.createElement("div");
+  var divChapter = document.createElement("div");
   divChapter.id = 'chapter';
   divChapter.className = 'chapter';
   divChapter.style.fontSize = '15px';
-  divChapter.innerHTML=chapter;
+  divChapter.innerHTML = chapter;
   divChapter.addEventListener("click", displayToolbar, false); 
 
   return divChapter;
@@ -413,10 +400,10 @@ function getContainer(archive)
  */
 function cancelConfirmDeleteBook()
 {
-  if(document.getElementById('confirmDeleteBook').style.display="block")
+  if(document.getElementById('confirmDeleteBook').style.display = "block")
   {
-    document.getElementById('bookList').style.display="block";
-    document.getElementById('confirmDeleteBook').style.display="none";
+    document.getElementById('bookList').style.display = "block";
+    document.getElementById('confirmDeleteBook').style.display = "none";
   }
 }
 
@@ -426,17 +413,15 @@ function cancelConfirmDeleteBook()
  */
 function cancelConfirmDefineWord()
 {
-  if(document.getElementById('confirmDefineWord').style.display="block")
+  if(document.getElementById('confirmDefineWord').style.display = "block")
   {
-    document.getElementById('confirmDefineWord').style.display="none";
-    if(document.getElementById('toolbar').style.display=="none")
+    document.getElementById('confirmDefineWord').style.display = "none";
+    if(document.getElementById('toolbar').style.display == "none")
     {	
-      // document.getElementById('toolbar').style.display="block";
       $( "#toolbar" ).show( "blind", { direction: "down" }, "slow") ;
     }
     else
     {
-      // document.getElementById('toolbar').style.display="none";
       $( "#toolbar" ).hide( "blind", { direction: "down" }, "slow") ;
     }
   }

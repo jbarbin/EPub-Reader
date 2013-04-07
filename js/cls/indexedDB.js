@@ -1,13 +1,13 @@
-var indexedDB=window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
 //prefixes of window.IDB objects
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange
  
+ //Create database
 function createDatabase(event) {
     var db = event.target.transaction.db;
     var bookStore = db.createObjectStore("books",{keyPath: "bookTitle"});
-	
 }
 
 /**
@@ -15,77 +15,6 @@ function createDatabase(event) {
 */
 function errorOpen(event) {
     window.alert("Open error !");
-}
-
-
-/**
-* .
-* Add or replace a book
-*/
-function saveBook(id,file) {
-
-	
-    //Create the object
-    var book = {
-		id:id,
-		bookName: file
-    }
-	var alreadyStored=false;
-    // open DB
-    var request = indexedDB.open("booksLibrary2", 1);
-    request.onerror = errorOpen;
-    request.onupgradeneeded = createDatabase;
-
-    request.onsuccess = function(event) {
-       
-        var db = event.target.result;
-        // Open transaction
-        var transaction = db.transaction(["books"], "readwrite");
-        transaction.oncomplete = function(event) {
-        };
-
-        transaction.onerror = function(event) {
-           window.alert('Transaction error ');
-        };
-
-        // Get the store
-        var bookStore = transaction.objectStore("books");
-		
-		// Verify if the book is already stored
-		bookStore.openCursor().onsuccess = function (event) {
-
-			var cursor = event.target.result;
-			if (cursor) {
-				
-				var getBook = bookStore.get(cursor.key);
-
-				getBook.onsuccess = function (e) {
-					if(getBook.result.bookName.name==file.name)
-					{
-						alreadyStored=true;
-					}
-					cursor.continue();
-				}
-			}
-		}
-
-		if(alreadyStored!=true)
-		{
-			var req = bookStore.put(book);
-				req.onsuccess = function(event) {
-				//console.log('stockage OK!!!!');
-			}
-			req.onerror = function(event) {
-				window.alert('erreur ajout');
-			}
-		}
-		else
-		{
-			alert('This book is already in your library');
-		}
-		
-        
-    }
 }
 
 /**
@@ -118,8 +47,6 @@ function savesBook(file,bookTitle,bookAuthor) {
            window.alert('Transaction error ');
         };
 
-
-		
         // Get the store
         var bookStore = transaction.objectStore("books");
 
@@ -132,9 +59,9 @@ function savesBook(file,bookTitle,bookAuthor) {
 				var getBook = bookStore.get(cursor.key);
 
 				getBook.onsuccess = function (e) {
-					if(getBook.result.bookFile.name==file.name)
+					if(getBook.result.bookFile.name == file.name)
 					{
-						alreadyStored=true;
+						alreadyStored = true;
 					}
 					cursor.continue();
 				}
@@ -142,10 +69,10 @@ function savesBook(file,bookTitle,bookAuthor) {
 
 		}
 		
-		var bookList=document.getElementById('bookList');
-		var id=bookList.childNodes.length;
+		var bookList = document.getElementById('bookList');
+		var id = bookList.childNodes.length;
 
-		if(alreadyStored!=true)
+		if(alreadyStored != true)
 		{
 			var req = bookStore.put(book);
 				req.onsuccess = function(event) {
@@ -169,7 +96,7 @@ function getBook(id) {
 
 // on ouvre la base, et on déclare les listeners
     var request = indexedDB.open("booksLibrary2", 1);
-	var resultat="";
+	var resultat = "";
     request.onerror = errorOpen;
     request.onupgradeneeded = createDatabase;
 
@@ -200,10 +127,9 @@ function getBook(id) {
         req.onsuccess = function(event) {
 			if(req.result)
 			{
-				resultat= req.result;
-				book= req.result;
+				resultat = req.result;
+				book = req.result;
 				//console.log(book);
-
 			}
 			else 
 			{
@@ -214,11 +140,7 @@ function getBook(id) {
         req.onerror = function(event) {
             window.alert('erreur ajout');
         }
-
     }
-
-
-
 }
 
 // Get all books and store them into global variable booksArray
@@ -226,7 +148,7 @@ function getAllBooks(){
 
 	// on ouvre la base, et on déclare les listeners
 	var request = indexedDB.open("booksLibrary2", 1);
-	var resultat="";
+	var resultat = "";
 		request.onerror = errorOpen;
 		request.onupgradeneeded = createDatabase;
 
@@ -254,10 +176,6 @@ function getAllBooks(){
 					booksArray.push(getBook.result); // un niveau
 					cursor.continue();
 				}
-			}
-			else
-			{
-				canDisplay=true;
 			}
 		}
 		
@@ -299,13 +217,12 @@ function deleteBookConfirm(bookTitle) {
 
 	return function()
 	{
-		if(document.getElementById('confirmDeleteBook').style.display="none")
+		if(document.getElementById('confirmDeleteBook').style.display = "none")
 		{
-			document.getElementById('confirmDeleteBook').style.display="block";
+			document.getElementById('confirmDeleteBook').style.display = "block";
 			document.getElementById('btnDeleteBook').onclick=deleteBook(bookTitle);
 		}
 	}
-
 }
 
 //Delete a book by ID
@@ -315,7 +232,7 @@ function deleteBook(bookTitle) {
 	{
 		// on ouvre la base, et on déclare les listeners
 		var request = indexedDB.open("booksLibrary2", 1);
-		var resultat="";
+		var resultat = "";
 		request.onerror = errorOpen;
 		request.onupgradeneeded = createDatabase;
 
@@ -362,7 +279,7 @@ function displayAllBooks(){
 
 	// on ouvre la base, et on déclare les listeners
 	var request = indexedDB.open("booksLibrary2", 1);
-	var resultat="";
+	var resultat = "";
 		request.onerror = errorOpen;
 		request.onupgradeneeded = createDatabase;
 
@@ -378,11 +295,10 @@ function displayAllBooks(){
 
 		// on récupère l'object store que l'on veut lire
 		var bookStore = transaction.objectStore("books");
-		var booklist=document.getElementById('bookList');
-		while (booklist.firstChild) {
-			booklist.removeChild(booklist.firstChild);
-		}
-		var i=0;
+		var booklist = document.getElementById('bookList');
+		bookList.innerHtml = "";
+
+		var i = 0;
 		bookStore.openCursor().onsuccess = function (event) {
 			
 			var cursor = event.target.result;
@@ -394,12 +310,12 @@ function displayAllBooks(){
 					//console.log(getBook.result);
 					var li = document.createElement("li");
 					var chapter = document.createElement('li');
-					var dl=document.createElement('dl');
-					var dt=document.createElement('dt');
+					var dl = document.createElement('dl');
+					var dt = document.createElement('dt');
 					var chapterName = document.createTextNode(decodeUTF8(i+". "+getBook.result.bookTitle)+" - "+decodeUTF8(getBook.result.bookAuthor));
-					var img= document.createElement('img');
-					img.src='images/icons/delete.png';
-					img.onclick=deleteBookConfirm(getBook.result.bookTitle);	
+					var img = document.createElement('img');
+					img.src = 'images/icons/delete.png';
+					img.onclick = deleteBookConfirm(getBook.result.bookTitle);	
 					
 					// currentChapterTitle=getBook.result.bookTitle;
 					
@@ -408,16 +324,12 @@ function displayAllBooks(){
 					
 					li.appendChild(img);
 					//li.onclick=openBook(booksArray[i].bookName);
-					dt.onclick=openBook(getBook.result.bookFile);
+					dt.onclick = openBook(getBook.result.bookFile);
 					//dt.onclick=getInfo(getBook.result.bookTitle);
 					dt.appendChild(chapterName);
 					booklist.appendChild(li);
 					cursor.continue();
 				}
-			}
-			else
-			{
-				canDisplay=true;
 			}
 		}
 		

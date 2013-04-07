@@ -5,21 +5,21 @@
  */
 function dayNight()
 {
-  var parameters=readJson('parameters');
+  var parameters = readJson('parameters');
 
-  if(parameters.dayNight=="day")
+  if(parameters.dayNight == "day")
   {
     updateParameters(-1,-1,"night");
-    document.getElementById('paragraphs').style.backgroundColor="black";
-    document.getElementById('body').style.backgroundColor="black";
-    document.getElementById('containerChapter').style.backgroundColor="black";
-    document.getElementById('html').style.backgroundColor="black";
+    document.getElementById('paragraphs').style.backgroundColor = "black";
+    document.getElementById('body').style.backgroundColor = "black";
+    document.getElementById('containerChapter').style.backgroundColor = "black";
+    document.getElementById('html').style.backgroundColor = "black";
     adjustBrightness(parameters.brightness);
   }
-  else if(parameters.dayNight=="night")
+  else if(parameters.dayNight == "night")
   {
     updateParameters(-1,-1,"day");
-    document.getElementById('paragraphs').style.color="black";
+    document.getElementById('paragraphs').style.color = "black";
     adjustBrightness(parameters.brightness);
   }	
 }
@@ -31,34 +31,34 @@ function dayNight()
  */
 function adjustBrightness(brightness)
 {
-  var parameters=readJson('parameters');
-  if(parameters.dayNight=="night")
+  var parameters = readJson('parameters');
+  if(parameters.dayNight == "night")
   {
     switch(brightness)
     {
       case 0:
-        document.getElementById('paragraphs').style.color="white";
+        document.getElementById('paragraphs').style.color = "white";
         break;
       case 1:
-        document.getElementById('paragraphs').style.color="#E5E5E5";
+        document.getElementById('paragraphs').style.color = "#E5E5E5";
         break;
       case 2:
-        document.getElementById('paragraphs').style.color="#CCCCCC";
+        document.getElementById('paragraphs').style.color = "#CCCCCC";
         break;
       case 3:
-        document.getElementById('paragraphs').style.color="#B3B3B3";
+        document.getElementById('paragraphs').style.color = "#B3B3B3";
         break;
       case 4:
-        document.getElementById('paragraphs').style.color="#999999";
+        document.getElementById('paragraphs').style.color = "#999999";
         break;
       case 5:
-        document.getElementById('paragraphs').style.color="#7F7F7F";
+        document.getElementById('paragraphs').style.color = "#7F7F7F";
         break;
       case 6:
-        document.getElementById('paragraphs').style.color="#666666";
+        document.getElementById('paragraphs').style.color = "#666666";
         break;
       case 7:
-        document.getElementById('paragraphs').style.color="#4D4D4D";
+        document.getElementById('paragraphs').style.color = "#4D4D4D";
         break;
     }
   }
@@ -67,52 +67,52 @@ function adjustBrightness(brightness)
     switch(brightness)
     {
       case 0:
-        document.getElementById('body').style.backgroundColor="white";
-        document.getElementById('containerChapter').style.backgroundColor="white";
-        document.getElementById('paragraphs').style.backgroundColor="white";
-        document.getElementById('html').style.backgroundColor="white";
+        document.getElementById('body').style.backgroundColor = "white";
+        document.getElementById('containerChapter').style.backgroundColor = "white";
+        document.getElementById('paragraphs').style.backgroundColor = "white";
+        document.getElementById('html').style.backgroundColor = "white";
         break;
       case 1:
-        document.getElementById('body').style.backgroundColor="#E5E5E5";
-        document.getElementById('containerChapter').style.backgroundColor="#E5E5E5";
-        document.getElementById('paragraphs').style.backgroundColor="#E5E5E5";
-        document.getElementById('html').style.backgroundColor="#E5E5E5";
+        document.getElementById('body').style.backgroundColor = "#E5E5E5";
+        document.getElementById('containerChapter').style.backgroundColor = "#E5E5E5";
+        document.getElementById('paragraphs').style.backgroundColor = "#E5E5E5";
+        document.getElementById('html').style.backgroundColor = "#E5E5E5";
         break;
       case 2:
-        document.getElementById('body').style.backgroundColor="#CCCCCC";
-        document.getElementById('containerChapter').style.backgroundColor="#CCCCCC";
-        document.getElementById('paragraphs').style.backgroundColor="#CCCCCC";
-        document.getElementById('html').style.backgroundColor="#CCCCCC";
+        document.getElementById('body').style.backgroundColor = "#CCCCCC";
+        document.getElementById('containerChapter').style.backgroundColor = "#CCCCCC";
+        document.getElementById('paragraphs').style.backgroundColor = "#CCCCCC";
+        document.getElementById('html').style.backgroundColor = "#CCCCCC";
         break;
       case 3:
-        document.getElementById('body').style.backgroundColor="#B3B3B3";
-        document.getElementById('containerChapter').style.backgroundColor="#B3B3B3";
-        document.getElementById('paragraphs').style.backgroundColor="#B3B3B3";
-        document.getElementById('html').style.backgroundColor="#B3B3B3";
+        document.getElementById('body').style.backgroundColor = "#B3B3B3";
+        document.getElementById('containerChapter').style.backgroundColor = "#B3B3B3";
+        document.getElementById('paragraphs').style.backgroundColor = "#B3B3B3";
+        document.getElementById('html').style.backgroundColor = "#B3B3B3";
         break;
       case 4:
-        document.getElementById('body').style.backgroundColor="#999999";
-        document.getElementById('containerChapter').style.backgroundColor="#999999";
-        document.getElementById('paragraphs').style.backgroundColor="#999999";
-        document.getElementById('html').style.backgroundColor="#999999";
+        document.getElementById('body').style.backgroundColor = "#999999";
+        document.getElementById('containerChapter').style.backgroundColor = "#999999";
+        document.getElementById('paragraphs').style.backgroundColor = "#999999";
+        document.getElementById('html').style.backgroundColor = "#999999";
         break;
       case 5:
-        document.getElementById('body').style.backgroundColor="#7F7F7F";
-        document.getElementById('containerChapter').style.backgroundColor="#7F7F7F";
-        document.getElementById('paragraphs').style.backgroundColor="#7F7F7F";
-        document.getElementById('html').style.backgroundColor="#7F7F7F";
+        document.getElementById('body').style.backgroundColor = "#7F7F7F";
+        document.getElementById('containerChapter').style.backgroundColor = "#7F7F7F";
+        document.getElementById('paragraphs').style.backgroundColor = "#7F7F7F";
+        document.getElementById('html').style.backgroundColor = "#7F7F7F";
         break;	
       case 6:
-        document.getElementById('body').style.backgroundColor="#666666";
-        document.getElementById('containerChapter').style.backgroundColor="#666666";
-        document.getElementById('paragraphs').style.backgroundColor="#666666";
-        document.getElementById('html').style.backgroundColor="#666666";
+        document.getElementById('body').style.backgroundColor = "#666666";
+        document.getElementById('containerChapter').style.backgroundColor = "#666666";
+        document.getElementById('paragraphs').style.backgroundColor = "#666666";
+        document.getElementById('html').style.backgroundColor = "#666666";
         break;	
       case 7:
-        document.getElementById('body').style.backgroundColor="#4D4D4D";
-        document.getElementById('containerChapter').style.backgroundColor="#4D4D4D";
-        document.getElementById('paragraphs').style.backgroundColor="#4D4D4D";
-        document.getElementById('html').style.backgroundColor="#4D4D4D";
+        document.getElementById('body').style.backgroundColor = "#4D4D4D";
+        document.getElementById('containerChapter').style.backgroundColor = "#4D4D4D";
+        document.getElementById('paragraphs').style.backgroundColor = "#4D4D4D";
+        document.getElementById('html').style.backgroundColor = "#4D4D4D";
         break;	
     }
   }
@@ -125,12 +125,12 @@ function adjustBrightness(brightness)
  */
 function reduceBrightness()
 {
-  var parameters=readJson('parameters');
-  var brightness=parameters.brightness;
+  var parameters = readJson('parameters');
+  var brightness = parameters.brightness;
   brightness++;
-  if(brightness>7)
+  if(brightness > 7)
   {
-    brightness=7;
+    brightness = 7;
   }
   adjustBrightness(brightness);
   updateParameters(-1,brightness,"");
@@ -143,12 +143,12 @@ function reduceBrightness()
  */
 function increaseBrightness()
 {
-  var parameters=readJson('parameters');
-  var brightness=parameters.brightness;
+  var parameters = readJson('parameters');
+  var brightness = parameters.brightness;
   brightness--;
-  if(brightness<0)
+  if(brightness < 0)
   {
-    brightness=0;
+    brightness = 0;
   }
   adjustBrightness(brightness);
   updateParameters(-1,brightness,"");
@@ -160,8 +160,8 @@ function increaseBrightness()
  */
 function increaseFontSize()
 {
-  var size=parseInt(document.getElementById("paragraphs").style.fontSize.substring(0,document.getElementById("paragraphs").style.fontSize.indexOf('px',0)));
-  document.getElementById("paragraphs").style.fontSize=size+1+"px";
+  var size = parseInt(document.getElementById("paragraphs").style.fontSize.substring(0,document.getElementById("paragraphs").style.fontSize.indexOf('px',0)));
+  document.getElementById("paragraphs").style.fontSize = size+1+"px";
   updateParameters(size,-1,"");
 }
 
@@ -171,8 +171,8 @@ function increaseFontSize()
  */
 function reduceFontSize()
 {
-  var size=parseInt(document.getElementById("paragraphs").style.fontSize.substring(0,document.getElementById("paragraphs").style.fontSize.indexOf('px',0)));
-  document.getElementById("paragraphs").style.fontSize=size-1+"px";
+  var size = parseInt(document.getElementById("paragraphs").style.fontSize.substring(0,document.getElementById("paragraphs").style.fontSize.indexOf('px',0)));
+  document.getElementById("paragraphs").style.fontSize = size-1+"px";
   updateParameters(size,-1,"");
 }
 
@@ -183,13 +183,13 @@ function reduceFontSize()
 function GetSelection()
 {
   mySelection = window.getSelection();
-  if(mySelection!="")
+  if(mySelection != "")
   {	
-    document.getElementById('confirmDefineWord').style.display="block";
-    document.getElementById('btnDefineWord').onclick=defineWord(mySelection);
-    document.getElementById('defineQuestion').textContent="Do you want to get a definition of '"+mySelection+"' ?";
+    document.getElementById('confirmDefineWord').style.display = "block";
+    document.getElementById('btnDefineWord').onclick = defineWord(mySelection);
+    document.getElementById('defineQuestion').textContent = "Do you want to get a definition of '"+mySelection+"' ?";
 
-    if(document.getElementById('toolbar').style.display=="none")
+    if(document.getElementById('toolbar').style.display == "none")
     {	
       // document.getElementById('toolbar').style.display="block";
       $( "#toolbar" ).show( "blind", { direction: "down" }, "slow") ;
@@ -211,9 +211,9 @@ function defineWord(mySelection)
   var range  = mySelection.getRangeAt(0);
   return function()
   {
-    document.getElementById('confirmDefineWord').style.display="none";
+    document.getElementById('confirmDefineWord').style.display = "none";
     window.open("https://www.google.fr/search?q=define "+range);
-    if(document.getElementById('toolbar').style.display=="none")
+    if(document.getElementById('toolbar').style.display == "none")
     {	
        // document.getElementById('toolbar').style.display="block";
        $( "#toolbar" ).show( "blind", { direction: "down" }, "slow") ;
@@ -262,21 +262,21 @@ function initializeParameter()
  */
 function updateParameters(fontSize,brightness,dayNight)
 {
-  var parameters=readJson('parameters');
+  var parameters = readJson('parameters');
 
-  if(fontSize!=-1)
+  if(fontSize != -1)
   {
-    parameters.fontSize=fontSize;
+    parameters.fontSize = fontSize;
   }
 
-  if(brightness!=-1)
+  if(brightness != -1)
   {
-    parameters.brightness=brightness;
+    parameters.brightness = brightness;
   }
 
-  if(dayNight!="")
+  if(dayNight != "")
   {
-    parameters.dayNight=dayNight;
+    parameters.dayNight = dayNight;
   }
 
   localStorage.setItem('parameters',JSON.stringify(parameters));
@@ -289,19 +289,19 @@ function updateParameters(fontSize,brightness,dayNight)
  */
 function applyParameters()
 {
-  var parameters=readJson('parameters');
-  document.getElementById("paragraphs").style.fontSize=parameters.fontSize+"px";
-  if(parameters.dayNight=="night")
+  var parameters = readJson('parameters');
+  document.getElementById("paragraphs").style.fontSize = parameters.fontSize+"px";
+  if(parameters.dayNight == "night")
   {
-    document.getElementById('paragraphs').style.backgroundColor="black";
-    document.getElementById('body').style.backgroundColor="black";
-    document.getElementById('containerChapter').style.backgroundColor="black";
-    document.getElementById('html').style.backgroundColor="black";
+    document.getElementById('paragraphs').style.backgroundColor = "black";
+    document.getElementById('body').style.backgroundColor = "black";
+    document.getElementById('containerChapter').style.backgroundColor = "black";
+    document.getElementById('html').style.backgroundColor = "black";
     adjustBrightness(parameters.brightness);
   }
-  else if(parameters.dayNight=="day")
+  else if(parameters.dayNight == "day")
   {
-    document.getElementById('paragraphs').style.color="black";
+    document.getElementById('paragraphs').style.color = "black";
     adjustBrightness(parameters.brightness);
   }	
 }
