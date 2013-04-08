@@ -3,7 +3,7 @@ var lastParagraph = 0; //The last paragraph of the current page when clicking on
 var chaptersListArray = [];//Array of list of chapters
 var currentChapter; //The integer of the current chapter read
 var currentChapterTitle; //Title of the current chapter
-var isNotFirstPage = true;//To know if the page to show is the first or not
+var isNotFirstPage = true;//T know if the page to show is the first or not
 
 window.onload = function() 
 {
