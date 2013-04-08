@@ -1,7 +1,7 @@
 {
   "name": "EPub-Reader",
   "description": "An Open Web Application to read Ebook in Epub format.",
-  "launch_path": "/",
+  "launch_path": "/EPub-Reader/",
   "icons": {
 	"48":"/EPub-Reader/images/logo/48/logo_48.png",
 	"60": "/EPub-Reader/images/logo/60/logo_60.png",
