@@ -1,15 +1,15 @@
 {
   "name": "EPub-Reader",
-  "description": "An Open Web Application to read Ebook in Epub format.",
-  "launch_path": "/EPub-Reader/",
+  "description": "An Open Web Application to read Ebook in Epub format",
+  "launch_path": "/",
   "icons": {
-	"48":"/EPub-Reader/images/logo/48/logo_48.png",
-	"60": "/EPub-Reader/images/logo/60/logo_60.png",
-	"128":"/EPub-Reader/images/logo/128/logo_128.png"
-},
+	"48": "/images/logo/48/logo_48.png",
+	"60": "/images/logo/60/logo_60.png",
+	"128": "/images/logo/128/logo_128.png"
+  },
   "developer": {
-    "name": "Barbin Jonathan, Rata Gobal Anthony",
-    "url": "https://github.com/jbarbin/EPub-Reader"
+    "name": "Benoit Philippe, Barbin Jonathan, Rata Gobal Anthony",
+    "url": "https://github.com/OresteVisari/EPub-Reader"
   },
   "default_locale": "en"
 }

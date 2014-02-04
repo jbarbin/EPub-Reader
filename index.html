@@ -1,78 +1,40 @@
-﻿<!DOCTYPE html>
 <html id='html' manifest="manifest.appcache">
-<head>
-  <meta http-equiv="Content-Type" content="text/html ;charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-  <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-  <script type="text/javascript" src="js/jquery-ui-1.10.1.custom.js"></script>
-
-
-  <script type="text/javascript" src="js/cls/indexedDB.js"></script>
-  <script type="text/javascript" src="js/cls/settings.js"></script>
-  <script type="text/javascript" src="js/cls/navigate.js"></script>
-  <script type="text/javascript" src="js/cls/bookmark.js"></script>
-  <script type="text/javascript" src="js/cls/jszip/jszip.js"></script>
-  <script type="text/javascript" src="js/cls/jszip/jszip-load.js"></script>
-  <script type="text/javascript" src="js/cls/jszip/jszip-inflate.js"></script>
-  <script type="text/javascript" src="js/app.js"></script>
-
-
-
-
+  <head>
+    <meta http-equiv="Content-Type" content="text/html ;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
-  
-  <link href="stylesheets/style.css" rel="stylesheet" media="all" type="text/css"> 
-  <link rel="stylesheet" href="stylesheets/headers.css">
-  <link rel="stylesheet" href="stylesheets/lists.css">
-  <link rel="stylesheet" href="stylesheets/toolbars.css">
-  <link rel="stylesheet" href="stylesheets/progress.css">
-  <link rel="stylesheet" href="stylesheets/confirm.css">
-  
-  <style type="text/css">
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-size: 10px;
-      background-color: #fff;
-
-    }
-    body {
-      background: none;
-    }
-    section[role="region"] {
-      margin-bottom: 0.3rem;
-      /*position: relative;*/
-    }
-	h2.bb-docs {
-    font-size: 1.8rem;
-    font-family: "Open Sans", Sans-serif;
-    font-weight: lighter;
-    color: #666;
-    margin: -0.1rem 0 0;
-    background-color: #f5f5f5;
-    padding: 0.4rem 0.4rem 0.4rem 3rem;
-    border: solid 0.1rem #e8e8e8;
-  }
-  </style>
-  
-</head>
-<body  id="body" role="application" onkeypress="navigateWithKey(event)">
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.1.custom.js"></script>
+      
+    <script type="text/javascript" src="js/cls/indexedDB.js"></script>
+    <script type="text/javascript" src="js/cls/settings.js"></script>
+    <script type="text/javascript" src="js/cls/navigate.js"></script>
+    <script type="text/javascript" src="js/cls/bookmark.js"></script>
+    <script type="text/javascript" src="js/cls/jszip/jszip.js"></script>
+    <script type="text/javascript" src="js/cls/jszip/jszip-load.js"></script>
+    <script type="text/javascript" src="js/cls/jszip/jszip-inflate.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    
+    <link href="stylesheets/style.css" rel="stylesheet" media="all" type="text/css"> 
+    <link rel="stylesheet" href="stylesheets/headers.css">
+    <link rel="stylesheet" href="stylesheets/lists.css">
+    <link rel="stylesheet" href="stylesheets/toolbars.css">
+    <link rel="stylesheet" href="stylesheets/progress.css">
+    <link rel="stylesheet" href="stylesheets/confirm.css">  
+  </head>
+  <body  id="body" role="application" onkeypress="navigateWithKey(event)">
+    
 	<section id="header" role="region">
 		<header>
-			<menu  type="toolbar" >
-				<a id="summary" onclick="displaySummary()" style="display:none"   ><span class="icon icon-menu"></span></a>
-			</menu>
-
-
-				<a id="home"  onclick="goToLibrary()" ><span class="icon icon-home"></span></a>
-
+		  <menu  type="toolbar" >
+		    <a id="summary" onclick="displaySummary()" style="display:none"><span class="icon icon-menu"></span></a>
+		  </menu>
+            <a id="home"  onclick="goToLibrary()" ><span class="icon icon-home"></span></a>
 			<h1 id="title">EPub-Reader</h1>
 		</header>
-		<header>
-			    
-		<input type="file" id="book">
-			<h2 id="author"></h2>
+		<header>    
+		  <input type="file" id="book">
+		  <h2 id="author"></h2>
 		</header>
 	</section>
 	
@@ -90,7 +52,6 @@
 	<form id="confirmDefineWord" role="dialog" onsubmit="return false;" style="display:none">
 		<section>
 		  <h1>Confirmation</h1>
-		  
 		  <p id='defineQuestion'></p>
 		</section>
 		<menu>
@@ -99,24 +60,15 @@
 		</menu>
 	</form>
 	
-	
-	
 	<div style="background:#120D16;">
-		<ul class="overlay" id="chaptersList">
-
-		</ul>
+		<ul class="overlay" id="chaptersList"></ul>
 	</div>
 	
-
 	<div id="index"  style="background:#120D16;">
-		<ul  class="overlay"  id="bookList">
-
-		</ul>
+		<ul  class="overlay"  id="bookList"></ul>
 	</div>
 
-	<iframe id="completeChapter" style="display:none;">
-	</iframe>
-	
+	<iframe id="completeChapter" style="display:none;"></iframe>
 	
 	<div id="previous" align=left onclick="previousParagraphs();" style="display:none;">
 		<img id="previousImage" src="images/navigation/previousArrow5.png" />
@@ -125,59 +77,49 @@
 		<img id="nextImage" src="images/navigation/nextArrow5.png" />
 	</div>
 	<div class="containerChapter" id="containerChapter" style="display:none;">
-    	
-		
-		<div id="paragraphs" style="font-size:15px; text-align:justify;">
-		</div>
+    	<div id="paragraphs" style="font-size:15px; text-align:justify;"></div>
     </div>
-	
-	<progress id="progress" style="display:none" class="progress" ></progress>
-	
-	<nav id="toolbar" role="toolbar" >
- 
   
-	<ul >
-      <li><button onclick="reduceFontSize()"  class="fontminus">Reduce font size</button></li>
-    </ul>
-	<ul >
-      <li><button  class="zoom"></button></li>
-    </ul>
-	<ul >
-      <li><button onclick="increaseFontSize()" class="fontplus">Increase font size</button></li>
-    </ul>
-	<ul >
-      <li><button class="separator"></button></li>
-    </ul>
-	<ul >
-      <li><button onclick="dayNight()" class="night">Day/Night</button></li>
-    </ul>
-	<ul >
-      <li><button class="separator"></button></li>
-    </ul>
-	<ul >
-      <li><button onclick="reduceBrightness()" class="brightnessminus">Day/Night</button></li>
-    </ul>
-	<ul >
-      <li><button class="brightness">Day/Night</button></li>
-    </ul>
-	<ul >
-      <li><button onclick="increaseBrightness()" class="brightnessplus">Day/Night</button></li>
-    </ul>
-	<ul >
-      <li><button class="separator"></button></li>
-    </ul>
-	<ul >
-      <li><button onclick="GetSelection()" class="dictionnary">Dico</button></li>
-    </ul>
-	<ul >
-      <li><button class="separator"></button></li>
-    </ul>
-
+    <progress id="progress" style="display:none" class="progress" ></progress>
 	
-  </nav>
-
-
-	  
-			
-</body>
+    <nav id="toolbar" role="toolbar" >
+      <ul>
+        <li><button onclick="reduceFontSize()"  class="fontminus">Reduce font size</button></li>
+      </ul>
+      <ul>
+        <li><button  class="zoom"></button></li>
+      </ul>
+      <ul>
+        <li><button onclick="increaseFontSize()" class="fontplus">Increase font size</button></li>
+      </ul>
+      <ul>
+        <li><button class="separator"></button></li>
+      </ul>
+      <ul>
+        <li><button onclick="dayNight()" class="night">Day/Night</button></li>
+      </ul>
+      <ul>
+        <li><button class="separator"></button></li>
+      </ul>
+      <ul>
+        <li><button onclick="reduceBrightness()" class="brightnessminus">Day/Night</button></li>
+      </ul>
+      <ul>
+        <li><button class="brightness">Day/Night</button></li>
+      </ul>
+      <ul>
+        <li><button onclick="increaseBrightness()" class="brightnessplus">Day/Night</button></li>
+      </ul>
+      <ul>
+        <li><button class="separator"></button></li>
+      </ul>
+      <ul>
+        <li><button onclick="GetSelection()" class="dictionnary">Dico</button></li>
+      </ul>
+      <ul>
+        <li><button class="separator"></button></li>
+      </ul>
+    </nav> 	
+    
+  </body>
 </html>
