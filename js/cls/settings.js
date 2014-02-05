@@ -54,57 +54,56 @@ function adjustBrightness(brightness) {
         break;
     }
   } else {
+		var color;
     switch (brightness) {
       case 0:
-        document.getElementById('body').style.backgroundColor = "white";
-        document.getElementById('containerChapter').style.backgroundColor = "white";
-        document.getElementById('paragraphs').style.backgroundColor = "white";
-        document.getElementById('html').style.backgroundColor = "white";
+        color = "white";
         break;
       case 1:
-        document.getElementById('body').style.backgroundColor = "#E5E5E5";
-        document.getElementById('containerChapter').style.backgroundColor = "#E5E5E5";
-        document.getElementById('paragraphs').style.backgroundColor = "#E5E5E5";
-        document.getElementById('html').style.backgroundColor = "#E5E5E5";
+        color = "#E5E5E5";
         break;
       case 2:
-        document.getElementById('body').style.backgroundColor = "#CCCCCC";
-        document.getElementById('containerChapter').style.backgroundColor = "#CCCCCC";
-        document.getElementById('paragraphs').style.backgroundColor = "#CCCCCC";
-        document.getElementById('html').style.backgroundColor = "#CCCCCC";
+        color = "#CCCCCC";
         break;
       case 3:
-        document.getElementById('body').style.backgroundColor = "#B3B3B3";
-        document.getElementById('containerChapter').style.backgroundColor = "#B3B3B3";
-        document.getElementById('paragraphs').style.backgroundColor = "#B3B3B3";
-        document.getElementById('html').style.backgroundColor = "#B3B3B3";
+        color = "#B3B3B3";
         break;
       case 4:
-        document.getElementById('body').style.backgroundColor = "#999999";
-        document.getElementById('containerChapter').style.backgroundColor = "#999999";
-        document.getElementById('paragraphs').style.backgroundColor = "#999999";
-        document.getElementById('html').style.backgroundColor = "#999999";
+        color = "#999999";
         break;
       case 5:
-        document.getElementById('body').style.backgroundColor = "#7F7F7F";
-        document.getElementById('containerChapter').style.backgroundColor = "#7F7F7F";
-        document.getElementById('paragraphs').style.backgroundColor = "#7F7F7F";
-        document.getElementById('html').style.backgroundColor = "#7F7F7F";
+        color = "#7F7F7F";
         break;	
       case 6:
-        document.getElementById('body').style.backgroundColor = "#666666";
-        document.getElementById('containerChapter').style.backgroundColor = "#666666";
-        document.getElementById('paragraphs').style.backgroundColor = "#666666";
-        document.getElementById('html').style.backgroundColor = "#666666";
+        color = "#666666";
         break;	
       case 7:
-        document.getElementById('body').style.backgroundColor = "#4D4D4D";
-        document.getElementById('containerChapter').style.backgroundColor = "#4D4D4D";
-        document.getElementById('paragraphs').style.backgroundColor = "#4D4D4D";
-        document.getElementById('html').style.backgroundColor = "#4D4D4D";
+        color = "#4D4D4D";
         break;	
     }
+		document.getElementById('body').style.backgroundColor = color;
+    document.getElementById('containerChapter').style.backgroundColor = color;
+    document.getElementById('paragraphs').style.backgroundColor = color;
+    document.getElementById('html').style.backgroundColor = color;
   }
+}
+
+/**
+ * Change screen's brightness. 
+ * It changes some element's style by local calling.
+ * Then save this parameter in local storage.
+ */
+function changeBrightness(various) {
+  var parameters = readJson('parameters');
+  var brightness = parameters.brightness;
+  brightness += various;
+  if (brightness > 7) {
+    brightness = 7;
+  } else if (brightness < 0) {
+		brightness = 0;
+	}
+  adjustBrightness(brightness);
+  updateParameters(-1, brightness, "");
 }
 
 /**
@@ -113,14 +112,7 @@ function adjustBrightness(brightness) {
  * Then save this parameter in local storage.
  */
 function reduceBrightness() {
-  var parameters = readJson('parameters');
-  var brightness = parameters.brightness;
-  brightness += 1;
-  if (brightness > 7) {
-    brightness = 7;
-  }
-  adjustBrightness(brightness);
-  updateParameters(-1, brightness, "");
+  changeBrightness(1);
 }
 
 /**
@@ -129,14 +121,7 @@ function reduceBrightness() {
  * Then save this parameter in local storage.
  */
 function increaseBrightness() {
-  var parameters = readJson('parameters');
-  var brightness = parameters.brightness;
-  brightness -= 1;
-  if (brightness < 0) {
-    brightness = 0;
-  }
-  adjustBrightness(brightness);
-  updateParameters(-1, brightness, "");
+  changeBrightness(-1);
 }
 
 /**
@@ -155,7 +140,7 @@ function increaseFontSize() {
  */
 function reduceFontSize() {
   var size = parseInt(document.getElementById("paragraphs").style.fontSize.substring(0, document.getElementById("paragraphs").style.fontSize.indexOf('px', 0)));
-  document.getElementById("paragraphs").style.fontSize = size -1 + "px";
+  document.getElementById("paragraphs").style.fontSize = size - 1 + "px";
   updateParameters(size, -1, "");
 }
 
@@ -238,7 +223,7 @@ function updateParameters(fontSize, brightness, dayNight) {
     parameters.dayNight = dayNight;
   }
 
-  localStorage.setItem('parameters',JSON.stringify(parameters));
+  localStorage.setItem('parameters', JSON.stringify(parameters));
 }
 
 
