@@ -17,21 +17,11 @@ function navigateWithKey(event) {
  */
 function displayChapter(chapter, idChapter) {
   return function() {
-    //Style settings
-    document.getElementById('previousImage').style.display = "block";
-	document.getElementById('nextImage').style.display = "block";
-    $("#previousImage").fadeOut("slow");
-    $("#nextImage").fadeOut("slow");
-    document.getElementById('next').style.height = (window.innerHeight) + "px";
-	document.getElementById('previous').style.height = (window.innerHeight) + "px";	
-	document.getElementById('next').style.width = ((window.innerWidth) * 7) / 100 + "px";
-	document.getElementById('previous').style.width = ((window.innerWidth) * 7) / 100 + "px";
-	document.getElementById('previous').style.maxwidth = ((window.innerWidth) * 86) / 100 + "px";
+    initDisplay();
 	
     /**
      * Changing the style of the curretn chapter in summary
 	 */
-	
     for (var i = 0; i < chaptersListArray.length - 1; i++) {
 	  document.getElementById("chapter" + i).style.background = "#120D16";
 	  document.getElementById("chapter" + i).firstChild.firstChild.style.color = "lightblue";
@@ -112,16 +102,7 @@ function displayChapter(chapter, idChapter) {
  * @param  firstParagraphToShow  the first paragraph to show in page
  */
 function displayLastPageRead2(idChapter, firstParagraphToShow) {     //Display the last page read
-  //Style settings
-  document.getElementById('previousImage').style.display = "block";
-  document.getElementById('nextImage').style.display = "block";
-  $("#previousImage").fadeOut("slow");
-  $("#nextImage").fadeOut("slow");
-  document.getElementById('next').style.height = window.innerHeight + "px";
-  document.getElementById('previous').style.height = window.innerHeight + "px";
-  document.getElementById('next').style.width = ((window.innerWidth) * 7) / 100 + "px"; 
-  document.getElementById('previous').style.width = ((window.innerWidth) * 7) / 100 + "px";
-  document.getElementById('previous').style.maxwidth = ((window.innerWidth) * 86) / 100 + "px";
+  initDisplay();
   document.getElementById('chaptersList').style.display = "none";
   document.getElementById('containerChapter').style.display = "block";
   
@@ -215,15 +196,7 @@ function displayLastPageRead2(idChapter, firstParagraphToShow) {     //Display t
  * Display's the first page of the next chapter when it is the end of the current chapter. 
  */
 function displayNextChapter() {
-  document.getElementById('previousImage').style.display = "block";
-  document.getElementById('nextImage').style.display = "block";
-  $("#previousImage").fadeOut("slow");
-  $("#nextImage").fadeOut("slow");
-  document.getElementById('next').style.height = window.innerHeight + "px";
-  document.getElementById('previous').style.height = window.innerHeight + "px";
-  document.getElementById('next').style.width = ((window.innerWidth) * 7) / 100 + "px";
-  document.getElementById('previous').style.width = ((window.innerWidth) * 7) / 100 + "px";
-  document.getElementById('previous').style.maxwidth = ((window.innerWidth) * 86) / 100 + "px";
+  initDisplay();
   isNotFirstPage = false;
   document.getElementById('chaptersList').style.display = "none";
   var parameters = readJson('parameters');
@@ -291,15 +264,7 @@ function displayNextChapter() {
  * Display's the last page of the previous chapter when it is the beggining of the current chapter. 
  */
 function displayPreviousChapter() {
-    document.getElementById('previousImage').style.display = "block";
-	document.getElementById('nextImage').style.display = "block";
-    $("#previousImage").fadeOut("slow");
-    $("#nextImage").fadeOut("slow");
-    document.getElementById('next').style.height = window.innerHeight + "px";
-	document.getElementById('previous').style.height = window.innerHeight + "px";
-	document.getElementById('next').style.width = ((window.innerWidth) * 7) / 100 + "px";
-	document.getElementById('previous').style.width = ((window.innerWidth) * 7) / 100 + "px";
-	document.getElementById('previous').style.maxwidth = ((window.innerWidth) * 86) / 100 + "px";
+    initDisplay();
     isNotFirstPage = true;
     document.getElementById('chaptersList').style.display = "none";
     var parameters = readJson('parameters');
@@ -369,15 +334,7 @@ function displayPreviousChapter() {
  * Display's next page of the chapter. 
  */
 function nextParagraphs() {
-  document.getElementById('previousImage').style.display = "block";
-  document.getElementById('nextImage').style.display = "block";
-  $("#previousImage").fadeOut("slow");
-  $("#nextImage").fadeOut("slow");
-  document.getElementById('next').style.height = window.innerHeight + "px";
-  document.getElementById('previous').style.height = window.innerHeight + "px";
-  document.getElementById('next').style.width = ((window.innerWidth) * 7) / 100 + "px";
-  document.getElementById('previous').style.width = ((window.innerWidth) * 7) / 100 + "px";
-  document.getElementById('previous').style.maxwidth = ((window.innerWidth) * 86) / 100 + "px";
+  initDisplay();
   isNotFirstPage = true;
   var temp = document.getElementById('completeChapter').contentDocument;
   var ael = temp.getElementsByTagName("p");
@@ -414,15 +371,7 @@ function nextParagraphs() {
  * Display's previous page of the chapter. 
  */
 function previousParagraphs() {
-  document.getElementById('previousImage').style.display = "block";
-  document.getElementById('nextImage').style.display = "block";
-  $("#previousImage").fadeOut("slow");
-  $("#nextImage").fadeOut("slow");
-  document.getElementById('next').style.height = window.innerHeight + "px";
-  document.getElementById('previous').style.height = window.innerHeight + "px";
-  document.getElementById('next').style.width = ((window.innerWidth) * 7) / 100 + "px";
-  document.getElementById('previous').style.width = ((window.innerWidth) * 7) / 100 + "px";
-  document.getElementById('previous').style.maxwidth = ((window.innerWidth) * 86) / 100 + "px";
+  initDisplay();
   if (isNotFirstPage) {
     var temp = document.getElementById('completeChapter').contentDocument;
     var ael = temp.getElementsByTagName("p");
@@ -504,4 +453,16 @@ function elementInViewport(el) {
     rect.bottom <= window.innerHeight &&
     rect.right <= window.innerWidth 
   );
+}
+
+function initDisplay() {
+  document.getElementById('previousImage').style.display = "block";
+  document.getElementById('nextImage').style.display = "block";
+  $("#previousImage").fadeOut("slow");
+  $("#nextImage").fadeOut("slow");
+  document.getElementById('next').style.height = window.innerHeight + "px";
+  document.getElementById('previous').style.height = window.innerHeight + "px";
+  document.getElementById('next').style.width = ((window.innerWidth) * 7) / 100 + "px";
+  document.getElementById('previous').style.width = ((window.innerWidth) * 7) / 100 + "px";
+  document.getElementById('previous').style.maxwidth = ((window.innerWidth) * 86) / 100 + "px";
 }
