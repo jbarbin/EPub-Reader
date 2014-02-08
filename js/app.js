@@ -188,9 +188,14 @@ function openBook(book) {
                                     pageFile = zip.file(tocFolder + content);
                                 }
                             }
-                        
-                            var decodedPage = decodeUTF8(pageFile.data);
-                            pageFiles.push(decodedPage);
+														
+														if (pageFile === null) {
+															alert("We don't support this type of epub for the moment :-( ")
+															break;
+														} else {                      
+                            	var decodedPage = decodeUTF8(pageFile.data);
+                            	pageFiles.push(decodedPage);
+														}
                         }
                     }
                 
