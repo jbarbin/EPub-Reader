@@ -132,13 +132,16 @@ function displayLastPageRead2(idChapter, firstParagraphToShow) {     //Display t
     document.getElementById("chapter" + i).style.background = "#120D16";
     document.getElementById("chapter" + i).firstChild.firstChild.style.color = "lightblue";
   }
-  document.getElementById("chapter" + currentChapter).style.background = "#52B6CC";
-  document.getElementById("chapter" + currentChapter).firstChild.firstChild.style.color = "#120D16";
-
+	
+	if (currentChapter > 0) {
+		document.getElementById("chapter" + currentChapter).style.background = "#52B6CC";
+		document.getElementById("chapter" + currentChapter).firstChild.firstChild.style.color = "#120D16";
+	}
+	
   var temp = document.getElementById('completeChapter').contentDocument;
   var ael = temp.getElementsByTagName("p");
 
-  if (firstParagraphToShow !== -3) {      //Not the first page of chapter to show
+  if (firstParagraphToShow > 0) {      //Not the first page of chapter to show
     for(var i = firstParagraphToShow, c = ael.length; i < c; i++) {		
       if (i === 0) {
         var title = temp.getElementsByTagName("h1");
