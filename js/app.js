@@ -246,8 +246,8 @@ function openBook(book) {
  * Allows to display the summary or not
  */
 function displaySummary () {
-    //Style settings
-    if (document.getElementById('containerChapter').style.display === "block") {
+	//Style settings
+	if (document.getElementById('containerChapter').style.display === "block") {
         document.getElementById('containerChapter').style.display = "none";
 	} else {
         document.getElementById('containerChapter').style.display = "block";
