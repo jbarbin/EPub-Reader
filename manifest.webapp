@@ -11,5 +11,14 @@
     "name": "Benoit Philippe, Barbin Jonathan, Rata Gobal Anthony",
     "url": "https://github.com/OresteVisari/EPub-Reader"
   },
-  "default_locale": "en"
+  "default_locale": "en",
+  "permissions": {
+    "device-storage: sdcard": {
+      "description": "Required to import books from the SD card",
+      "access": "readonly"
+    },
+    "storage": {
+      "description": "Required to store imported books"
+    }
+  }
 }

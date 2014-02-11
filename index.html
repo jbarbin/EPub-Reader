@@ -9,7 +9,7 @@
     <script type="text/javascript" src="js/cls/indexedDB.js"></script>
     <script type="text/javascript" src="js/cls/settings.js"></script>
     <script type="text/javascript" src="js/cls/navigate.js"></script>
-    <script type="text/javascript" src="js/cls/bookmark.js"></script>
+    <script type="text/javascript$" src="js/cls/bookmark.js"></script>
     <script type="text/javascript" src="js/cls/jszip/jszip.js"></script>
     <script type="text/javascript" src="js/cls/jszip/jszip-load.js"></script>
     <script type="text/javascript" src="js/cls/jszip/jszip-inflate.js"></script>
@@ -29,11 +29,11 @@
 		  <menu  type="toolbar" >
 		    <a id="summary" onclick="displaySummary()" style="display:none"><span class="icon icon-menu"></span></a>
 		  </menu>
-            <a id="home"  onclick="goToLibrary()" ><span class="icon icon-home"></span></a>
+      <a id="home"  onclick="goToLibrary()" ><span class="icon icon-home"></span></a>
 			<h1 id="title">EPub-Reader</h1>
 		</header>
 		<header>    
-		  <input type="file" id="book">
+		  <input type="file" accept="application/zip" id="book">
 		  <h2 id="author"></h2>
 		</header>
 	</section>
