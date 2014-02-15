@@ -1,11 +1,10 @@
-"use strict";
 /**
  * Navigate with keyboard. 
  */
 function navigateWithKey(event) {
-    if (event.keyCode === 39) {       // Right
+    if (event.keyCode === 39) {       //Right
         nextParagraphs();
-    } else if(event.keyCode === 37) { // Left
+    } else if(event.keyCode === 37) { //Left
         previousParagraphs();
     }
 }
@@ -17,7 +16,7 @@ function navigateWithKey(event) {
  * @param  idChapter  the id chapter
  */
 function displayChapter(chapter, idChapter) {
- return function() {
+  return function() {
     initDisplay();
 	
     /**
@@ -134,12 +133,10 @@ function displayLastPageRead2(idChapter, firstParagraphToShow) {     //Display t
     document.getElementById("chapter" + i).firstChild.firstChild.style.color = "lightblue";
   }
 	
-	if (currentChapter < 0) {
-		currentChapter = 1;
+	if (currentChapter > 0) {
+		document.getElementById("chapter" + currentChapter).style.background = "#52B6CC";
+		document.getElementById("chapter" + currentChapter).firstChild.firstChild.style.color = "#120D16";
 	}
-	
-	document.getElementById("chapter" + currentChapter).style.background = "#52B6CC";
-	document.getElementById("chapter" + currentChapter).firstChild.firstChild.style.color = "#120D16";
 	
   var temp = document.getElementById('completeChapter').contentDocument;
   var ael = temp.getElementsByTagName("p");
@@ -379,19 +376,22 @@ function nextParagraphs() {
 function previousParagraphs() {
   initDisplay();
   if (isNotFirstPage) {
-    var temp = document.getElementById('completeChapter').contentDocument,
-    		ael = temp.getElementsByTagName("p"),
-    		containerParagraphs = document.getElementById("paragraphs"),
-    		nbDisplayedParagraphs = containerParagraphs.getElementsByTagName("p").length,
-    		displayedParagraphs = containerParagraphs.getElementsByTagName("p"),
-    		lastDisplayedParagraph = displayedParagraphs[nbDisplayedParagraphs - 1],
-    		paragraphIdArray = [],
-    		numberLastDisplayedParagraph = parseInt(lastDisplayedParagraph.id.substr(9, 3));
+    var temp = document.getElementById('completeChapter').contentDocument;
+    var ael = temp.getElementsByTagName("p");
+
+    var containerParagraphs = document.getElementById("paragraphs");
+    var nbDisplayedParagraphs = containerParagraphs.getElementsByTagName("p").length;
+
+    var displayedParagraphs = containerParagraphs.getElementsByTagName("p");
+    var lastDisplayedParagraph = displayedParagraphs[nbDisplayedParagraphs - 1];
+
+    var paragraphIdArray = [];
+    var numberLastDisplayedParagraph = parseInt(lastDisplayedParagraph.id.substr(9, 3));
 
     firstParagraph = ((numberLastDisplayedParagraph + 1) - nbDisplayedParagraphs);
     paragraphs.innerHTML = "";
   
-    for (var i = firstParagraph - 1, c = ael.length; i < c; i--) {	
+    for (var i = firstParagraph-1, c = ael.length; i < c; i--) {	
       if (i === -1) {
         var title = temp.getElementsByTagName("h1");
         var currentParagraph = title[0].cloneNode(true);
@@ -399,19 +399,19 @@ function previousParagraphs() {
         paragraph.id = "title" + i;
         paragraph.innerHTML = currentParagraph.innerHTML;
         document.getElementById("paragraphs").insertBefore(paragraph, containerParagraphs.firstChild);
-				var nbElementBeforeDelete=document.getElementById("paragraphs").childNodes.length;
-				for (var j = document.getElementById('paragraphs').childNodes.length - 1; j > 0; j--) {
-		  		var elt = elementInViewport(document.getElementById('paragraphs').childNodes[j]);
-		  		if (!elt) {
-		    		var pToDelete = document.getElementById('paragraphs').childNodes[j];
-		    		document.getElementById("paragraphs").removeChild(pToDelete);
+		var nbElementBeforeDelete=document.getElementById("paragraphs").childNodes.length;
+		for (var j = document.getElementById('paragraphs').childNodes.length - 1; j > 0; j--) {
+		  var elt = elementInViewport(document.getElementById('paragraphs').childNodes[j]);
+		  if (!elt) {
+		    var pToDelete = document.getElementById('paragraphs').childNodes[j];
+		    document.getElementById("paragraphs").removeChild(pToDelete);
           }
-				}
-				var nbElementAfterDelete = document.getElementById("paragraphs").childNodes.length;
-				var difDelete = nbElementBeforeDelete - nbElementAfterDelete;
+		}
+		var nbElementAfterDelete = document.getElementById("paragraphs").childNodes.length;
+		var difDelete = nbElementBeforeDelete - nbElementAfterDelete;
         lastParagraph = firstParagraph - 1 - difDelete;
-				saveLastPageRead2(currentChapterTitle, currentChapter, -3);
-	    	isNotFirstPage = false;
+		saveLastPageRead2(currentChapterTitle,currentChapter, -3);
+	    isNotFirstPage = false;
       }	
 		
       var currentParagraph = ael[i].cloneNode(true);
@@ -428,10 +428,10 @@ function previousParagraphs() {
       if (containerParagraphs.lastChild instanceof Element) {
         var p = elementInViewport(containerParagraphs.lastChild);
         if (!p) {
-		  		paragraphIdArray.push(i + 1);
+		  paragraphIdArray.push(i + 1);
           lastParagraph = firstParagraph - 1;
-		  		var pToDelete = document.getElementById("paragraph" + i);
-		  		document.getElementById("paragraphs").removeChild(pToDelete);
+		  var pToDelete = document.getElementById("paragraph" + i);
+		  document.getElementById("paragraphs").removeChild(pToDelete);
           break;
         }
       }	
