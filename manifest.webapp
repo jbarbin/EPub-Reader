@@ -20,5 +20,15 @@
     "storage": {
       "description": "Required to store imported books"
     }
-  }
+  },
+	"activities": {
+		"epub-reader": {
+			"href": "./index.html",
+			"disposition": "inline",
+			"filters": {
+				"type": ["application/zip","application/epub"]
+			},
+			"returnValue": true
+		}
+	}
 }
