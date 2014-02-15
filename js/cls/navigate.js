@@ -298,35 +298,34 @@ function displayPreviousChapter() {
 	  document.getElementById("chapter" + i).style.background = "#120D16";
 	  document.getElementById("chapter" + i).firstChild.firstChild.style.color = "lightblue";
 	}
-    document.getElementById("chapter" + currentChapter).style.background = "#52B6CC";
+  document.getElementById("chapter" + currentChapter).style.background = "#52B6CC";
 	document.getElementById("chapter" + currentChapter).firstChild.firstChild.style.color = "#120D16";
-    var temp = document.getElementById('completeChapter').contentDocument;
-    var ael = temp.getElementsByTagName("p");
-    var paragraphToDisplay = [];
-    for (var i = ael.length - 1; i > 0 ; i--) {		
-      var currentParagraph = ael[i].cloneNode(true);
-      var paragraph = document.createElement("p");
-      paragraph.id = "paragraph" + i;
-      paragraph.innerHTML = currentParagraph.innerHTML;
-      
-	  paragraphToDisplay.push(paragraph);
-	  
-      document.getElementById("paragraphs").appendChild(paragraph);
+	var temp = document.getElementById('completeChapter').contentDocument;
+	var ael = temp.getElementsByTagName("p");
+	var paragraphToDisplay = [];
+  for (var i = ael.length - 1; i > 0 ; i--) {	
+		var currentParagraph = ael[i].cloneNode(true);
+		var paragraph = document.createElement("p");
+		paragraph.id = "paragraph" + i;
+		paragraph.innerHTML = currentParagraph.innerHTML;
 
-      if (paragraph instanceof Element) {
-        var p = elementInViewport(paragraph);
-        if (!p) {
-		  paragraphIdArray.push(i);
-          lastParagraph = i;
-          break;
-        }
-      }
-    }
+		paragraphToDisplay.push(paragraph);
+		document.getElementById("paragraphs").appendChild(paragraph);
+
+		if (paragraph instanceof Element) {
+			var p = elementInViewport(paragraph);
+			if (!p) {
+				paragraphIdArray.push(i);
+				lastParagraph = i;
+				break;
+			}
+		}
+  }
 
 	paragraphToDisplay.reverse();
 	while (paragraphs.firstChild) {
-      paragraphs.removeChild(paragraphs.firstChild);
-    }
+		paragraphs.removeChild(paragraphs.firstChild);
+	}
 	for (var i = 0; i < paragraphToDisplay.length - 1; i++) {
 	  document.getElementById("paragraphs").appendChild(paragraphToDisplay[i]);
 	}
@@ -356,17 +355,16 @@ function nextParagraphs() {
         var p = elementInViewport(paragraph);
         if (!p) {
           lastParagraph = i - 1;
-		  var pToDelete = document.getElementById("paragraph" + i);
-		  document.getElementById("paragraphs").removeChild(pToDelete);
-		  saveLastPageRead2(currentChapterTitle, currentChapter, paragraphIdArray[0]);
+		  		var pToDelete = document.getElementById("paragraph" + i);
+		  		document.getElementById("paragraphs").removeChild(pToDelete);
+		  		saveLastPageRead2(currentChapterTitle, currentChapter, paragraphIdArray[0]);
           break;
         }
-		
       }
     }
-	if (i === ael.length - 1) {
-	  displayNextChapter();
-	}
+		if (i === ael.length - 1) {
+			displayNextChapter();
+		}
   }
 }
 
@@ -399,19 +397,19 @@ function previousParagraphs() {
         paragraph.id = "title" + i;
         paragraph.innerHTML = currentParagraph.innerHTML;
         document.getElementById("paragraphs").insertBefore(paragraph, containerParagraphs.firstChild);
-		var nbElementBeforeDelete=document.getElementById("paragraphs").childNodes.length;
-		for (var j = document.getElementById('paragraphs').childNodes.length - 1; j > 0; j--) {
-		  var elt = elementInViewport(document.getElementById('paragraphs').childNodes[j]);
-		  if (!elt) {
-		    var pToDelete = document.getElementById('paragraphs').childNodes[j];
-		    document.getElementById("paragraphs").removeChild(pToDelete);
+				var nbElementBeforeDelete=document.getElementById("paragraphs").childNodes.length;
+				for (var j = document.getElementById('paragraphs').childNodes.length - 1; j > 0; j--) {
+					var elt = elementInViewport(document.getElementById('paragraphs').childNodes[j]);
+		  		if (!elt) {
+		    		var pToDelete = document.getElementById('paragraphs').childNodes[j];
+		    		document.getElementById("paragraphs").removeChild(pToDelete);
           }
-		}
-		var nbElementAfterDelete = document.getElementById("paragraphs").childNodes.length;
-		var difDelete = nbElementBeforeDelete - nbElementAfterDelete;
+				}
+				var nbElementAfterDelete = document.getElementById("paragraphs").childNodes.length;
+				var difDelete = nbElementBeforeDelete - nbElementAfterDelete;
         lastParagraph = firstParagraph - 1 - difDelete;
-		saveLastPageRead2(currentChapterTitle,currentChapter, -3);
-	    isNotFirstPage = false;
+				saveLastPageRead2(currentChapterTitle,currentChapter, -3);
+	    	isNotFirstPage = false;
       }	
 		
       var currentParagraph = ael[i].cloneNode(true);
@@ -428,10 +426,10 @@ function previousParagraphs() {
       if (containerParagraphs.lastChild instanceof Element) {
         var p = elementInViewport(containerParagraphs.lastChild);
         if (!p) {
-		  paragraphIdArray.push(i + 1);
+		  		paragraphIdArray.push(i + 1);
           lastParagraph = firstParagraph - 1;
-		  var pToDelete = document.getElementById("paragraph" + i);
-		  document.getElementById("paragraphs").removeChild(pToDelete);
+		  		var pToDelete = document.getElementById("paragraph" + i);
+		  		document.getElementById("paragraphs").removeChild(pToDelete);
           break;
         }
       }	
