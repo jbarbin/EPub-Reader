@@ -2,11 +2,11 @@
  * Navigate with keyboard. 
  */
 function navigateWithKey(event) {
-    if (event.keyCode === 39) {       //Right
-        nextParagraphs();
-    } else if(event.keyCode === 37) { //Left
-        previousParagraphs();
-    }
+	if (event.keyCode === 39) {       //Right
+			nextParagraphs();
+	} else if(event.keyCode === 37) { //Left
+			previousParagraphs();
+	}
 }
 
 
@@ -21,7 +21,7 @@ function displayChapter(chapter, idChapter) {
 	
     /**
      * Changing the style of the curretn chapter in summary
-	 */
+	 	 */
     for (var i = 0; i < chaptersListArray.length - 1; i++) {
 	  document.getElementById("chapter" + i).style.background = "#120D16";
 	  document.getElementById("chapter" + i).firstChild.firstChild.style.color = "lightblue";
@@ -34,9 +34,9 @@ function displayChapter(chapter, idChapter) {
     document.getElementById('chaptersList').style.display = "none";
 	document.getElementById('containerChapter').style.display = "block";
 	
-	/**
+		/**
      * Apply parameters (brightness...)
-	 */
+	 	 */
     var parameters = readJson('parameters');
 
     if (parameters === null) {
@@ -48,9 +48,9 @@ function displayChapter(chapter, idChapter) {
     document.getElementById('previous').style.display = 'block';
     document.getElementById('next').style.display = 'block';
 
-	/** 
+		/** 
      * Re-Initialize 'paragraphs'
-	 */
+	 	 */
     var iframe = document.getElementById("completeChapter");
     iframe.contentWindow.document.body.innerHTML = ""; 
     var paragraphs = document.getElementById('paragraphs');
