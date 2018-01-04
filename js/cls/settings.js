@@ -3,22 +3,17 @@
  * It changes some element's style.
  * Then it saves this parameter in local storage.
  */
-function dayNight()
-{
+function dayNight() {
   var parameters = readJson('parameters');
-
-  if(parameters.dayNight == "day")
-  {
-    updateParameters(-1,-1,"night");
+  if (parameters.dayNight === "day") {
+    updateParameters(-1, -1, "night");
     document.getElementById('paragraphs').style.backgroundColor = "black";
     document.getElementById('body').style.backgroundColor = "black";
     document.getElementById('containerChapter').style.backgroundColor = "black";
     document.getElementById('html').style.backgroundColor = "black";
     adjustBrightness(parameters.brightness);
-  }
-  else if(parameters.dayNight == "night")
-  {
-    updateParameters(-1,-1,"day");
+  } else if (parameters.dayNight === "night") {
+    updateParameters(-1, -1, "day");
     document.getElementById('paragraphs').style.color = "black";
     adjustBrightness(parameters.brightness);
   }	
@@ -29,13 +24,10 @@ function dayNight()
  * It changes some element's style.
  * @param  brightness  an integer
  */
-function adjustBrightness(brightness)
-{
+function adjustBrightness(brightness) {
   var parameters = readJson('parameters');
-  if(parameters.dayNight == "night")
-  {
-    switch(brightness)
-    {
+  if (parameters.dayNight === "night") {
+    switch (brightness) {
       case 0:
         document.getElementById('paragraphs').style.color = "white";
         break;
@@ -61,61 +53,57 @@ function adjustBrightness(brightness)
         document.getElementById('paragraphs').style.color = "#4D4D4D";
         break;
     }
-  }
-  else
-  {
-    switch(brightness)
-    {
+  } else {
+		var color;
+    switch (brightness) {
       case 0:
-        document.getElementById('body').style.backgroundColor = "white";
-        document.getElementById('containerChapter').style.backgroundColor = "white";
-        document.getElementById('paragraphs').style.backgroundColor = "white";
-        document.getElementById('html').style.backgroundColor = "white";
+        color = "white";
         break;
       case 1:
-        document.getElementById('body').style.backgroundColor = "#E5E5E5";
-        document.getElementById('containerChapter').style.backgroundColor = "#E5E5E5";
-        document.getElementById('paragraphs').style.backgroundColor = "#E5E5E5";
-        document.getElementById('html').style.backgroundColor = "#E5E5E5";
+        color = "#E5E5E5";
         break;
       case 2:
-        document.getElementById('body').style.backgroundColor = "#CCCCCC";
-        document.getElementById('containerChapter').style.backgroundColor = "#CCCCCC";
-        document.getElementById('paragraphs').style.backgroundColor = "#CCCCCC";
-        document.getElementById('html').style.backgroundColor = "#CCCCCC";
+        color = "#CCCCCC";
         break;
       case 3:
-        document.getElementById('body').style.backgroundColor = "#B3B3B3";
-        document.getElementById('containerChapter').style.backgroundColor = "#B3B3B3";
-        document.getElementById('paragraphs').style.backgroundColor = "#B3B3B3";
-        document.getElementById('html').style.backgroundColor = "#B3B3B3";
+        color = "#B3B3B3";
         break;
       case 4:
-        document.getElementById('body').style.backgroundColor = "#999999";
-        document.getElementById('containerChapter').style.backgroundColor = "#999999";
-        document.getElementById('paragraphs').style.backgroundColor = "#999999";
-        document.getElementById('html').style.backgroundColor = "#999999";
+        color = "#999999";
         break;
       case 5:
-        document.getElementById('body').style.backgroundColor = "#7F7F7F";
-        document.getElementById('containerChapter').style.backgroundColor = "#7F7F7F";
-        document.getElementById('paragraphs').style.backgroundColor = "#7F7F7F";
-        document.getElementById('html').style.backgroundColor = "#7F7F7F";
+        color = "#7F7F7F";
         break;	
       case 6:
-        document.getElementById('body').style.backgroundColor = "#666666";
-        document.getElementById('containerChapter').style.backgroundColor = "#666666";
-        document.getElementById('paragraphs').style.backgroundColor = "#666666";
-        document.getElementById('html').style.backgroundColor = "#666666";
+        color = "#666666";
         break;	
       case 7:
-        document.getElementById('body').style.backgroundColor = "#4D4D4D";
-        document.getElementById('containerChapter').style.backgroundColor = "#4D4D4D";
-        document.getElementById('paragraphs').style.backgroundColor = "#4D4D4D";
-        document.getElementById('html').style.backgroundColor = "#4D4D4D";
+        color = "#4D4D4D";
         break;	
     }
+		document.getElementById('body').style.backgroundColor = color;
+    document.getElementById('containerChapter').style.backgroundColor = color;
+    document.getElementById('paragraphs').style.backgroundColor = color;
+    document.getElementById('html').style.backgroundColor = color;
   }
+}
+
+/**
+ * Change screen's brightness. 
+ * It changes some element's style by local calling.
+ * Then save this parameter in local storage.
+ */
+function changeBrightness(various) {
+  var parameters = readJson('parameters');
+  var brightness = parameters.brightness;
+  brightness += various;
+  if (brightness > 7) {
+    brightness = 7;
+  } else if (brightness < 0) {
+		brightness = 0;
+	}
+  adjustBrightness(brightness);
+  updateParameters(-1, brightness, "");
 }
 
 /**
@@ -123,17 +111,8 @@ function adjustBrightness(brightness)
  * It changes some element's style by calling adjustBrightness().
  * Then save this parameter in local storage.
  */
-function reduceBrightness()
-{
-  var parameters = readJson('parameters');
-  var brightness = parameters.brightness;
-  brightness++;
-  if(brightness > 7)
-  {
-    brightness = 7;
-  }
-  adjustBrightness(brightness);
-  updateParameters(-1,brightness,"");
+function reduceBrightness() {
+  changeBrightness(1);
 }
 
 /**
@@ -141,62 +120,44 @@ function reduceBrightness()
  * It changes some element's style by calling adjustBrightness().
  * Then save this parameter in local storage.
  */
-function increaseBrightness()
-{
-  var parameters = readJson('parameters');
-  var brightness = parameters.brightness;
-  brightness--;
-  if(brightness < 0)
-  {
-    brightness = 0;
-  }
-  adjustBrightness(brightness);
-  updateParameters(-1,brightness,"");
+function increaseBrightness() {
+  changeBrightness(-1);
 }
 
 /**
  * Increase font's size of 'paragraphs' element. 
  * Then save this parameter in local storage.
  */
-function increaseFontSize()
-{
-  var size = parseInt(document.getElementById("paragraphs").style.fontSize.substring(0,document.getElementById("paragraphs").style.fontSize.indexOf('px',0)));
-  document.getElementById("paragraphs").style.fontSize = size+1+"px";
-  updateParameters(size,-1,"");
+function increaseFontSize() {
+  var size = parseInt(document.getElementById("paragraphs").style.fontSize.substring(0, document.getElementById("paragraphs").style.fontSize.indexOf('px', 0)));
+  document.getElementById("paragraphs").style.fontSize = size + 1 + "px";
+  updateParameters(size, -1, "");
 }
 
 /**
  * Reduce font's size of 'paragraphs' element. 
  * Then save this parameter in local storage.
  */
-function reduceFontSize()
-{
-  var size = parseInt(document.getElementById("paragraphs").style.fontSize.substring(0,document.getElementById("paragraphs").style.fontSize.indexOf('px',0)));
-  document.getElementById("paragraphs").style.fontSize = size-1+"px";
-  updateParameters(size,-1,"");
+function reduceFontSize() {
+  var size = parseInt(document.getElementById("paragraphs").style.fontSize.substring(0, document.getElementById("paragraphs").style.fontSize.indexOf('px', 0)));
+  document.getElementById("paragraphs").style.fontSize = size - 1 + "px";
+  updateParameters(size, -1, "");
 }
 
 
 /**
  * Get what the user have selected and show an alert page. 
  */
-function GetSelection()
-{
+function GetSelection() {
   mySelection = window.getSelection();
-  if(mySelection != "")
-  {	
+  if (mySelection !== "") {	
     document.getElementById('confirmDefineWord').style.display = "block";
     document.getElementById('btnDefineWord').onclick = defineWord(mySelection);
-    document.getElementById('defineQuestion').textContent = "Do you want to get a definition of '"+mySelection+"' ?";
+    document.getElementById('defineQuestion').textContent = "Do you want to get a definition of '" + mySelection + "' ?";
 
-    if(document.getElementById('toolbar').style.display == "none")
-    {	
-      // document.getElementById('toolbar').style.display="block";
+    if (document.getElementById('toolbar').style.display === "none") {	
       $( "#toolbar" ).show( "blind", { direction: "down" }, "slow") ;
-    }
-    else
-    {
-      // document.getElementById('toolbar').style.display="none";
+    } else {
       $( "#toolbar" ).hide( "blind", { direction: "down" }, "slow") ;
     }
   }
@@ -206,22 +167,15 @@ function GetSelection()
  * Define the selected word thank's to a request in google. 
  * @param  mySelection  a selection object
  */
-function defineWord(mySelection)
-{
+function defineWord(mySelection) {
   var range  = mySelection.getRangeAt(0);
-  return function()
-  {
+  return function() {
     document.getElementById('confirmDefineWord').style.display = "none";
-    window.open("https://www.google.fr/search?q=define "+range);
-    if(document.getElementById('toolbar').style.display == "none")
-    {	
-       // document.getElementById('toolbar').style.display="block";
-       $( "#toolbar" ).show( "blind", { direction: "down" }, "slow") ;
-    }
-    else
-    {
-      // document.getElementById('toolbar').style.display="none";
-      $( "#toolbar" ).hide( "blind", { direction: "down" }, "slow") ;
+    window.open("https://www.google.fr/search?q=define " + range);
+    if (document.getElementById('toolbar').style.display === "none") {	
+       $( "#toolbar" ).show("blind", { direction: "down" }, "slow");
+    } else {
+      $( "#toolbar" ).hide("blind", { direction: "down" }, "slow");
     }
   }
 }
@@ -231,27 +185,21 @@ function defineWord(mySelection)
  * @param  oJson  the item id
  * @return the object
  */
-function readJson(oJson)
-{
-  //Lecture du Json donné en paramètre
-  var oJson = JSON.parse(localStorage.getItem(''+oJson+''));
-
+function readJson(oJson) {
+  var oJson = JSON.parse(localStorage.getItem('' + oJson));
   return oJson;	
 }
 
 /**
  * Initialize an  parameter's item in localStorage. 
  */
-function initializeParameter()
-{
-  //Initial Json of parameters
-  var parameters=
-  {
-    "fontSize":15,
-    "brightness":0,
-    "dayNight":"day"	
+function initializeParameter() {
+  var parameters = {
+    "fontSize": 15,
+    "brightness": 0,
+    "dayNight": "day"	
   };
-  localStorage.setItem('parameters',JSON.stringify(parameters));
+  localStorage.setItem('parameters', JSON.stringify(parameters));
 }
 
 /**
@@ -260,26 +208,22 @@ function initializeParameter()
  * @param  brightness  an integer from 0 to 7.
  * @param  dayNight  a string ("day" or "night")
  */
-function updateParameters(fontSize,brightness,dayNight)
-{
+function updateParameters(fontSize, brightness, dayNight) {
   var parameters = readJson('parameters');
 
-  if(fontSize != -1)
-  {
+  if (fontSize !== -1) {
     parameters.fontSize = fontSize;
   }
 
-  if(brightness != -1)
-  {
+  if (brightness !== -1) {
     parameters.brightness = brightness;
   }
 
-  if(dayNight != "")
-  {
+  if (dayNight !== "") {
     parameters.dayNight = dayNight;
   }
 
-  localStorage.setItem('parameters',JSON.stringify(parameters));
+  localStorage.setItem('parameters', JSON.stringify(parameters));
 }
 
 
@@ -287,20 +231,16 @@ function updateParameters(fontSize,brightness,dayNight)
  * Apply's setting's parameters on the screen.
  * It changes some element's style.
  */
-function applyParameters()
-{
+function applyParameters() {
   var parameters = readJson('parameters');
-  document.getElementById("paragraphs").style.fontSize = parameters.fontSize+"px";
-  if(parameters.dayNight == "night")
-  {
+  document.getElementById("paragraphs").style.fontSize = parameters.fontSize + "px";
+  if (parameters.dayNight === "night") {
     document.getElementById('paragraphs').style.backgroundColor = "black";
     document.getElementById('body').style.backgroundColor = "black";
     document.getElementById('containerChapter').style.backgroundColor = "black";
     document.getElementById('html').style.backgroundColor = "black";
     adjustBrightness(parameters.brightness);
-  }
-  else if(parameters.dayNight == "day")
-  {
+  } else if (parameters.dayNight === "day") {
     document.getElementById('paragraphs').style.color = "black";
     adjustBrightness(parameters.brightness);
   }	

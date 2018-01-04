@@ -1,13 +1,10 @@
 //Initial Json of lastPageRead
-var lastPageRead =
-{
-	"books":
-	[
-		{
-				"bookName":"blabla",
-				"lastChapterRead":-1,
-				"paragraphsToDisplay":
-				[]
+var lastPageRead = {
+	"books": [
+        {
+            "bookName": "blabla",
+            "lastChapterRead": -1,
+            "paragraphsToDisplay": []
 		}
 	]
 };
@@ -15,9 +12,8 @@ var lastPageRead =
 /**
  * Initialize lastPageRead in local storage
  */
-function initializeLastPageRead()
-{
-  localStorage.setItem('lastPageRead',JSON.stringify(lastPageRead));
+function initializeLastPageRead() {
+    localStorage.setItem('lastPageRead', JSON.stringify(lastPageRead));
 }
 
 /**
@@ -27,22 +23,22 @@ function initializeLastPageRead()
  * @param  firstParagraphToShow  the firstParagraphToShow
  * @return the object
  */
-function saveLastPageRead2(bookName,chapter,firstParagraphToShow)
-{
-  var oLastPageRead = readJson('lastPageRead');
-  var idBook = getCounter(bookName);
-  oLastPageRead.books[idBook].lastChapterRead=chapter;
-  oLastPageRead.books[idBook].lastParagraph=firstParagraphToShow;
-  
-  localStorage.setItem('lastPageRead',JSON.stringify(oLastPageRead));
-  var o = readJson('lastPageRead');
+function saveLastPageRead2(bookName, chapter, firstParagraphToShow) {
+    "use strict";
+    var oLastPageRead = readJson('lastPageRead');
+    var idBook = getCounter(bookName);
+    oLastPageRead.books[idBook].lastChapterRead = chapter;
+    oLastPageRead.books[idBook].lastParagraph = firstParagraphToShow;
+    
+    localStorage.setItem('lastPageRead', JSON.stringify(oLastPageRead));
+    var o = readJson('lastPageRead');
 }
 
-function saveNewBook(bookName,chapter,lastParagraph)
-{
-  var oLastPageRead = readJson('lastPageRead');
-  oLastPageRead.books.push( {"bookName":""+bookName+"","lastChapterRead":""+chapter+"","lastParagraph":""+lastParagraph+""} );
-  localStorage.setItem('lastPageRead',JSON.stringify(oLastPageRead));
+function saveNewBook(bookName, chapter, lastParagraph) {
+    "use strict";
+    var oLastPageRead = readJson('lastPageRead');
+    oLastPageRead.books.push({"bookName": "" + bookName, "lastChapterRead": "" + chapter, "lastParagraph": "" + lastParagraph});
+    localStorage.setItem('lastPageRead', JSON.stringify(oLastPageRead));
 }
 
 
@@ -51,10 +47,8 @@ function saveNewBook(bookName,chapter,lastParagraph)
  * @param  oJson  the item 
  * @return the object
  */
-function readJson(oJson)
-{
-	//Lecture du Json donné en paramètre
-	var oJson = JSON.parse(localStorage.getItem(''+oJson+''));
+function readJson(oJson) {
+	var oJson = JSON.parse(localStorage.getItem('' + oJson));
 	return oJson;
 }
 
@@ -63,17 +57,14 @@ function readJson(oJson)
  * @param  bookName  the bookName 
  * @return the counter
  */
-function getCounter(bookName)//Get the book counter
-{
-  var oLastPageRead = readJson('lastPageRead');
-  var counter = 0;
-  for(var i = 0; i < oLastPageRead.books.length-1; i++)
-  {
-    if(oLastPageRead.books[i].bookName == bookName)
-	{
-	  break;
-	}
-	counter++;
-  }
-  return counter;
+function getCounter (bookName) {
+    var oLastPageRead = readJson('lastPageRead');
+    var counter = 0;
+    for (var i = 0; i < oLastPageRead.books.length - 1; i++) {
+        if (oLastPageRead.books[i].bookName === bookName) {
+            break;
+        }
+        counter++;
+    }
+    return counter;
 }

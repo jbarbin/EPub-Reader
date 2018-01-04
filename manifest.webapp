@@ -1,15 +1,34 @@
 {
   "name": "EPub-Reader",
-  "description": "An Open Web Application to read Ebook in Epub format.",
-  "launch_path": "/EPub-Reader/",
+  "description": "An Open Web Application to read Ebook in Epub format",
+  "launch_path": "/index.html",
   "icons": {
-	"48":"/EPub-Reader/images/logo/48/logo_48.png",
-	"60": "/EPub-Reader/images/logo/60/logo_60.png",
-	"128":"/EPub-Reader/images/logo/128/logo_128.png"
-},
-  "developer": {
-    "name": "Barbin Jonathan, Rata Gobal Anthony",
-    "url": "https://github.com/jbarbin/EPub-Reader"
+    "48": "/images/logo/48/logo_48.png",
+    "60": "/images/logo/60/logo_60.png",
+    "128": "/images/logo/128/logo_128.png"
   },
-  "default_locale": "en"
+  "developer": {
+    "name": "Benoit Philippe, Barbin Jonathan, Rata Gobal Anthony",
+    "url": "https://github.com/OresteVisari/EPub-Reader"
+  },
+  "default_locale": "en",
+  "permissions": {
+    "device-storage: sdcard": {
+      "description": "Required to import books from the SD card",
+      "access": "readonly"
+    },
+    "storage": {
+      "description": "Required to store imported books"
+    }
+  },
+	"activities": {
+		"epub-reader": {
+			"href": "./index.html",
+			"disposition": "inline",
+			"filters": {
+				"type": ["application/zip","application/epub"]
+			},
+			"returnValue": true
+		}
+	}
 }
